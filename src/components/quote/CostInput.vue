@@ -23,9 +23,23 @@ const draft = reactive<Record<string, string | boolean>>({
   ...normalize(props.input),
   ...props.savedDraft,
 });
+let latestEmission: string | undefined;
 watch(
   () => JSON.stringify(props.input),
-  (value) => Object.assign(draft, normalize(JSON.parse(value) as QuoteInput)),
+  (value) => {
+    latestEmission = undefined;
+    Object.assign(draft, normalize(JSON.parse(value) as QuoteInput));
+  },
+);
+watch(
+  () => JSON.stringify(props.savedDraft),
+  (value) => {
+    // An earlier queued save must not replace text typed after that save began.
+    // On reload there is no local emission, so recovered drafts can populate UI.
+    if (latestEmission !== undefined && value !== latestEmission) return;
+    latestEmission = undefined;
+    Object.assign(draft, normalize(props.input), props.savedDraft);
+  },
 );
 watch(
   [() => JSON.stringify(draft), () => JSON.stringify(normalize(props.input))],
@@ -50,10 +64,10 @@ function update(key: (typeof fields)[number][0], event: Event) {
   persist();
 }
 function persist() {
-  emit(
-    'draft',
-    JSON.stringify(draft) === JSON.stringify(normalize(props.input)) ? null : { ...draft },
-  );
+  const value =
+    JSON.stringify(draft) === JSON.stringify(normalize(props.input)) ? null : { ...draft };
+  latestEmission = JSON.stringify(value);
+  emit('draft', value);
 }
 function apply() {
   emit('configure', { ...draft, quantity: Number(draft.quantity) } as QuoteInput);

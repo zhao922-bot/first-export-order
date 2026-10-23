@@ -44,6 +44,7 @@ export function buildCollectionView(session: SliceSession, pack: ContentPack) {
             key,
             label: f.label,
             value: String(fault?.mutation ?? source[f.sourcePath]),
+            source: String(source[f.sourcePath]),
             marked: v.marks.includes(key),
             correction: v.corrections[key] ?? '',
             hint:

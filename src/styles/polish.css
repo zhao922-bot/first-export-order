@@ -1,0 +1,545 @@
+/* Visual polish only; respect the existing motion ceiling and save model. */
+:root {
+  background: #f5f4ed;
+  color: #233f37;
+}
+.app-shell {
+  background: radial-gradient(ellipse at 95% 0, #e9ecdc88, transparent 50%), #f5f4ed;
+}
+.sidebar {
+  background: linear-gradient(165deg, #173f35, #16372f);
+}
+.brand-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.journey-toggle,
+.mobile-progress {
+  display: none;
+}
+.journey-navigation {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+.nav-step {
+  border-radius: 10px;
+}
+.nav-step.active {
+  background: #e8dfb5;
+  box-shadow: 0 3px 12px #061d2722;
+}
+.topbar {
+  padding: 10px 32px;
+  gap: 8px 18px;
+  background: #fffdf790;
+}
+.topbar .save-state {
+  font-size: 0.7rem;
+}
+.topbar .motion-control {
+  margin-left: auto;
+}
+.glossary-link,
+.save-link {
+  font-size: 0.78rem;
+}
+.workspace-title {
+  color: #596b60;
+}
+.status-strip {
+  background: #fffdf7;
+  padding: 16px 32px;
+  gap: 14px 36px;
+}
+.status-strip strong {
+  font-size: 1.1rem;
+}
+.status-strip > span:first-child strong {
+  color: #255c4c;
+}
+.panel {
+  border-radius: 16px;
+  box-shadow: 0 4px 16px #314e3d05;
+}
+.page-heading .actions {
+  margin: 0;
+}
+.page-heading {
+  margin-bottom: 22px;
+}
+.primary,
+.secondary {
+  border-radius: 10px;
+  min-height: 46px;
+}
+.primary {
+  background: #245c49;
+  box-shadow: 0 3px 0 #133d2f;
+}
+.primary:hover:not(:disabled) {
+  background: #1c4a3a;
+}
+.secondary {
+  background: #fffcf4;
+  border-color: #cdd3c4;
+}
+button:focus-visible,
+a:focus-visible,
+summary:focus-visible,
+select:focus-visible,
+input:focus-visible {
+  outline: 3px solid #a56a20;
+  outline-offset: 4px;
+}
+.landing {
+  padding-top: 6px;
+}
+.landing-intro {
+  gap: 32px;
+  margin-bottom: 28px;
+}
+.landing-copy h1 {
+  font-size: clamp(2.5rem, 4.2vw, 4rem);
+  line-height: 1.25;
+  margin: 18px 0;
+  letter-spacing: -0.055em;
+}
+.landing-copy .lead {
+  color: #526657;
+  font-size: 0.95rem;
+  max-width: 34em;
+  line-height: 1.85;
+  margin-bottom: 20px;
+}
+.landing-primary.actions {
+  margin: 0;
+}
+.landing-primary .primary {
+  padding: 14px 30px;
+  min-width: 200px;
+  font-weight: 600;
+}
+.landing-promise {
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  color: #6b775d;
+  margin: 15px 0 0;
+}
+.landing-stage {
+  height: 375px;
+  border: 1px solid #d6d9c0;
+  box-shadow:
+    0 14px 36px #3049310c,
+    inset 0 0 0 8px #fffaf04d;
+}
+.landing-stage .character-portrait {
+  bottom: 80px;
+  width: 290px;
+  right: 0;
+}
+.landing-greeting {
+  background: #204d3f;
+}
+.practice-actions {
+  padding-top: 8px;
+}
+.intro-grid article {
+  border-radius: 15px;
+  background: #fffdf8;
+  border-color: #dce0d1;
+}
+.onboarding-toolbar {
+  gap: 8px;
+  font-size: 0.8rem;
+}
+.onboarding-toolbar > .actions {
+  margin: 0;
+}
+.onboarding-toolbar .secondary {
+  font-size: 0.76rem;
+  padding: 7px 12px;
+}
+.onboarding-card {
+  border-color: #d6c497;
+  border-radius: 14px;
+  background: #fffaeb;
+  box-shadow: 0 3px 12px #62502405;
+}
+.onboarding-card h2 {
+  font-size: 1.08rem;
+}
+.onboarding-card p {
+  font-size: 0.86rem;
+  line-height: 1.75;
+}
+.onboarding-card .actions {
+  margin-bottom: 0;
+}
+.story-stage[data-scene='samples'] {
+  min-height: 300px;
+  background: radial-gradient(ellipse at 65% 0, #fff8dd, transparent 65%), #eeecdc;
+  border-color: #d6d2bb;
+}
+.story-stage[data-scene='samples'] .scene-copy {
+  width: 43%;
+  min-width: 0;
+  padding: 28px 0 34px 26px;
+}
+.story-stage[data-scene='samples'] > .sample-desk {
+  width: 48%;
+  right: 12%;
+  bottom: 18px;
+  opacity: 1;
+}
+.story-stage[data-scene='samples'] .scene-person {
+  width: 190px;
+  right: -4px;
+  bottom: 32px;
+}
+.sample-steps {
+  padding: 0;
+  list-style: none;
+  margin: 20px 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.sample-steps li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #6a7465;
+  font-size: 0.68rem;
+}
+.sample-steps li span {
+  width: 23px;
+  height: 23px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #bec8b4;
+  border-radius: 50%;
+  font-size: 0.56rem;
+}
+.sample-steps li[aria-current='step'] {
+  color: #244d3d;
+  font-weight: 600;
+}
+.sample-steps li[aria-current='step'] span {
+  background: #315e48;
+  color: #fff9e4;
+  border-color: #315e48;
+}
+.scene-footnote {
+  font-size: 0.62rem;
+}
+.product-card {
+  display: flex;
+  flex-direction: column;
+  background: #fffef9;
+  border-color: #d5dacb;
+  box-shadow: 0 6px 20px #3e513908;
+}
+.product-card .product-art {
+  position: relative;
+  height: 195px;
+  background: radial-gradient(ellipse at 50% 20%, #fff9e4, #e8ecdf);
+  border-bottom: 1px solid #d8decf;
+}
+.product-card .product-art::before {
+  content: '';
+  position: absolute;
+  inset: 12px;
+  border: 1px solid #ffffffa8;
+  border-radius: 90px 90px 9px 9px;
+  pointer-events: none;
+}
+.product-card .product-art small {
+  z-index: 1;
+  color: #5e6c55;
+  background: #fffaf0cf;
+  border: 1px solid #d4d9c7;
+  border-radius: 20px;
+  padding: 3px 12px;
+  font-size: 0.68rem;
+}
+.product-card .product-illustration {
+  filter: drop-shadow(0 6px 4px #3c4c3212);
+}
+.product-card .card-body {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.product-card .card-body .primary {
+  margin-top: auto;
+}
+.product-card h2 {
+  font-size: 1.25rem;
+}
+.product-card .card-body > p {
+  font-size: 0.87rem;
+}
+.supplier-card {
+  border-radius: 14px;
+}
+.mentor-review {
+  border: 1px solid #d5cfb2;
+}
+@media (min-width: 801px) and (max-width: 1150px) {
+  .landing-intro {
+    grid-template-columns: 1.05fr 1fr;
+    gap: 20px;
+  }
+  .landing-copy h1 {
+    font-size: 2.6rem;
+  }
+  .landing-stage {
+    height: 320px;
+  }
+  .landing-stage .character-portrait {
+    width: 210px;
+    bottom: 94px;
+  }
+  .story-stage[data-scene='samples'] .scene-person {
+    width: 155px;
+  }
+  .story-stage[data-scene='samples'] > .sample-desk {
+    width: 56%;
+    right: 3%;
+    bottom: 70px;
+  }
+}
+@media (max-width: 800px) {
+  .sidebar {
+    padding: 10px 16px;
+  }
+  .brand {
+    min-height: 44px;
+  }
+  .journey-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 8px 12px;
+    min-height: 44px;
+    border: 1px solid #647b64;
+    color: #f0ecd3;
+    background: transparent;
+    border-radius: 9px;
+    font-size: 0.77rem;
+  }
+  .journey-navigation {
+    display: none;
+  }
+  .menu-open .journey-navigation {
+    display: block;
+    padding-bottom: 6px;
+  }
+  .sidebar nav {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 5px;
+    margin: 12px 0;
+  }
+  .sidebar .nav-step {
+    min-height: 44px;
+  }
+  .mobile-progress {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-size: 0.68rem;
+    color: #d8d9bc;
+    margin: 7px 0 0;
+    letter-spacing: 0.05em;
+  }
+  .mobile-progress span {
+    font-size: 0.76rem;
+    color: #f1f2e5;
+  }
+  .topbar {
+    padding: 6px 16px;
+    gap: 2px 12px;
+    min-height: 56px;
+    justify-content: flex-start;
+  }
+  .workspace-title {
+    display: none;
+  }
+  .topbar .save-state {
+    flex-basis: 100%;
+    text-align: left;
+    order: 4;
+  }
+  .topbar .motion-control {
+    gap: 0;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    align-items: flex-end;
+    font-size: 0.68rem;
+  }
+  .topbar .motion-control label {
+    gap: 4px;
+  }
+  .topbar .motion-control small {
+    font-size: 0.6rem;
+    max-width: 142px;
+  }
+  .topbar .motion-control select {
+    padding: 4px;
+    max-width: 88px;
+  }
+  .glossary-link,
+  .save-link {
+    font-size: 0.71rem;
+  }
+  main {
+    padding: 22px 18px;
+  }
+  .landing {
+    padding: 0;
+  }
+  .landing-intro {
+    grid-template-columns: 1fr;
+    gap: 22px;
+    margin-bottom: 24px;
+  }
+  .landing-copy h1 {
+    margin: 12px 0;
+    font-size: 2.55rem;
+  }
+  .landing-copy .eyebrow {
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    margin-bottom: 10px;
+  }
+  .landing-copy .lead {
+    font-size: 0.84rem;
+    line-height: 1.8;
+    margin-bottom: 17px;
+  }
+  .landing-primary .primary {
+    width: 100%;
+    min-height: 50px;
+    padding: 12px 20px;
+  }
+  .landing-promise {
+    margin-top: 12px;
+    text-align: center;
+    font-size: 0.67rem;
+  }
+  .landing-stage {
+    height: 250px;
+    border-radius: 90px 90px 18px 18px;
+  }
+  .landing-stage .character-portrait {
+    width: 180px;
+    bottom: 66px;
+    right: 3px;
+  }
+  .landing-stage > .scene-artwork {
+    width: 90%;
+    left: -12%;
+    top: -22px;
+  }
+  .landing-greeting {
+    padding: 10px 16px;
+  }
+  .landing-greeting p {
+    font-size: 0.72rem;
+    line-height: 1.6;
+  }
+  .landing-greeting span {
+    font-size: 0.65rem;
+  }
+  .status-strip {
+    padding: 12px 18px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 24px;
+  }
+  .status-strip span {
+    min-width: 0;
+  }
+  .status-strip strong {
+    font-size: 0.96rem;
+  }
+  .onboarding-toolbar > .actions {
+    width: auto;
+    gap: 6px;
+  }
+  .onboarding-toolbar > span {
+    font-size: 0.73rem;
+  }
+  .onboarding-toolbar .secondary {
+    font-size: 0.68rem;
+    padding: 6px 9px;
+  }
+  .onboarding {
+    margin-bottom: 20px;
+  }
+  .story-stage[data-scene='samples'] {
+    min-height: 330px;
+  }
+  .story-stage[data-scene='samples'] .scene-copy {
+    width: 100%;
+    padding: 19px 18px 176px;
+  }
+  .story-stage[data-scene='samples'] .scene-copy h2 {
+    font-size: 1.35rem;
+  }
+  .story-stage[data-scene='samples'] .scene-copy p {
+    font-size: 0.76rem;
+    max-width: 100%;
+  }
+  .sample-steps {
+    margin-top: 12px;
+    gap: 10px;
+  }
+  .sample-steps li {
+    font-size: 0.64rem;
+    gap: 5px;
+  }
+  .story-stage[data-scene='samples'] > .sample-desk {
+    width: 80%;
+    right: 25%;
+    bottom: 10px;
+  }
+  .story-stage[data-scene='samples'] .scene-person {
+    width: 155px;
+    right: -6px;
+    bottom: 27px;
+  }
+  .scene-footnote {
+    font-size: 0.53rem;
+  }
+  .product-card .product-art {
+    height: 178px;
+  }
+  .product-card .product-illustration {
+    height: 130px;
+  }
+  .product-card .card-body {
+    padding: 21px;
+  }
+}
+@media (max-width: 360px) {
+  .topbar {
+    gap: 2px 8px;
+    padding-inline: 12px;
+  }
+  .landing-copy h1 {
+    font-size: 2.3rem;
+  }
+  .sample-steps {
+    gap: 7px;
+  }
+  .sample-steps li {
+    font-size: 0.6rem;
+  }
+}

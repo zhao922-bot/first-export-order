@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { readBrowserSession } from './save-helpers';
+import { readBrowserSession, waitForSave } from './save-helpers';
 import {
   startInquiry,
   readMail,
@@ -78,6 +78,7 @@ test('独立报价不占用首次 C 引导；完整流程重开保存再次抽�
   await page.goto('/');
   page.once('dialog', (dialog) => dialog.accept());
   await page.getByRole('button', { name: /重开选品练习/ }).click();
+  await waitForSave(page);
   const firstRun = (await page.evaluate(readBrowserSession)).firstInquiryRun;
   expect(firstRun).toBe(false);
 });

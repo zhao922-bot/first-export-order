@@ -61,6 +61,14 @@ export function dispatchSlice(
   if (original.snapshot.story.appliedCommandIds.includes(command.id)) return original;
   if (command.revision !== original.snapshot.revision) throw new RangeError('过期操作，请重试');
   validateRescue(original, pack);
+  // Ordinary edits need only the reducer's clone. Rescue needs its own copy only
+  // when opening/advancing a checkpoint, never on every keystroke.
+  if (
+    command.action.type !== 'rescue' &&
+    !original.rescue?.pending &&
+    (!pack.rescue || command.action.type !== 'choose' || original.feedback || original.ending)
+  )
+    return reduceSlice(original, pack, { ...command, action: command.action });
   const s = structuredClone(original),
     p = s.rescue?.pending;
   if (command.action.type === 'rescue') {

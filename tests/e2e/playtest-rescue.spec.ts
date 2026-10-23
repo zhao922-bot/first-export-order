@@ -144,6 +144,7 @@ test('有效时长：闲置两分钟封顶，刷新不补计离线间隔，重�
   await page.clock.install();
   await page.goto('/');
   await page.getByRole('button', { name: '前测并开始七关试玩', exact: true }).click();
+  await expect(page.getByTestId('assessment-question')).toBeVisible();
   await page.clock.runFor(180000);
   const before = (await records(page)).runs[0]!.activeMs;
   expect(before).toBeGreaterThan(100000);

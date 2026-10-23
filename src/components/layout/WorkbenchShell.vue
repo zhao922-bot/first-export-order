@@ -3,85 +3,114 @@ import { RouterLink, useRoute } from 'vue-router';
 import OnboardingGuide from '../shared/OnboardingGuide.vue';
 import MotionControl from '../presentation/MotionControl.vue';
 import { usePresentation } from '../../app/usePresentation';
-import { watch } from 'vue';
-import { useSliceGame, formatMoney } from '../../app/useSliceGame';
-const game = useSliceGame();
+import { computed, ref, watch } from 'vue';
+import { presentation } from '../../content/presentation';
+import { loadedGame as game } from '../../app/gameAccess';
+import { formatMoney } from '../../app/formatMoney';
 const route = useRoute();
 const motion = usePresentation();
+defineProps<{ home?: boolean }>();
+const menuOpen = ref(false);
+const menuButton = ref<HTMLButtonElement | null>(null);
+const currentStage = computed(() =>
+  presentation.stages.find((s) => s.stage === game.value?.session?.snapshot.story.stage),
+);
+function closeMenu() {
+  menuOpen.value = false;
+  menuButton.value?.focus();
+}
 watch(
-  () => [route.path, game.resumeRoute],
-  () => game.playtestSurface(route.path === game.resumeRoute),
+  () => route.path,
+  () => {
+    menuOpen.value = false;
+  },
+);
+watch(
+  () => [route.path, game.value?.resumeRoute],
+  () => game.value?.playtestSurface(route.path === game.value?.resumeRoute),
   { immediate: true },
 );
 </script>
 <template>
-  <div class="app-shell" :data-motion="motion.enabled ? 'on' : 'off'" :data-paused="motion.hidden">
+  <div
+    class="app-shell"
+    :data-motion="motion.enabled ? 'on' : 'off'"
+    :data-paused="motion.hidden"
+    :data-saving="(game?.saving ?? 0) > 0"
+  >
     <a
       href="#main-content"
       class="skip-link"
       @click.prevent="($el.querySelector('#main-content') as HTMLElement)?.focus()"
       >跳到当前任务</a
     >
-    <aside class="sidebar">
-      <RouterLink to="/" class="brand"
-        ><span class="brand-mark">出</span
-        ><span>出海第一单<small>FIRST EXPORT ORDER</small></span></RouterLink
-      >
-      <p class="nav-caption">你的第一张订单</p>
-      <nav aria-label="关卡进度" data-guide="progress">
-        <span :class="['nav-step', { active: game.session?.snapshot.story.stage === 1 }]"
-          ><b>01</b> 选品与供应商</span
+    <aside class="sidebar" :class="{ 'menu-open': menuOpen }" @keydown.esc="closeMenu">
+      <div class="brand-row">
+        <RouterLink to="/" class="brand"
+          ><span class="brand-mark">出</span
+          ><span>出海第一单<small>FIRST EXPORT ORDER</small></span></RouterLink
         >
-        <span :class="['nav-step', { active: game.session?.snapshot.story.stage === 2 }]"
-          ><b>02</b> 询盘与客户</span
+        <button
+          ref="menuButton"
+          class="journey-toggle"
+          aria-controls="journey-navigation"
+          :aria-expanded="menuOpen"
+          @click="menuOpen = !menuOpen"
         >
-        <span :class="['nav-step', { active: game.session?.snapshot.story.stage === 3 }]"
-          ><b>03</b> 报价工作台</span
+          {{ menuOpen ? presentation.interface.closeMenu : presentation.interface.menu }}
+          <span aria-hidden="true">{{ menuOpen ? '−' : '+' }}</span>
+        </button>
+      </div>
+      <p v-if="currentStage" class="mobile-progress" data-guide="progress">
+        0{{ currentStage.stage }} / 07 <span>{{ currentStage.navLabel }}</span>
+      </p>
+      <div id="journey-navigation" class="journey-navigation">
+        <p class="nav-caption">{{ presentation.interface.journey }}</p>
+        <nav aria-label="关卡进度" data-guide="progress">
+          <span
+            v-for="stage in presentation.stages"
+            :key="stage.stage"
+            :class="['nav-step', { active: currentStage?.stage === stage.stage }]"
+            :aria-current="currentStage?.stage === stage.stage ? 'step' : undefined"
+            ><b>0{{ stage.stage }}</b
+            >{{ stage.navLabel }}</span
+          >
+        </nav>
+        <RouterLink to="/playtest" class="nav-step">试玩记录与知识测评</RouterLink>
+        <RouterLink to="/glossary" class="nav-step">知识图鉴 · 24 词条</RouterLink>
+        <RouterLink v-if="game?.session?.ending" to="/ending" class="nav-step"
+          >本单结局与复盘</RouterLink
         >
-        <span :class="['nav-step', { active: game.session?.snapshot.story.stage === 4 }]"
-          ><b>04</b> 谈判与签约</span
-        >
-        <span :class="['nav-step', { active: game.session?.snapshot.story.stage === 5 }]"
-          ><b>05</b> PI 与备货验货</span
-        >
-        <span :class="['nav-step', { active: game.session?.snapshot.story.stage === 6 }]"
-          ><b>06</b> 物流与出运</span
-        >
-        <span :class="['nav-step', { active: game.session?.snapshot.story.stage === 7 }]"
-          ><b>07</b> 单据与收汇</span
-        >
-      </nav>
-      <RouterLink to="/playtest" class="nav-step">试玩记录与知识测评</RouterLink>
-      <RouterLink to="/glossary" class="nav-step" data-guide="glossary"
-        >知识图鉴 · 24 词条</RouterLink
-      >
-      <RouterLink v-if="game.session?.ending" to="/ending" class="nav-step"
-        >本单结局与复盘</RouterLink
-      >
-      <div class="sidebar-note">
-        <span class="eyebrow">本次试玩范围</span>
-        <p>
-          第 1 → 2 → 3 → 4 → 5 → 6 → 7 关<br />选品、辨询盘、报价、谈判、备货，出运、审单并核验收汇。
-        </p>
-        <small>所有金额、税率、费率、汇率均为教学算例参数，可配置。</small>
+        <div class="sidebar-note">
+          <span class="eyebrow">本次试玩范围</span>
+          <p>
+            第 1 → 2 → 3 → 4 → 5 → 6 → 7 关<br />选品、辨询盘、报价、谈判、备货，出运、审单并核验收汇。
+          </p>
+          <small>所有金额、税率、费率、汇率均为教学算例参数，可配置。</small>
+        </div>
       </div>
     </aside>
     <div class="main-column">
       <header class="topbar">
-        <span>外贸实习工作台 <span class="version">试玩 0.10</span></span
+        <span class="workspace-title">外贸实习工作台 <span class="version">试玩 0.10</span></span
         ><span class="save-state" aria-live="polite">{{
-          game.storageNotice || '本地教学模拟'
+          game?.pendingSaves
+            ? presentation.experience.saving
+            : game?.storageNotice || '本地教学模拟'
         }}</span>
         <RouterLink to="/recovery" class="text-link save-link">存档与恢复</RouterLink>
+        <RouterLink to="/glossary" class="text-link glossary-link" data-guide="glossary">{{
+          presentation.interface.glossary
+        }}</RouterLink>
         <MotionControl />
       </header>
-      <div v-if="game.storageProblem" class="storage-banner" role="alert">
-        <p>{{ game.storageNotice }}</p>
+      <div v-if="game?.storageProblem" class="storage-banner" role="alert">
+        <p>{{ game?.storageNotice }}</p>
         <RouterLink to="/recovery" class="secondary">{{
-          game.storageConflict ? '处理进度冲突' : '打开存档与恢复'
+          game?.storageConflict ? '处理进度冲突' : '打开存档与恢复'
         }}</RouterLink>
       </div>
-      <div v-if="game.session" class="status-strip" data-guide="resources">
+      <div v-if="game?.session && !home" class="status-strip" data-guide="resources">
         <span
           >可用现金
           <strong data-testid="cash">{{
@@ -104,11 +133,11 @@ watch(
           >游戏日 <strong>第 {{ game.session.snapshot.gameDay }} 天</strong></span
         >
       </div>
-      <main id="main-content" tabindex="-1"><OnboardingGuide /><slot /></main>
+      <main id="main-content" tabindex="-1"><OnboardingGuide v-if="!home" /><slot /></main>
       <footer>
         教学算例参数，可配置 ·
         {{
-          game.session?.snapshot.order.signedDay === null || !game.session
+          game?.session?.snapshot.order.signedDay === null || !game?.session
             ? '未签约，不启动合同交期'
             : game.session.snapshot.order.deliveryCompletedDay !== null
               ? '已完成约定交付，交期已冻结；款项以账本为准'

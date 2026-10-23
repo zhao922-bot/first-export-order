@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { computed, nextTick, onMounted, onBeforeUnmount, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
-import { useSliceGame } from '../../app/useSliceGame';
+import { loadedGame as game } from '../../app/gameAccess';
 import { useOnboarding } from '../../app/useOnboarding';
 import { GuideIdleClock, guideRule, type GuideContext } from '../../app/onboarding';
 import { guideElements } from '../../app/guideTargets';
 import type { GuideScreen } from '../../domain/schemas/onboarding';
 
-const game = useSliceGame(),
-  guide = useOnboarding(),
+const props = defineProps<{ resume?: boolean }>();
+const guide = useOnboarding(),
   route = useRoute();
 const labels = guide.content.labels;
 const manual = ref(false),
@@ -16,16 +16,16 @@ const manual = ref(false),
   missing = ref(false);
 const heading = ref<HTMLElement | null>(null);
 const context = computed<GuideContext>(() => {
-  const session = game.session,
-    node = game.node;
+  const session = game.value?.session,
+    node = game.value?.node;
   const screen: GuideScreen =
     route.path === '/'
-      ? session
+      ? session || props.resume
         ? 'resume'
         : 'home'
       : route.path === '/playtest'
         ? 'assessment'
-        : route.path === '/recovery' || game.storageConflict
+        : route.path === '/recovery' || game.value?.storageConflict
           ? 'recovery'
           : route.path === '/glossary'
             ? 'reference'
@@ -38,7 +38,7 @@ const context = computed<GuideContext>(() => {
       ? 'feedback'
       : node?.type === 'review'
         ? 'review'
-        : game.eventContext
+        : game.value?.eventContext
           ? 'event'
           : 'normal';
   return {
@@ -93,7 +93,7 @@ function clearMarks() {
 }
 function mark() {
   clearMarks();
-  if (disposed || !open.value || game.storageConflict) return;
+  if (disposed || !open.value || game.value?.storageConflict) return;
   marked = guideElements(card.value.target).map((el) => ({
     el,
     tabindex: el.getAttribute('tabindex'),
@@ -147,7 +147,7 @@ const eligible = () =>
   guide.state.status === 'completed' &&
   !open.value &&
   context.value.screen === 'game' &&
-  !game.storageConflict &&
+  !game.value?.storageConflict &&
   document.visibilityState === 'visible' &&
   document.hasFocus();
 function tick() {
@@ -182,9 +182,9 @@ watch(
   () => [
     open.value,
     card.value.id,
-    game.session?.snapshot.revision,
-    game.parameterDraft,
-    game.storageConflict,
+    game.value?.session?.snapshot.revision,
+    game.value?.parameterDraft,
+    game.value?.storageConflict,
   ],
   () => {
     void nextTick(mark);

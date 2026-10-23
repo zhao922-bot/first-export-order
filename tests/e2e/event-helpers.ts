@@ -2,6 +2,7 @@ import { type Page } from '@playwright/test';
 import { seedRngState, nextRandom } from '../../src/engine/story/rng';
 import { eventPack } from '../fixtures/economy';
 import { businessDraw } from '../../src/engine/story/businessRandom';
+import { waitForSave } from './save-helpers';
 const autoPages = new WeakSet<Page>();
 export const enableAutoEvents = (page: Page) => autoPages.add(page);
 export async function handleAutoEvents(page: Page) {
@@ -27,6 +28,7 @@ export async function handleAutoEvents(page: Page) {
     await page.locator('[data-choice-id="' + choices[id!] + '"]').click();
     await page.locator('.consequence button.primary').click();
     await page.locator('.mentor-review button.primary').click();
+    await waitForSave(page);
   }
 }
 export async function installSeed(page: Page, id: string, fallback = false) {

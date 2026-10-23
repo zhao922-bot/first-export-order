@@ -6,5 +6,8 @@ import './styles/main.css';
 import './styles/ending.css';
 import './styles/onboarding.css';
 import './styles/presentation.css';
+import './styles/polish.css';
+import './styles/trade-polish.css';
+import './styles/experience.css';
 
 createApp(App).use(createPinia()).use(router).mount('#app');

@@ -47,7 +47,7 @@ watch(
       </button>
     </template>
     <template v-else-if="pending.phase === 'mentor'">
-      <CharacterPortrait actor-id="mentor_lin" compact />
+      <CharacterPortrait actor-id="mentor_lin" cue="rescue" compact />
       <h2>林姐 · 先核对再继续</h2>
       <p>
         {{

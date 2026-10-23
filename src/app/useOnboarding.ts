@@ -1,13 +1,11 @@
 import { defineStore } from 'pinia';
 import { shallowRef } from 'vue';
 import raw from '../content/onboarding.json';
-import { parseOnboarding } from '../content/onboarding';
-import { useSliceGame } from './useSliceGame';
+import { onboardingSchema } from '../domain/schemas/onboarding';
 import { freshGuide, readGuide, writeGuide, type GuideState } from './onboarding';
 
 export const useOnboarding = defineStore('onboarding', () => {
-  const game = useSliceGame();
-  const content = parseOnboarding(raw, [game.pack]);
+  const content = onboardingSchema.parse(raw);
   const loaded = readGuide(() => localStorage);
   const state = shallowRef(loaded.state);
   const storageUnavailable = shallowRef(loaded.unavailable);

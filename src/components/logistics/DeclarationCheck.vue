@@ -1,10 +1,19 @@
 <script setup lang="ts">
 import type { LogisticsView } from '../../app/logisticsView';
-defineProps<{ fields: LogisticsView['fields'] }>();
+import { useTextDrafts } from '../../app/useTextDrafts';
+const props = defineProps<{ fields: LogisticsView['fields'] }>();
+const { draft, edit } = useTextDrafts(() =>
+  Object.fromEntries(props.fields.map((f) => [f.id, f.value])),
+);
 const emit = defineEmits<{
   edit: [id: LogisticsView['fields'][number]['id'], value: string];
   check: [id: LogisticsView['fields'][number]['id'], checked: boolean];
 }>();
+function update(id: LogisticsView['fields'][number]['id'], event: Event) {
+  const value = (event.target as HTMLInputElement).value;
+  edit(id, value);
+  emit('edit', id, value);
+}
 </script>
 <template>
   <section class="panel declaration-panel" aria-label="申报核心字段核对">
@@ -18,16 +27,16 @@ const emit = defineEmits<{
       <label :for="'declaration-' + field.id">{{ field.label }}草稿</label>
       <input
         :id="'declaration-' + field.id"
-        :value="field.value"
+        :value="draft[field.id]"
         :aria-invalid="field.error"
         :aria-describedby="field.error ? 'declaration-error-' + field.id : undefined"
         maxlength="200"
-        @input="emit('edit', field.id, ($event.target as HTMLInputElement).value)"
+        @input="update(field.id, $event)"
       />
       <label class="checkbox"
         ><input
           type="checkbox"
-          :checked="field.checked"
+          :checked="field.checked && draft[field.id] === field.value"
           @change="emit('check', field.id, ($event.target as HTMLInputElement).checked)"
         />已核对{{ field.label }}</label
       >

@@ -1,5 +1,16 @@
 import { dispatchSlice, type RescueAction } from '../engine/slice/rescue';
 import { uniqueId } from './uniqueId';
+import { loadedGame } from './gameAccess';
+import { formatMoney } from './formatMoney';
+export { formatMoney } from './formatMoney';
+import { serialQueue, storageTransaction } from '../persistence/storageTransaction';
+import {
+  createInputJournal,
+  applyInput,
+  recoverInputs,
+  isInputAction,
+  type InputAction,
+} from '../persistence/inputJournal';
 import { createLocalSink } from '../telemetry/localSink';
 import type { Phase } from '../telemetry/events';
 import { stageRoute } from './stageRoute';
@@ -36,9 +47,7 @@ import {
   type SaveSlot,
 } from '../persistence/sliceSave';
 const profileKey = 'first-export.inquiry-started.v1';
-export const formatMoney = (fen: number, currency = 'CNY') =>
-  new Intl.NumberFormat('zh-CN', { style: 'currency', currency }).format(fen / 100);
-export const useSliceGame = defineStore('slice', () => {
+const useStore = defineStore('slice', () => {
   const pack = loadValidatedContent()[0]!;
   const session = shallowRef<SliceSession | null>(null),
     error = shallowRef(''),
@@ -47,10 +56,15 @@ export const useSliceGame = defineStore('slice', () => {
   const storageConflict = shallowRef(false),
     storageProblem = shallowRef(false);
   const backup = shallowRef<SaveHead | null>(null);
-  const repository = createSliceSaveRepository(() => localStorage, pack);
+  let coordinationFailure: unknown = null;
+  const storage = () => {
+    if (coordinationFailure) throw coordinationFailure;
+    return localStorage;
+  };
+  const repository = createSliceSaveRepository(storage, pack);
   let expectedHead: string | null = null;
   const sink = createLocalSink({
-    storage: () => localStorage,
+    storage,
     pack,
     sessionId: uniqueId(),
     monotonic: () => performance.now(),
@@ -59,6 +73,74 @@ export const useSliceGame = defineStore('slice', () => {
   const refreshPlaytest = () => {
     playtest.value = sink.view();
   };
+  const enqueue = serialQueue();
+  const saving = shallowRef(0);
+  const pendingSaves = shallowRef(0);
+  function transaction<T>(operation: () => T, writes = true): Promise<T> {
+    saving.value++;
+    if (writes) pendingSaves.value++;
+    return enqueue(async () => {
+      let entered = false;
+      try {
+        return await storageTransaction(() => {
+          entered = true;
+          coordinationFailure = null;
+          sink.synchronize();
+          return operation();
+        });
+      } catch (cause) {
+        if (entered) throw cause; // Never replay a callback that already ran.
+        coordinationFailure = cause;
+        return operation(); // Memory-only mode; storage() refuses all writes.
+      } finally {
+        saving.value--;
+        if (writes) pendingSaves.value--;
+      }
+    });
+  }
+  const metrics = (operation: () => void) => {
+    void transaction(() => {
+      operation();
+      refreshPlaytest();
+    }, false);
+  };
+  const inputJournal = createInputJournal(() => localStorage, uniqueId());
+  function input(action: InputAction): Promise<void> {
+    if (!session.value || storageConflict.value) return Promise.resolve();
+    const item = { id: session.value.snapshot.runId + '.command.' + uniqueId(), action };
+    try {
+      inputJournal.append(item, expectedHead, session.value.snapshot.runId);
+    } catch {
+      /* Actual commit reports storage failures; input remains usable. */
+    }
+    return transaction(() => {
+      try {
+        if (storageConflict.value) throw new SaveError('CONFLICT', storageNotice.value);
+        const before = toRaw(session.value!);
+        const next = applyInput(currentSave(), pack, item);
+        const previous = parameterDraft.value;
+        parameterDraft.value = next.parameterDraft;
+        try {
+          publish(next.session);
+        } catch (cause) {
+          parameterDraft.value = previous;
+          throw cause;
+        }
+        if (action.type !== 'parameters') sink.transition(before, next.session, action.type);
+        if (!['parameters', 'draft', 'correctDocument', 'editDeclaration'].includes(action.type))
+          refreshPlaytest();
+        error.value = '';
+      } catch (cause) {
+        error.value = cause instanceof Error ? cause.message : '草稿保存失败';
+      } finally {
+        try {
+          inputJournal.finish(item.id, expectedHead, session.value!.snapshot.runId);
+        } catch {
+          /* Preserve intent for recovery when storage rejects cleanup. */
+        }
+      }
+    });
+  }
   const player = usePlayerStore(),
     order = useOrderStore(),
     story = useStoryStore();
@@ -114,6 +196,9 @@ export const useSliceGame = defineStore('slice', () => {
     }
     sink.restart();
     sink.attach(next, practice ? 'practice' : 'full', pretest);
+    // The engine may have loaded after the landing click. Explicitly start the
+    // activity window now, without charging the download time to the new run.
+    sink.interact();
     refreshPlaytest();
     if (!practice) {
       startedInquiryRun = true;
@@ -150,7 +235,7 @@ export const useSliceGame = defineStore('slice', () => {
       error.value = failure instanceof Error ? failure.message : '操作失败，请重试';
     }
   }
-  function reloadSaved(): void {
+  function reloadSaved(attach = true): void {
     const loaded = repository.load();
     expectedHead = loaded.head;
     backup.value = loaded.backup;
@@ -162,18 +247,21 @@ export const useSliceGame = defineStore('slice', () => {
     session.value = null;
     if (loaded.game) {
       applyMemory(loaded.game.session);
-      sink.attach(loaded.game.session);
+      if (attach) {
+        try {
+          const pending = recoverInputs(storage, expectedHead, loaded.game, pack);
+          if (pending) {
+            parameterDraft.value = pending.game.parameterDraft;
+            publish(pending.game.session);
+            if (!storageProblem.value && storage().getItem(pending.key) === pending.raw)
+              storage().removeItem(pending.key);
+          }
+        } catch {
+          /* Keep the valid committed game and its recovery notice. */
+        }
+        sink.attach(toRaw(session.value!));
+      }
       refreshPlaytest();
-    }
-  }
-  function saveParameterDraft(value: SavedGame['parameterDraft']) {
-    if (!session.value || storageConflict.value) return;
-    const previous = parameterDraft.value;
-    parameterDraft.value = value;
-    try {
-      publish(toRaw(session.value));
-    } catch {
-      parameterDraft.value = previous;
     }
   }
   function recoverBackup() {
@@ -212,24 +300,26 @@ export const useSliceGame = defineStore('slice', () => {
       storageProblem.value = true;
       if (cause instanceof SaveError && cause.code === 'CONFLICT') {
         storageConflict.value = true;
-        sink.visibility(false);
+        sink.observeVisibility(false);
+        metrics(() => sink.visibility(false, false));
       }
     }
   }
-  reloadSaved();
+  reloadSaved(false);
+  if (session.value) metrics(() => reloadSaved());
   window.addEventListener('storage', onStorage);
   const interaction = () => {
     if (!storageConflict.value) sink.interact();
   };
   const visibility = () => {
-    sink.visibility(
-      document.visibilityState === 'visible' && document.hasFocus() && !storageConflict.value,
-    );
-    refreshPlaytest();
+    const shown =
+      document.visibilityState === 'visible' && document.hasFocus() && !storageConflict.value;
+    sink.observeVisibility(shown);
+    metrics(() => sink.visibility(shown, false));
   };
   const suspend = () => {
-    sink.visibility(false);
-    refreshPlaytest();
+    sink.observeVisibility(false);
+    metrics(() => sink.visibility(false, false));
   };
   visibility();
   document.addEventListener('pointerdown', interaction, { passive: true });
@@ -240,11 +330,10 @@ export const useSliceGame = defineStore('slice', () => {
   window.addEventListener('blur', suspend);
   window.addEventListener('pagehide', suspend);
   const timer = window.setInterval(() => {
-    sink.flush();
-    refreshPlaytest();
+    metrics(() => sink.flush());
   }, 5000);
   onScopeDispose(() => {
-    sink.flush();
+    metrics(() => sink.flush());
     window.clearInterval(timer);
     window.removeEventListener('storage', onStorage);
     document.removeEventListener('pointerdown', interaction);
@@ -449,26 +538,30 @@ export const useSliceGame = defineStore('slice', () => {
     session.value?.ending ? '/ending' : stageRoute(session.value?.snapshot.story.stage),
   );
   return {
+    ready: () => enqueue(() => undefined),
+    noteInteraction: interaction,
+    saving: readonly(saving),
+    pendingSaves: readonly(pendingSaves),
     playtest: readonly(playtest),
-    exportPlaytest: () => {
-      const result = sink.export();
-      refreshPlaytest();
-      return result;
-    },
+    exportPlaytest: () =>
+      transaction(() => {
+        const result = sink.export();
+        refreshPlaytest();
+        return result;
+      }),
     answerAssessment: (phase: Phase, id: string, option: string) => {
-      sink.answer(phase, id, option);
-      refreshPlaytest();
+      metrics(() => sink.answer(phase, id, option));
     },
     skipAssessment: (phase: Phase) => {
-      sink.skip(phase);
-      refreshPlaytest();
+      metrics(() => sink.skip(phase));
     },
     playtestSurface: (shown: boolean) => sink.surface(shown),
-    clearPlaytest: () => {
-      sink.clear();
-      if (session.value) sink.attach(toRaw(session.value));
-      refreshPlaytest();
-    },
+    clearPlaytest: () =>
+      transaction(() => {
+        sink.clear();
+        if (session.value) sink.attach(toRaw(session.value));
+        refreshPlaytest();
+      }),
     endingModel: computed(() => (session.value ? buildEndingView(session.value, pack) : null)),
     knowledgeCards: computed(() => buildKnowledgeView(session.value, pack)),
     resumeRoute,
@@ -498,21 +591,27 @@ export const useSliceGame = defineStore('slice', () => {
     storageConflict: readonly(storageConflict),
     hasBackup: computed(() => Boolean(backup.value)),
     parameterDraft: readonly(parameterDraft),
-    saveParameterDraft,
-    reloadSaved,
-    recoverBackup,
-    restoreGame,
-    exportCurrent: () => encodeSave(currentSave(), pack),
+    saveParameterDraft: (value: SavedGame['parameterDraft']) =>
+      input({ type: 'parameters', value }),
+    reloadSaved: () => transaction(() => reloadSaved()),
+    recoverBackup: () => transaction(recoverBackup),
+    restoreGame: (value: SavedGame) => transaction(() => restoreGame(value)),
+    exportCurrent: () => transaction(() => encodeSave(currentSave(), pack)),
     exportRaw: repository.rawExport,
     readImport: (text: string) => importSave(text, pack),
     readSlot: (slot: SaveSlot) => repository.load(slot),
     saveSlot: (slot: SaveSlot, expected: string | null) =>
-      repository.write(currentSave(), expected, slot),
+      transaction(() => repository.write(currentSave(), expected, slot)),
     recoverSlot: (slot: SaveSlot, expected: string | null, previous: SaveHead) =>
-      repository.recover(expected, previous, slot),
-    start,
-    act,
-    configure,
+      transaction(() => repository.recover(expected, previous, slot)),
+    start: (practice = false, randomize = false, pretest = false) =>
+      transaction(() => start(practice, randomize, pretest)),
+    act: (action: SliceAction | RescueAction) =>
+      isInputAction(action) ? input(action) : transaction(() => act(action)),
+    editQuote: (answers: Record<string, string>) => input({ type: 'draft', answers }),
+    submitQuote: () =>
+      transaction(() => act({ type: 'submit', answers: { ...session.value!.answers } })),
+    configure: (input: QuoteInput) => transaction(() => configure(input)),
     negotiation,
     procurement,
     logistics,
@@ -520,3 +619,9 @@ export const useSliceGame = defineStore('slice', () => {
     eventContext,
   };
 });
+export type GameStore = ReturnType<typeof useStore>;
+export function useSliceGame(): GameStore {
+  const game = useStore();
+  loadedGame.value = game;
+  return game;
+}

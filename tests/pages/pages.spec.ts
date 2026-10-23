@@ -56,8 +56,15 @@ test('公开目录、角色资源、窄屏和横屏正常', async ({ page, baseU
     1536,
   );
   const asset = await page.locator('.landing-stage img').getAttribute('src');
-  expect(new URL(asset!, page.url()).pathname).toBe(`${root.pathname}assets/portraits/cast-v1.png`);
+  expect(new URL(asset!, page.url()).pathname).toBe(
+    `${root.pathname}assets/portraits/lin-expressions-v1-delivery.webp`,
+  );
   await expect(page.getByRole('button', { name: /开始第 1 关/ })).toBeVisible();
+  const heroBox = await page.locator('.landing-stage').boundingBox();
+  const portraitBox = await page.locator('.landing-stage .character-portrait').boundingBox();
+  expect(portraitBox!.y).toBeGreaterThanOrEqual(heroBox!.y);
+  const startBox = await page.locator('[data-guide="start"]').boundingBox();
+  expect(startBox!.y + startBox!.height).toBeLessThanOrEqual(page.viewportSize()!.height);
   await layout(page);
   await page.screenshot({ path: info.outputPath('home.png'), fullPage: true });
   await page.getByRole('button', { name: /跳过引导/ }).click();

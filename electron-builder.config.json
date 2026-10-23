@@ -3,7 +3,7 @@
   "productName": "出海第一单",
   "electronVersion": "45.0.0",
   "electronDist": "node_modules/electron/dist",
-  "directories": { "app": "work/native-desktop", "output": "outputs/native-0.2.0/windows" },
+  "directories": { "app": "work/native-desktop", "output": "outputs/native-0.3.0/windows" },
   "files": ["**/*", "!node_modules/**/*"],
   "asar": true,
   "npmRebuild": false,

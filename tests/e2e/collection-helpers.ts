@@ -29,6 +29,7 @@ export async function documents(page: Page) {
 export async function correct(page: Page) {
   for (const tab of await page.locator('[data-document-id]').all()) {
     await tab.click();
+    await expect(tab).toHaveAttribute('aria-pressed', 'true');
     for (const row of await page.locator('[data-doc-key]').all()) {
       const key = (await row.getAttribute('data-doc-key'))!,
         source = await page.locator(`[data-document-source="${key.split('.')[1]}"]`).innerText(),

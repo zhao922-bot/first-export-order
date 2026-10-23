@@ -10,9 +10,9 @@ import { useSliceGame, formatMoney } from '../app/useSliceGame';
 const game = useSliceGame(),
   router = useRouter();
 const model = computed(() => game.endingModel);
-function restart() {
+async function restart() {
   if (!window.confirm('重开将替换本单结局和学习记录。可先导出或保存到手动槽。确定重开？')) return;
-  if (game.start()) void router.push('/supplier');
+  if (await game.start()) void router.push('/supplier');
 }
 </script>
 <template>
@@ -60,7 +60,7 @@ function restart() {
       </section>
       <ScoreRadar :model="model" />
       <section class="panel mentor-ending">
-        <CharacterPortrait actor-id="mentor_lin" />
+        <CharacterPortrait actor-id="mentor_lin" cue="review" />
         <div>
           <p class="eyebrow">林姐 · 这一单留给下一单的经验</p>
           <p>{{ model.mentor }}</p>

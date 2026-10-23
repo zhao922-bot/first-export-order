@@ -1,6 +1,6 @@
 import { expect, type Page } from '@playwright/test';
 import type { SliceSession } from '../../src/engine/slice/session';
-import { readBrowserSession } from './save-helpers';
+import { readBrowserSession, waitForSave } from './save-helpers';
 import {
   startInquiry,
   resolveMail,
@@ -12,7 +12,10 @@ import {
   continueReview,
 } from './inquiry-helpers';
 
-export const saved = (page: Page): Promise<SliceSession> => page.evaluate(readBrowserSession);
+export const saved = async (page: Page): Promise<SliceSession> => {
+  await waitForSave(page);
+  return page.evaluate(readBrowserSession);
+};
 export async function decide(page: Page, id: string) {
   await choose(page, id);
   await review(page);
@@ -94,6 +97,7 @@ export async function production(page: Page) {
   await next(page);
 }
 export async function inspect(page: Page, allPass = false) {
+  await expect(page.locator('.evidence-card')).toHaveCount(5);
   for (const row of await page.locator('.evidence-card').all()) {
     const read = row.getByRole('button', { name: '查看证据' });
     if (await read.count()) await read.click();

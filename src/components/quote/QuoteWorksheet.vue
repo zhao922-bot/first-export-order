@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { QuoteEvaluation } from '../../domain/types';
 import { ref, watch, nextTick } from 'vue';
+import { useTextDrafts } from '../../app/useTextDrafts';
 const props = defineProps<{
   fields: string[];
   blocked: boolean;
@@ -8,6 +9,7 @@ const props = defineProps<{
   errors: readonly QuoteEvaluation['fieldErrors'][number][];
 }>();
 const emit = defineEmits<{ draft: [answers: Record<string, string>]; submit: [] }>();
+const { draft, edit } = useTextDrafts(() => props.answers);
 const form = ref<HTMLFormElement | null>(null);
 watch(
   () => props.errors,
@@ -26,7 +28,8 @@ const labels: Record<string, string> = {
   cifUnitUsd: 'CIF 对外单价（USD/件）',
 };
 function update(key: string, value: string) {
-  emit('draft', { ...props.answers, [key]: value });
+  edit(key, value);
+  emit('draft', { [key]: value });
 }
 </script>
 <template>
@@ -43,7 +46,7 @@ function update(key: string, value: string) {
         >{{ labels[field] }}
         <select
           v-if="field === 'rateBasis'"
-          :value="answers[field] || 'costMarkup'"
+          :value="draft[field] || 'costMarkup'"
           :aria-label="labels[field]"
           @change="update(field, ($event.target as HTMLSelectElement).value)"
         >
@@ -52,7 +55,7 @@ function update(key: string, value: string) {
         </select>
         <input
           v-else
-          :value="answers[field] || ''"
+          :value="draft[field] || ''"
           :aria-label="labels[field]"
           :aria-invalid="errors.some((e) => e.field === field)"
           :aria-describedby="errors.some((e) => e.field === field) ? 'error-' + field : undefined"

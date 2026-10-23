@@ -7,6 +7,7 @@ import { projectLedger } from '../engine/economy/ledger';
 import { calculateQuote } from '../engine/economy/quote';
 import { validateFrozenEnding } from '../engine/debrief/runtime';
 import { validateEventState } from '../engine/slice/events';
+import { hasStorageTransaction } from './storageTransaction';
 
 export const legacyKey = 'first-export.slice.v1';
 export const savePrefix = 'first-export.slice.v2';
@@ -158,6 +159,9 @@ export function validateSavedGame(value: unknown, pack: ContentPack): SavedGame 
   }
 }
 export function encodeSave(game: SavedGame, pack: ContentPack, generation = 0): string {
+  return encodeEnvelope(game, pack, generation).text;
+}
+function encodeEnvelope(game: SavedGame, pack: ContentPack, generation: number) {
   const payload = validateSavedGame(game, pack);
   const data = {
     format: 'first-export-local' as const,
@@ -167,10 +171,11 @@ export function encodeSave(game: SavedGame, pack: ContentPack, generation = 0): 
     savedAt: new Date().toISOString(),
     payload,
   };
-  const text = JSON.stringify({ ...data, checksum: checksum(JSON.stringify(data)) });
+  const envelope = { ...data, checksum: checksum(JSON.stringify(data)) };
+  const text = JSON.stringify(envelope);
   if (bytes(text) > maxSaveBytes)
     throw new SaveError('SIZE', '存档超过 512 KiB，当前修改未保存，请导出当前进度。');
-  return text;
+  return { text, envelope };
 }
 export function decodeSave(text: string, pack: ContentPack): Envelope {
   const parsed = parse(text);
@@ -208,6 +213,13 @@ export interface LoadedSave {
   problem: boolean;
 }
 export function createSliceSaveRepository(storage: () => Storage, pack: ContentPack) {
+  function requireWriter() {
+    if (typeof window !== 'undefined' && !hasStorageTransaction())
+      throw new SaveError('UNAVAILABLE', '存档协调不可用，当前修改未保存；请先导出当前进度。');
+  }
+  // Cache only exact bytes already validated by this repository. External changes,
+  // corruption and imports still go through all structure/business checks.
+  const validated = new Map<string, { raw: string; envelope: Envelope }>();
   const key = (slot: SaveSlot, suffix: string) => `${savePrefix}:${slot}:${suffix}`;
   const head = (slot: SaveSlot = 'auto') => storage().getItem(key(slot, 'head'));
   function check(expected: string | null, slot: SaveSlot) {
@@ -220,10 +232,12 @@ export function createSliceSaveRepository(storage: () => Storage, pack: ContentP
   function readToken(slot: SaveSlot, token: z.infer<typeof tokenSchema>) {
     const raw = storage().getItem(key(slot, token.side));
     if (!raw) throw new SaveError('CORRUPT', '存档记录缺失，可尝试恢复上一有效版本。');
-    const envelope = decodeSave(raw, pack);
+    const cached = validated.get(key(slot, token.side));
+    const envelope = cached?.raw === raw ? cached.envelope : decodeSave(raw, pack);
+    validated.set(key(slot, token.side), { raw, envelope });
     if (envelope.generation !== token.generation || envelope.checksum !== token.checksum)
       throw new SaveError('CORRUPT', '存档提交标记不一致，可尝试恢复备份。');
-    return envelope.payload;
+    return structuredClone(envelope.payload);
   }
   function load(slot: SaveSlot = 'auto'): LoadedSave {
     let raw: string | null = null;
@@ -276,7 +290,10 @@ export function createSliceSaveRepository(storage: () => Storage, pack: ContentP
       };
     }
   }
+  /** Synchronous commit primitive. Browser callers must hold storageTransaction
+   * for the ENTIRE check/write/head-switch (also recover), never just setItem. */
   function write(game: SavedGame, expected: string | null, slot: SaveSlot = 'auto'): string {
+    requireWriter();
     check(expected, slot);
     let old: SaveHead | null = null;
     if (expected) {
@@ -290,8 +307,7 @@ export function createSliceSaveRepository(storage: () => Storage, pack: ContentP
     // 即使主动重开，损坏提交标记也不能使原始记录被静默删除。
     const side = old?.side === 'a' ? 'b' : 'a';
     const generation = (old?.generation ?? -1) + 1;
-    const text = encodeSave(game, pack, generation),
-      envelope = decodeSave(text, pack);
+    const { text, envelope } = encodeEnvelope(game, pack, generation);
     let total = 0;
     for (const s of slots)
       for (const suffix of ['a', 'b', 'head']) {
@@ -316,19 +332,27 @@ export function createSliceSaveRepository(storage: () => Storage, pack: ContentP
     check(expected, slot);
     const next = JSON.stringify({ side, generation, checksum: envelope.checksum, previous });
     storage().setItem(key(slot, 'head'), next);
+    validated.set(key(slot, side), { raw: text, envelope });
     return next;
   }
   function recover(expected: string | null, backup: SaveHead, slot: SaveSlot = 'auto') {
+    requireWriter();
     check(expected, slot);
     readToken(slot, backup);
     storage().setItem(key(slot, 'head'), JSON.stringify(backup));
     return load(slot);
   }
   function rawExport() {
+    const pending: string[] = [];
+    for (let i = 0; i < storage().length; i++) {
+      const k = storage().key(i);
+      if (k?.startsWith('first-export.pending-input.v1:')) pending.push(k);
+    }
     return JSON.stringify(
       Object.fromEntries(
         [
           legacyKey,
+          ...pending,
           ...slots.flatMap((s) => ['a', 'b', 'head'].map((suffix) => key(s, suffix))),
         ].map((k) => [k, storage().getItem(k)]),
       ),

@@ -1,0 +1,295 @@
+/* Read-only scene and receipt presentation. Animation never controls business progress. */
+.trade-stage {
+  min-height: 310px;
+  background:
+    radial-gradient(ellipse at 65% 15%, #fff9e9, transparent 60%),
+    linear-gradient(115deg, #f8f4e7, #e6ecdc);
+}
+.trade-stage .scene-copy {
+  width: 43%;
+  min-width: 0;
+  padding: 27px 0 40px 27px;
+}
+.trade-stage .scene-copy h2 {
+  font-size: clamp(1.25rem, 1.8vw, 1.65rem);
+  letter-spacing: -0.025em;
+}
+.trade-stage > .trade-artwork {
+  width: 51%;
+  right: 10%;
+  bottom: 22px;
+  opacity: 1;
+}
+.trade-stage .scene-person {
+  width: 180px;
+  right: -3px;
+  bottom: 29px;
+}
+.trade-stage .scene-kicker {
+  font-size: 0.58rem;
+  letter-spacing: 0.1em;
+}
+.trade-steps {
+  gap: 9px 12px;
+  margin-top: 19px;
+}
+.trade-steps li {
+  font-size: 0.64rem;
+}
+.trade-steps li span {
+  width: 21px;
+  height: 21px;
+}
+.business-receipt {
+  position: relative;
+  border: 1px solid #d6d4b9;
+  border-top: 3px solid #8ca185;
+  border-radius: 6px 6px 16px 16px;
+  background: linear-gradient(120deg, #faf6e9, #fffdf7);
+  margin: 20px 0 22px;
+  padding: 18px 23px 16px;
+  box-shadow: 0 6px 15px #52613e08;
+  animation: scene-arrive 0.35s ease-out;
+}
+.receipt-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: center;
+  border-bottom: 1px dashed #c6c9ad;
+}
+.receipt-heading > div:first-child {
+  min-width: 0;
+}
+.receipt-heading .eyebrow {
+  font-size: 0.6rem;
+  color: #697759;
+  letter-spacing: 0.11em;
+}
+.receipt-heading h3 {
+  margin: 8px 0;
+  font-size: 1.12rem;
+  color: #35533d;
+  font-weight: 600;
+}
+.receipt-heading .character-portrait.compact {
+  width: 102px;
+  align-self: flex-end;
+}
+.receipt-state {
+  font-size: 0.75rem;
+  color: #66725d;
+  margin: 0 0 15px;
+}
+.receipt-metrics {
+  display: grid;
+  grid-template-columns: 1.1fr 1.1fr 0.7fr;
+  margin: 20px 0 16px;
+  gap: 16px;
+}
+.receipt-metrics > div {
+  min-width: 0;
+  border-right: 1px solid #e2e2cd;
+}
+.receipt-metrics > div:last-child {
+  border-right: 0;
+}
+.receipt-metrics dt {
+  font-size: 0.72rem;
+  color: #69725b;
+  margin-bottom: 9px;
+}
+.receipt-metrics dd {
+  font-family: Georgia, 'Microsoft YaHei', serif;
+  font-size: clamp(1rem, 2.2vw, 1.5rem);
+  font-variant-numeric: tabular-nums;
+  color: #345b46;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.receipt-metrics small {
+  font-size: 0.65rem;
+  color: #67745e;
+}
+.receipt-metrics [data-cash-direction='out'] dd {
+  color: #976344;
+}
+.receipt-relationship {
+  font-size: 0.74rem;
+  color: #67715e;
+  margin: 0 0 12px;
+}
+.receipt-relationship span {
+  padding: 0 10px;
+  color: #a6ad95;
+}
+.receipt-note {
+  border-top: 1px dashed #d0d2ba;
+  padding-top: 12px;
+  font-size: 0.74rem;
+  line-height: 1.8;
+  color: #5e6c53;
+  margin: 0;
+}
+.work-area input:focus-visible,
+.work-area select:focus-visible,
+.work-area textarea:focus-visible {
+  outline: 2px solid #b88b45;
+  outline-offset: 3px;
+}
+.work-area input[type='checkbox'],
+.work-area input[type='radio'] {
+  accent-color: #3f6b4e;
+}
+.evidence-card:focus-within {
+  border-color: #8ba67c;
+  box-shadow: 0 0 0 3px #aabd8e22;
+}
+.document-value {
+  font-variant-numeric: tabular-nums;
+}
+.mail-message {
+  border-left: 4px solid #94a887;
+  background: linear-gradient(110deg, #fffdf5, #faf8ed);
+}
+.mail-message .mail-body {
+  line-height: 1.95;
+}
+.mail-card {
+  border-left: 3px solid #c1cca9;
+}
+.pi-field:has(input:checked) {
+  background: #eef3e6;
+  border-color: #a8bc98;
+}
+.evidence-card fieldset label:has(input:checked) {
+  background: #eef3e6;
+  border-radius: 6px;
+}
+.document-tabs button[aria-pressed='true'] {
+  background: #3f6249;
+  color: #fff9e8;
+  border-color: #3f6249;
+}
+.forwarder-card.selected {
+  box-shadow:
+    inset 0 3px 0 #688b5a,
+    0 8px 20px #5065400b;
+}
+.choice-button:active {
+  background: #e9efd9;
+}
+@media (min-width: 801px) and (max-width: 1150px) {
+  .trade-stage .scene-copy {
+    width: 100%;
+    padding: 24px 24px 205px;
+  }
+  .trade-stage .scene-copy h2 {
+    font-size: 1.4rem;
+  }
+  .trade-stage .scene-copy p {
+    max-width: 100%;
+  }
+  .trade-stage > .trade-artwork {
+    width: 340px;
+    right: 23%;
+    bottom: 17px;
+  }
+  .trade-stage .scene-person {
+    width: 160px;
+  }
+}
+@media (max-width: 800px) {
+  .trade-stage {
+    min-height: 340px;
+  }
+  .trade-stage .scene-copy {
+    width: 100%;
+    min-width: 0;
+    padding: 21px 18px 181px;
+  }
+  .trade-stage .scene-copy h2 {
+    font-size: 1.3rem;
+    margin: 10px 0;
+  }
+  .trade-stage .scene-copy p {
+    font-size: 0.75rem;
+    max-width: 100%;
+    line-height: 1.8;
+  }
+  .trade-stage > .trade-artwork {
+    width: min(80%, 320px);
+    right: 22%;
+    bottom: 17px;
+    opacity: 1;
+  }
+  .trade-stage .scene-person {
+    width: 138px;
+    right: -5px;
+    bottom: 28px;
+  }
+  .trade-steps {
+    margin-top: 14px;
+    gap: 8px 11px;
+  }
+  .trade-steps li {
+    font-size: 0.6rem;
+    gap: 5px;
+  }
+  .trade-steps li span {
+    width: 19px;
+    height: 19px;
+  }
+  .business-receipt {
+    padding: 14px 14px 16px;
+  }
+  .receipt-heading {
+    gap: 6px;
+  }
+  .receipt-heading h3 {
+    font-size: 1rem;
+  }
+  .receipt-heading .eyebrow {
+    font-size: 0.53rem;
+    letter-spacing: 0.06em;
+  }
+  .receipt-heading .character-portrait.compact {
+    width: 78px;
+  }
+  .receipt-state {
+    font-size: 0.65rem;
+  }
+  .receipt-metrics {
+    grid-template-columns: 1fr 1fr;
+    gap: 14px 8px;
+    margin: 16px 0;
+  }
+  .receipt-metrics > div:nth-child(2) {
+    border-right: 0;
+  }
+  .receipt-metrics > div:last-child {
+    grid-column: 1 / -1;
+    display: flex;
+    gap: 14px;
+    align-items: baseline;
+  }
+  .receipt-metrics > div:last-child dt {
+    margin: 0;
+  }
+  .receipt-metrics dd {
+    font-size: 1.05rem;
+  }
+  .receipt-metrics dt,
+  .receipt-note,
+  .receipt-relationship {
+    font-size: 0.68rem;
+  }
+}
+@media (max-width: 360px) {
+  .trade-steps {
+    gap: 7px;
+  }
+  .trade-steps li {
+    font-size: 0.57rem;
+  }
+}

@@ -8,7 +8,7 @@ import { begin, documents, correct, end } from '../e2e/collection-helpers';
 import {
   portableExe,
   unpackedExe,
-  legacyExe,
+  legacyReleases,
   releaseRoot,
   nativeVersion,
 } from '../native-support/release';
@@ -61,6 +61,14 @@ test('portable EXE self-extracts and opens the bundled game', async ({
       expect(
         await page.locator('.character-crop').evaluate((el) => getComputedStyle(el).animationName),
       ).toBe('character-breathe');
+      expect(
+        await page.locator('.landing-stage .character-crop img').getAttribute('src'),
+      ).toContain('-delivery.webp');
+      const imageHeaders = await page.evaluate(async () => {
+        const img = document.querySelector<HTMLImageElement>('.landing-stage .character-crop img')!;
+        return (await fetch(img.src)).headers.get('content-type');
+      });
+      expect(imageHeaders).toBe('image/webp');
       await page.getByRole('button', { name: /开始第 1 关/ }).click();
       await expect(page.getByTestId('onboarding')).toHaveAttribute(
         'data-guide-step',
@@ -134,73 +142,74 @@ test('packaged EXE: offline seven stages, sandbox, restart restores exact saved 
   }
 });
 
-test('0.1.0 to current EXE: same profile and old exported JSON retain paid ledger, RNG and quote draft', async ({
-  browserName: _browserName,
-}, info) => {
-  const profile = info.outputPath('upgrade-profile');
-  const exported = info.outputPath('legacy-export.json');
-  let instance = await launch(profile, legacyExe);
-  try {
-    expect(await instance.app.evaluate(({ app }) => app.getVersion())).toBe('0.1.0');
-    const before = await createLegacyProgress(instance.page);
-    await instance.app.evaluate(({ session }, destination) => {
-      session.defaultSession.on('will-download', (_event, item) => item.setSavePath(destination));
-    }, exported);
-    await instance.page.getByRole('link', { name: '存档与恢复', exact: true }).click();
-    await instance.page.getByRole('button', { name: '导出当前进度', exact: true }).click();
-    await expect
-      .poll(async () => {
-        try {
-          return JSON.parse(await readFile(exported, 'utf8')).payload.session;
-        } catch {
-          return null;
-        }
-      })
-      .toEqual(before.session);
-    await instance.app.close();
-    instance = await launch(profile);
-    expect(await instance.app.evaluate(({ app }) => app.getVersion())).toBe(nativeVersion);
-    await assertLegacyProgress(instance.page, before);
-    await instance.page.getByLabel('界面动效', { exact: true }).selectOption('off');
-    await instance.page.reload();
-    expect(await saved(instance.page)).toEqual(before.session);
-    await instance.page.screenshot({
-      path: resolve(releaseRoot, 'windows-upgrade.png'),
-      fullPage: true,
-    });
-    await instance.app.close();
-    instance = await launch(profile);
-    await expect(instance.page.getByLabel('界面动效', { exact: true })).toHaveValue('off');
-    await instance.page.getByRole('button', { name: /继续本地进度/ }).click();
-    expect(await saved(instance.page)).toEqual(before.session);
-    await instance.app.close();
-    instance = await launch(info.outputPath('legacy-import-profile'));
-    await instance.page.getByRole('link', { name: '存档与恢复', exact: true }).click();
-    await instance.page.getByLabel(/选择 JSON 存档/).setInputFiles(exported);
-    await instance.page.getByRole('button', { name: '确认载入此存档', exact: true }).click();
-    expect(await saved(instance.page)).toEqual(before.session);
-    await expect(instance.page.getByLabel('每件预计退税（CNY/件）', { exact: true })).toHaveValue(
-      '2.23',
-    );
-    await writeFile(
-      resolve(releaseRoot, 'WINDOWS_UPGRADE.json'),
-      JSON.stringify(
-        {
-          from: '0.1.0',
-          to: nativeVersion,
-          sameProfileEqual: true,
-          restartEqual: true,
-          legacyImportEqual: true,
-          session: before.session,
-        },
-        null,
-        2,
-      ),
-    );
-  } finally {
-    await instance.app.close();
-  }
-});
+for (const legacy of legacyReleases)
+  test(`${legacy.version} to current EXE: same profile and old exported JSON retain paid ledger, RNG and quote draft`, async ({
+    browserName: _browserName,
+  }, info) => {
+    const profile = info.outputPath('upgrade-profile');
+    const exported = info.outputPath('legacy-export.json');
+    let instance = await launch(profile, legacy.exe);
+    try {
+      expect(await instance.app.evaluate(({ app }) => app.getVersion())).toBe(legacy.version);
+      const before = await createLegacyProgress(instance.page);
+      await instance.app.evaluate(({ session }, destination) => {
+        session.defaultSession.on('will-download', (_event, item) => item.setSavePath(destination));
+      }, exported);
+      await instance.page.getByRole('link', { name: '存档与恢复', exact: true }).click();
+      await instance.page.getByRole('button', { name: '导出当前进度', exact: true }).click();
+      await expect
+        .poll(async () => {
+          try {
+            return JSON.parse(await readFile(exported, 'utf8')).payload.session;
+          } catch {
+            return null;
+          }
+        })
+        .toEqual(before.session);
+      await instance.app.close();
+      instance = await launch(profile);
+      expect(await instance.app.evaluate(({ app }) => app.getVersion())).toBe(nativeVersion);
+      await assertLegacyProgress(instance.page, before);
+      await instance.page.getByLabel('界面动效', { exact: true }).selectOption('off');
+      await instance.page.reload();
+      expect(await saved(instance.page)).toEqual(before.session);
+      await instance.page.screenshot({
+        path: resolve(releaseRoot, `windows-upgrade-${legacy.version}.png`),
+        fullPage: true,
+      });
+      await instance.app.close();
+      instance = await launch(profile);
+      await expect(instance.page.getByLabel('界面动效', { exact: true })).toHaveValue('off');
+      await instance.page.getByRole('button', { name: /继续本地进度/ }).click();
+      expect(await saved(instance.page)).toEqual(before.session);
+      await instance.app.close();
+      instance = await launch(info.outputPath('legacy-import-profile'));
+      await instance.page.getByRole('link', { name: '存档与恢复', exact: true }).click();
+      await instance.page.getByLabel(/选择 JSON 存档/).setInputFiles(exported);
+      await instance.page.getByRole('button', { name: '确认载入此存档', exact: true }).click();
+      expect(await saved(instance.page)).toEqual(before.session);
+      await expect(instance.page.getByLabel('每件预计退税（CNY/件）', { exact: true })).toHaveValue(
+        '2.23',
+      );
+      await writeFile(
+        resolve(releaseRoot, `WINDOWS_UPGRADE_${legacy.version}.json`),
+        JSON.stringify(
+          {
+            from: legacy.version,
+            to: nativeVersion,
+            sameProfileEqual: true,
+            restartEqual: true,
+            legacyImportEqual: true,
+            session: before.session,
+          },
+          null,
+          2,
+        ),
+      );
+    } finally {
+      await instance.app.close();
+    }
+  });
 
 test('packaged EXE: export JSON, import it in a fresh profile, preserve quote draft', async ({
   browserName: _browserName,

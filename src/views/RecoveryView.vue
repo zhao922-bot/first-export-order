@@ -21,7 +21,7 @@ async function exportCurrent() {
   if (exporting.value) return;
   exporting.value = true;
   try {
-    notice.value = await exportJson(game.exportCurrent(), '出海第一单-本地存档.json');
+    notice.value = await exportJson(await game.exportCurrent(), '出海第一单-本地存档.json');
   } catch (cause) {
     notice.value = saveMessage(cause);
   } finally {
@@ -60,14 +60,14 @@ async function importFile(event: Event) {
     input.value = '';
   }
 }
-function restore(value: SavedGame) {
+async function restore(value: SavedGame) {
   if (game.storageConflict) {
     notice.value = '请先导出本页进度并载入最新版本，再决定是否导入其他存档。';
     return;
   }
   if (game.session && !window.confirm('载入会替换当前进度。确定继续？')) return;
   try {
-    game.restoreGame(value);
+    await game.restoreGame(value);
     pending.value = null;
     notice.value = '已载入；保存状态以顶部提示为准。';
     void router.push(game.resumeRoute);
@@ -75,11 +75,11 @@ function restore(value: SavedGame) {
     notice.value = saveMessage(cause);
   }
 }
-function saveManual() {
+async function saveManual() {
   if ((slot.value.game || slot.value.problem) && !window.confirm('此手动槽已有记录，确定覆盖？'))
     return;
   try {
-    game.saveSlot(selected.value, slot.value.head);
+    await game.saveSlot(selected.value, slot.value.head);
     notice.value = '手动存档已保存。';
     refresh.value++;
   } catch (cause) {
@@ -87,23 +87,23 @@ function saveManual() {
     refresh.value++;
   }
 }
-function recoverManual() {
+async function recoverManual() {
   if (!slot.value.backup) return;
   try {
-    game.recoverSlot(selected.value, slot.value.head, slot.value.backup);
+    await game.recoverSlot(selected.value, slot.value.head, slot.value.backup);
     refresh.value++;
     notice.value = '手动槽已恢复上一有效版本，可选择载入。';
   } catch (cause) {
     notice.value = saveMessage(cause);
   }
 }
-function reload() {
+async function reload() {
   if (
     game.session &&
     !window.confirm('载入浏览器最新存档会替换当前页面的进度。若有未保存修改，请先导出。确定继续？')
   )
     return;
-  game.reloadSaved();
+  await game.reloadSaved();
   refresh.value++;
   notice.value = game.session ? '已载入浏览器最新进度。' : game.storageNotice;
 }

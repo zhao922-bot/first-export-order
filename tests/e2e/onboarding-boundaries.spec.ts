@@ -6,6 +6,7 @@ test('报价定位跟随未应用参数和字段错误，收起高亮保留读�
   await page.goto('/');
   await page.getByRole('button', { name: '跳过引导', exact: true }).click();
   await page.getByRole('button', { name: '直接练习报价', exact: true }).click();
+  await expect(page.getByLabel('汇率 E', { exact: true })).toBeVisible();
   await page.getByRole('button', { name: '下一步提示', exact: true }).click();
   await page.getByLabel('汇率 E', { exact: true }).fill('7.50');
   const apply = page.getByRole('button', { name: '应用参数并清空草稿', exact: true });
@@ -30,6 +31,7 @@ test('明确跳过后不主动提醒，手动提示仍可用；刷新保留关�
   await page.goto('/');
   await page.getByRole('button', { name: '跳过引导', exact: true }).click();
   await page.getByRole('button', { name: '直接练习报价', exact: true }).click();
+  await expect(page.getByLabel('汇率 E', { exact: true })).toBeVisible();
   await page.clock.runFor(125000);
   await expect(page.getByTestId('onboarding-idle')).toHaveCount(0);
   await page.getByRole('button', { name: '下一步提示', exact: true }).click();

@@ -1,17 +1,25 @@
 import { expect, type Page } from '@playwright/test';
 import { handleAutoEvents, installSeed, shippingSeed } from './event-helpers';
+import { waitForSave } from './save-helpers';
 
 export const next = async (page: Page) => {
   await page.getByRole('button', { name: /查看下一步/ }).click();
+  await waitForSave(page);
   await handleAutoEvents(page);
 };
-export const review = (page: Page) => page.getByRole('button', { name: /请林姐复盘/ }).click();
+export const review = async (page: Page) => {
+  await page.getByRole('button', { name: /请林姐复盘/ }).click();
+  await waitForSave(page);
+};
 export const continueReview = async (page: Page) => {
   await page.locator('.mentor-review button.primary').click();
+  await waitForSave(page);
   await handleAutoEvents(page);
 };
-export const choose = (page: Page, id: string) =>
-  page.locator('[data-choice-id="' + id + '"]').click();
+export const choose = async (page: Page, id: string) => {
+  await page.locator('[data-choice-id="' + id + '"]').click();
+  await waitForSave(page);
+};
 
 export async function startInquiry(
   page: Page,

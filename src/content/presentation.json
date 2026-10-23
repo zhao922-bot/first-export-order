@@ -1,5 +1,5 @@
 {
-  "version": "presentation-1",
+  "version": "presentation-5",
   "atlas": "assets/portraits/cast-v1.png",
   "actors": [
     {
@@ -9,9 +9,27 @@
       "column": 0,
       "row": 0
     },
-    { "id": "customer_a", "name": "Anna", "role": "德国连锁采购负责人", "column": 1, "row": 0 },
-    { "id": "customer_b", "name": "Khalid", "role": "中东批发商", "column": 2, "row": 0 },
-    { "id": "customer_c", "name": "Emma", "role": "澳大利亚小店店主", "column": 0, "row": 1 },
+    {
+      "id": "customer_a",
+      "name": "Anna",
+      "role": "德国连锁采购负责人",
+      "column": 1,
+      "row": 0
+    },
+    {
+      "id": "customer_b",
+      "name": "Khalid",
+      "role": "中东批发商",
+      "column": 2,
+      "row": 0
+    },
+    {
+      "id": "customer_c",
+      "name": "Emma",
+      "role": "澳大利亚小店店主",
+      "column": 0,
+      "row": 1
+    },
     {
       "id": "customer_d",
       "name": "环球急采",
@@ -19,54 +37,452 @@
       "column": 1,
       "row": 1
     },
-    { "id": "customer_e", "name": "Noah", "role": "美国品牌采购", "column": 2, "row": 1 }
+    {
+      "id": "customer_e",
+      "name": "Noah",
+      "role": "美国品牌采购",
+      "column": 2,
+      "row": 1
+    }
   ],
   "stages": [
     {
       "stage": 1,
       "title": "从样品桌出发",
       "subtitle": "选一件你愿意认真了解的产品，寻找能兑现承诺的供应商。",
-      "scene": "samples"
+      "scene": "samples",
+      "navLabel": "选品与供应商"
     },
     {
       "stage": 2,
       "title": "收件箱里的机会",
       "subtitle": "每封询盘都需要证据。先读需求，再决定如何回应。",
-      "scene": "inbox"
+      "scene": "inbox",
+      "navLabel": "询盘与客户"
     },
     {
       "stage": 3,
       "title": "把每一笔成本算清",
       "subtitle": "让数字有出处，也让报价留出合理空间。",
-      "scene": "quote"
+      "scene": "quote",
+      "navLabel": "报价工作台"
     },
     {
       "stage": 4,
       "title": "坐下来，谈一份好合同",
       "subtitle": "价格、付款与交付条件，需要放在一起考虑。",
-      "scene": "meeting"
+      "scene": "meeting",
+      "navLabel": "谈判与签约"
     },
     {
       "stage": 5,
       "title": "去仓库，看真实的货",
       "subtitle": "从 PI 到到账凭证，再到验货记录，一项一项核对。",
-      "scene": "warehouse"
+      "scene": "warehouse",
+      "navLabel": "PI 与备货验货"
     },
     {
       "stage": 6,
       "title": "让订单准备出海",
       "subtitle": "比较船期、运费和保险；出运状态以实际记录为准。",
-      "scene": "harbor"
+      "scene": "harbor",
+      "navLabel": "物流与出运"
     },
     {
       "stage": 7,
       "title": "最后一程，核对与收汇",
       "subtitle": "单据一致，款项核实，退税有据，才算走完这一单。",
-      "scene": "documents"
+      "scene": "documents",
+      "navLabel": "单据与收汇"
     }
   ],
   "home": {
     "title": "你的外贸故事，从这里开始",
-    "subtitle": "七个业务现场，一位陪你复盘的前辈。第一单，我们一起走。"
+    "subtitle": "七个业务现场，一位陪你复盘的前辈。第一单，我们一起走。",
+    "headline": ["先看清成本，", "再做第一单。"],
+    "intro": "从样品桌到港口，亲手完成第一笔外贸订单。林姐陪你看证据、算成本，也陪你从失误中重新出发。",
+    "eyebrow": "FIRST EXPORT ORDER / 单人外贸成长记",
+    "promise": "七个业务现场 · 随时保存 · 从零开始"
+  },
+  "mentor": {
+    "atlas": "assets/portraits/lin-expressions-v1.png",
+    "expressions": [
+      {
+        "id": "welcome",
+        "label": "欢迎",
+        "column": 0,
+        "row": 0
+      },
+      {
+        "id": "thinking",
+        "label": "思考",
+        "leftInset": 10,
+        "column": 1,
+        "row": 0
+      },
+      {
+        "id": "explaining",
+        "label": "讲解",
+        "column": 2,
+        "row": 0
+      },
+      {
+        "id": "concerned",
+        "label": "关切",
+        "column": 0,
+        "row": 1
+      },
+      {
+        "id": "encouraging",
+        "label": "鼓励",
+        "column": 1,
+        "row": 1
+      },
+      {
+        "id": "reflecting",
+        "label": "复盘",
+        "column": 2,
+        "row": 1
+      }
+    ],
+    "cues": {
+      "home": "welcome",
+      "product": "welcome",
+      "supplier": "thinking",
+      "verify": "explaining",
+      "feedback": "reflecting",
+      "review": "reflecting",
+      "finish": "encouraging",
+      "event": "explaining",
+      "rescue": "concerned",
+      "default": "explaining",
+      "reading": "thinking",
+      "checking": "explaining",
+      "correcting": "concerned",
+      "ready": "encouraging"
+    },
+    "nodeCues": {
+      "L01.product": "product",
+      "L01.finish": "finish",
+      "L01.suppliers.cup_500": "supplier",
+      "L01.verify.cup_500": "verify",
+      "L01.risk.cup_500": "rescue",
+      "L01.suppliers.tws": "supplier",
+      "L01.verify.tws": "verify",
+      "L01.risk.tws": "rescue",
+      "L01.suppliers.yoga": "supplier",
+      "L01.verify.yoga": "verify",
+      "L01.risk.yoga": "rescue",
+      "L02.finish": "ready",
+      "L03.success": "ready",
+      "L04.signed.review": "ready",
+      "L05.finish": "ready",
+      "L06.finish": "ready",
+      "L07.finish.review": "ready",
+      "L03.rebate.review": "correcting",
+      "L03.margin.review": "correcting",
+      "L03.other.review": "correcting",
+      "L04.fraud.paid.review": "correcting",
+      "L05.screenshot.review": "correcting",
+      "L06.insurance.skip": "correcting",
+      "L06.risk.review": "correcting",
+      "L07.risk.review": "correcting"
+    }
+  },
+  "interface": {
+    "menu": "旅程目录",
+    "closeMenu": "收起目录",
+    "journey": "你的第一张订单",
+    "glossary": "知识图鉴",
+    "sceneNote": "插画呈现业务现场，交易状态以记录为准。",
+    "sampleLabel": "样品档案 / SAMPLE ROOM",
+    "sampleSteps": ["认识产品", "比较供应商", "核验证据"],
+    "sampleNotes": [
+      "先看产品特点，再选一件深入了解。",
+      "比较价格、起订量、交期与现有凭证。",
+      "核验用于补充证据，费用与结果以记录为准。"
+    ]
+  },
+  "customers": {
+    "atlas": "assets/portraits/cast-thinking-v1.png",
+    "label": "认真思考"
+  },
+  "workspaces": [
+    {
+      "stage": 2,
+      "label": "来信档案 / CORRESPONDENCE",
+      "receiptTitle": "一封来信的处理记录",
+      "receiptNote": "客户信任反映沟通变化；身份与付款安全仍需证据。",
+      "phases": [
+        {
+          "label": "阅读线索",
+          "note": "把需求、身份与付款要求分开看，先读完再判断。",
+          "cue": "reading",
+          "customerExpression": "considering",
+          "nodeIds": [
+            "L02.inbox",
+            "L02.buyer.classify",
+            "L02.competitor.classify",
+            "L02.fraud.classify"
+          ]
+        },
+        {
+          "label": "组织回复",
+          "note": "用问题补齐信息，为敏感资料与付款承诺设好边界。",
+          "cue": "checking",
+          "customerExpression": "neutral",
+          "nodeIds": [
+            "L02.buyer.reply",
+            "L02.competitor.reply",
+            "L02.fraud.reply",
+            "L02.fraud.amend"
+          ]
+        },
+        {
+          "label": "选择对象",
+          "note": "带着已核对的采购需求，选择这次报价要服务的客户。",
+          "cue": "reading",
+          "customerExpression": "considering",
+          "nodeIds": ["L02.lead"]
+        }
+      ]
+    },
+    {
+      "stage": 3,
+      "label": "报价草稿 / QUOTATION",
+      "receiptTitle": "报价校核记录",
+      "receiptNote": "预计退税与报价利润均为测算，实际收款与退税仍待后续核验。",
+      "phases": [
+        {
+          "label": "整理成本",
+          "note": "左手是原始成本，右手是报价草稿；先确认数量与计价口径。",
+          "cue": "reading",
+          "customerExpression": "neutral",
+          "nodeIds": ["L03.main"]
+        },
+        {
+          "label": "逐项校核",
+          "note": "按退税、成本、加成率、FOB 与 CIF 顺序，把差额找到。",
+          "cue": "checking",
+          "customerExpression": "neutral",
+          "nodeIds": [
+            "L03.step.rebate",
+            "L03.step.cost",
+            "L03.step.basis",
+            "L03.step.fob",
+            "L03.step.cif",
+            "L03.final-check"
+          ]
+        },
+        {
+          "label": "准备谈判",
+          "note": "报价已完成校核，接下来还要谈妥付款和交付条件。",
+          "cue": "ready",
+          "customerExpression": "neutral",
+          "nodeIds": ["L03.handoff"]
+        }
+      ]
+    },
+    {
+      "stage": 4,
+      "label": "洽谈室 / NEGOTIATION",
+      "receiptTitle": "条款协商记录",
+      "receiptNote": "议价或签约本身不代表到账。价格、信用与交期要一起核对。",
+      "phases": [
+        {
+          "label": "价格与数量",
+          "note": "让每次让步都有条件，看看数量与成本能否支持报价。",
+          "cue": "reading",
+          "customerExpression": "considering",
+          "nodeIds": ["L04.price"]
+        },
+        {
+          "label": "付款与交付",
+          "note": "比较付款保障与资金占用，再明确术语和命名地点。",
+          "cue": "checking",
+          "customerExpression": "considering",
+          "nodeIds": ["L04.payment", "L04.lc.soft", "L04.terms"]
+        },
+        {
+          "label": "确认合同",
+          "note": "逐项确认交易对象和合同条款，签约事实以记录为准。",
+          "cue": "checking",
+          "customerExpression": "neutral",
+          "nodeIds": [
+            "L04.counterparty",
+            "L04.fraud.recover",
+            "L04.confirm",
+            "L04.complete",
+            "L04.cancelled",
+            "L04.done"
+          ]
+        }
+      ]
+    },
+    {
+      "stage": 5,
+      "label": "验货工作室 / QUALITY ROOM",
+      "receiptTitle": "资金与验货记录",
+      "receiptNote": "资金保障、供应商付款、验收是不同事实；以凭证和本次记录为准。",
+      "phases": [
+        {
+          "label": "PI 与资金",
+          "note": "核对已签条件，分清付款截图、银行到账与信用证保障。",
+          "cue": "reading",
+          "customerExpression": "neutral",
+          "nodeIds": ["L05.pi", "L05.funding"]
+        },
+        {
+          "label": "采购与备货",
+          "note": "先确认开工条件，再核对供应商收款与生产进度。",
+          "cue": "checking",
+          "customerExpression": "neutral",
+          "nodeIds": ["L05.supplier", "L05.production"]
+        },
+        {
+          "label": "验货与处置",
+          "note": "打开证据，标出异常；处理后依据新版记录再验一次。",
+          "cue": "checking",
+          "customerExpression": "neutral",
+          "nodeIds": [
+            "L05.inspection",
+            "L05.disposition",
+            "L05.balance",
+            "L05.complete",
+            "L05.cancelled",
+            "L05.done"
+          ]
+        }
+      ]
+    },
+    {
+      "stage": 6,
+      "label": "港口调度室 / SHIPPING",
+      "receiptTitle": "物流执行记录",
+      "receiptNote": "订舱、实际出运、约定交付各有条件；插画中的船不代表货物已装船。",
+      "phases": [
+        {
+          "label": "比较运输",
+          "note": "把班期、运费、保险和合同责任放在同一张计划上。",
+          "cue": "reading",
+          "customerExpression": "neutral",
+          "nodeIds": ["L06.plan", "L06.insurance"]
+        },
+        {
+          "label": "核对与订舱",
+          "note": "先校正申报字段，再确认本方运费和保险支出。",
+          "cue": "checking",
+          "customerExpression": "neutral",
+          "nodeIds": ["L06.declaration", "L06.gate"]
+        },
+        {
+          "label": "执行与交付",
+          "note": "沿着实际反馈处理延误与异常，再核对交付时间。",
+          "cue": "checking",
+          "customerExpression": "neutral",
+          "nodeIds": [
+            "L06.dispatch",
+            "L06.risk",
+            "L06.delivery",
+            "L06.complete",
+            "L06.held",
+            "L06.done"
+          ]
+        }
+      ]
+    },
+    {
+      "stage": 7,
+      "label": "单证室 / DOCUMENTS & PAYMENT",
+      "receiptTitle": "单据与收汇记录",
+      "receiptNote": "应收、到账、已确认利润分别记录；退税核验通过后仍需办理到账。",
+      "phases": [
+        {
+          "label": "校核单据",
+          "note": "把草稿逐项对照真实装船与合同记录，找到差异再修正。",
+          "cue": "reading",
+          "customerExpression": "neutral",
+          "nodeIds": ["L07.source", "L07.documents", "L07.documents.gate"]
+        },
+        {
+          "label": "按约收款",
+          "note": "T/T 看到账，L/C 看审单，OA 看账期与回款证据。",
+          "cue": "checking",
+          "customerExpression": "neutral",
+          "nodeIds": ["L07.payment", "L07.tt", "L07.risk.gate", "L07.lc", "L07.oa", "L07.balance"]
+        },
+        {
+          "label": "退税与收尾",
+          "note": "逐项核对退税资料，再区分应收确认与真实到账。",
+          "cue": "checking",
+          "customerExpression": "neutral",
+          "nodeIds": ["L07.tax", "L07.tax.gate", "L07.complete"]
+        }
+      ]
+    }
+  ],
+  "receipt": {
+    "label": "操作回执 / DECISION RECORD",
+    "cash": "现金变化",
+    "profit": "已确认利润变化",
+    "time": "本次用时",
+    "days": "天",
+    "reputation": "信誉变化",
+    "trust": "信任变化",
+    "state": "当前订单",
+    "zeroCash": "本次现金未变动",
+    "eventTitle": "经营事件处理记录",
+    "eventNote": "按已记录的实际后果更新；返回业务后继续处理原事项。",
+    "orderStates": {
+      "draft": "草稿 · 尚未签约",
+      "negotiating": "谈判中",
+      "contracted": "已签约 · 待履约",
+      "producing": "生产备货中",
+      "ready": "备货就绪",
+      "delivered": "约定交付已完成",
+      "shipped": "已出运",
+      "collected": "收款处理已结束",
+      "cancelled": "交易已停止"
+    }
+  },
+  "optimizedAtlases": [
+    {
+      "source": "assets/portraits/cast-v1.png",
+      "webp": "assets/portraits/cast-v1.webp",
+      "delivery": "assets/portraits/cast-v1-delivery.webp"
+    },
+    {
+      "source": "assets/portraits/lin-expressions-v1.png",
+      "webp": "assets/portraits/lin-expressions-v1.webp",
+      "delivery": "assets/portraits/lin-expressions-v1-delivery.webp"
+    },
+    {
+      "source": "assets/portraits/cast-thinking-v1.png",
+      "webp": "assets/portraits/cast-thinking-v1.webp",
+      "delivery": "assets/portraits/cast-thinking-v1-delivery.webp"
+    }
+  ],
+  "experience": {
+    "task": "去处理当前任务",
+    "feedback": "查看操作结果",
+    "review": "去看林姐复盘",
+    "archive": "资金、交期与业务记录",
+    "archiveNote": "展开查看完整记录；此处只读，不会再次执行业务。",
+    "inspection": "点选验货项目，阅读证据后再判断",
+    "inspectPoint": "定位检查项目",
+    "unread": "待查看",
+    "read": "已阅读",
+    "source": "对照已确认源记录",
+    "ledger": "本次现金记录",
+    "cashIn": "现金增加",
+    "cashOut": "现金减少",
+    "cashUnchanged": "现金未变动",
+    "loading": "正在打开工作台…",
+    "loadFailed": "页面资源暂时未加载成功",
+    "loadRecovery": "请检查网络后重新加载。已经保存的进度会保留。",
+    "reload": "重新加载页面",
+    "oaPending": "OA 到期日待核验实际装船日期后确定。",
+    "oaDue": "OA 到期：第 {day} 天。",
+    "saving": "正在保存本页修改"
   }
 }

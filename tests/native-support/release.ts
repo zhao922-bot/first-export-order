@@ -12,5 +12,11 @@ export const currentApk = resolve(
   releaseRoot,
   `android/FirstExportOrder-${nativeVersion}-android-test.apk`,
 );
-export const legacyExe = resolve('outputs/native/windows/win-unpacked/FirstExportOrder.exe');
-export const legacyApk = resolve('outputs/native/android/FirstExportOrder-0.1.0-android-test.apk');
+export const legacyReleases = ['0.1.0', '0.2.0'].map((version) => {
+  const root = version === '0.1.0' ? 'outputs/native' : `outputs/native-${version}`;
+  return {
+    version,
+    exe: resolve(root, 'windows/win-unpacked/FirstExportOrder.exe'),
+    apk: resolve(root, `android/FirstExportOrder-${version}-android-test.apk`),
+  };
+});

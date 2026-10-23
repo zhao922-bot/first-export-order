@@ -1,0 +1,305 @@
+/* Visual feedback never schedules or dispatches a business action. */
+.task-shortcut {
+  display: none;
+}
+.current-task {
+  min-width: 0;
+  scroll-margin-top: 82px;
+}
+.current-task > * + * {
+  margin-top: 22px;
+}
+.current-task:focus {
+  outline: 2px solid #829679;
+  outline-offset: 6px;
+  border-radius: 12px;
+}
+.task-context {
+  border-left: 3px solid #a7b395;
+  font-size: 0.85rem;
+  background: #f6f4e9;
+}
+.task-context p {
+  margin: 8px 0;
+}
+.context-archive summary {
+  min-height: 44px;
+  cursor: pointer;
+  display: list-item;
+  align-content: center;
+  font-weight: 600;
+  color: #35533d;
+}
+.context-archive > .panel {
+  box-shadow: none;
+  margin-top: 16px;
+}
+.mail-message {
+  position: relative;
+  padding-top: 26px;
+}
+.mail-message > .eyebrow {
+  padding-right: 50px;
+}
+.mail-open-icon {
+  position: absolute;
+  right: 24px;
+  top: 26px;
+  width: 34px;
+  height: 25px;
+  border: 1.5px solid #8d9d83;
+  border-radius: 3px;
+  background: #e9e7d1;
+}
+.mail-open-icon::before {
+  content: '';
+  position: absolute;
+  width: 23px;
+  height: 23px;
+  left: 4px;
+  top: -12px;
+  border-left: 1px solid #8d9d83;
+  border-top: 1px solid #8d9d83;
+  transform: rotate(45deg);
+  background: #f5f1df;
+  z-index: -1;
+}
+.mail-open-icon span {
+  position: absolute;
+  left: 5px;
+  right: 5px;
+  top: -5px;
+  height: 17px;
+  border-top: 3px double #a2ad90;
+  background: #fffdf4;
+  animation: letter-reveal 0.4s ease-out;
+}
+@keyframes letter-reveal {
+  from {
+    transform: translateY(7px);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+.inspection-map {
+  position: relative;
+  overflow: hidden;
+  padding: 22px;
+  border: 1px solid #d4dccb;
+  background: linear-gradient(125deg, #f4f0de, #e8eedd);
+  border-radius: 16px;
+  margin-bottom: 22px;
+}
+.inspection-map > p {
+  position: relative;
+  margin: 0 70px 20px 0;
+  color: #395442;
+  font-size: 0.9rem;
+}
+.inspection-crate {
+  position: absolute;
+  right: 22px;
+  top: 18px;
+  width: 52px;
+  height: 39px;
+  transform: rotate(-8deg);
+  background: #d6b28a;
+  border: 1px solid #a98b6b;
+  border-radius: 4px;
+  box-shadow: 4px 6px 0 #78886318;
+}
+.inspection-crate::before {
+  content: '';
+  position: absolute;
+  left: 20px;
+  width: 12px;
+  height: 100%;
+  background: #efe1bd;
+}
+.inspection-crate svg {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  right: 4px;
+  bottom: 1px;
+  color: #496347;
+}
+.inspection-points {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+}
+.inspection-points button {
+  min-height: 65px;
+  padding: 12px 8px;
+  background: #fffdf4;
+  color: #40533d;
+  border: 1px solid #ced5bf;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-align: left;
+}
+.inspection-points b {
+  display: grid;
+  place-items: center;
+  flex: 0 0 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #eeead9;
+}
+.inspection-points small {
+  display: block;
+  font-size: 0.65rem;
+  color: #69765c;
+  margin-top: 4px;
+}
+.inspection-points [data-viewed='true'] {
+  border-color: #789575;
+  background: #edf2e4;
+}
+.inspection-points [data-viewed='true'] b {
+  background: #45664d;
+  color: white;
+}
+.evidence-card {
+  scroll-margin-top: 82px;
+}
+.evidence-card:focus {
+  outline: 2px solid #718c64;
+  outline-offset: 3px;
+}
+.document-field.is-marked {
+  border-left: 3px solid #aa7652;
+  background: #faf3e6;
+  padding-left: 14px;
+}
+.is-marked .document-value {
+  text-decoration: underline wavy #b78261;
+  text-underline-offset: 6px;
+}
+.inline-source {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  border-left: 2px solid #829675;
+  padding-left: 10px;
+  overflow-wrap: anywhere;
+}
+.inline-source small {
+  color: #6a765e;
+}
+.inline-source strong {
+  font-weight: 500;
+}
+.ledger-entry {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  color: #6a735e;
+  font-size: 0.65rem;
+  margin: 16px 0 0;
+}
+.ledger-entry strong {
+  display: block;
+  color: #36523e;
+  font-size: 0.8rem;
+  margin-top: 3px;
+}
+.ledger-arrow {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #c6cfb7;
+  font-size: 1.3rem;
+  background: #e9eedf;
+}
+.ledger-entry:not([data-ledger-direction='none']) .ledger-arrow {
+  animation: ledger-post 0.35s ease-out;
+}
+.ledger-entry[data-ledger-direction='out'] .ledger-arrow {
+  background: #f2e8d7;
+  color: #986a43;
+}
+@keyframes ledger-post {
+  from {
+    transform: translateX(-8px);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+.route-notice {
+  position: fixed;
+  z-index: 1000;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(92vw, 480px);
+  padding: 16px 20px;
+  border: 1px solid #a7b395;
+  border-radius: 14px;
+  background: #fffdf4;
+  color: #35533d;
+  box-shadow: 0 8px 24px #25352b25;
+  font-size: 0.9rem;
+}
+.route-error p {
+  line-height: 1.6;
+}
+@media (max-width: 800px) {
+  .task-shortcut {
+    display: flex;
+    position: sticky;
+    top: 8px;
+    z-index: 20;
+    gap: 8px;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 10px;
+    margin: 10px 0 16px;
+    border: 1px solid #ced5bf;
+    border-radius: 12px;
+    background: #fffdf7;
+    box-shadow: 0 5px 12px #35533d12;
+  }
+  .task-shortcut > span {
+    font-size: 0.7rem;
+    line-height: 1.5;
+    min-width: 0;
+  }
+  .task-shortcut button {
+    flex-shrink: 0;
+    font-size: 0.72rem;
+    min-height: 44px;
+    padding: 10px 12px;
+  }
+  .current-task > * + * {
+    margin-top: 18px;
+  }
+  .context-archive {
+    padding: 12px 14px;
+  }
+  .context-archive > .panel {
+    padding: 14px 10px;
+  }
+  .inspection-map {
+    padding: 18px 14px;
+  }
+  .inspection-points {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .inspection-points button:last-child {
+    grid-column: 1 / -1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mail-open-icon span,
+  .ledger-arrow {
+    animation: none !important;
+  }
+}

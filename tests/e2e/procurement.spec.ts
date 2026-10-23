@@ -105,7 +105,7 @@ test('L/C：第 4 关遗留软条款必须修改再核验，开工没有客户�
   await start(page, { payment: 'lc', term: 'cif' });
   await acceptPi(page);
   await funding(page);
-  await expect(page.getByRole('region', { name: '备货资金与交期' })).toContainText(
+  await expect(page.getByRole('complementary', { name: '当前业务条件' })).toContainText(
     '核验失败：仍保留',
   );
   await expect(page.locator('[data-choice-id="supplier_deposit"]')).toBeDisabled();
@@ -148,7 +148,7 @@ test('D 的截图和账户不匹配：第 5 关核验失败，禁止供应商付
   await start(page, { fraud: true });
   await acceptPi(page);
   await funding(page);
-  await expect(page.getByRole('region', { name: '备货资金与交期' })).toContainText(
+  await expect(page.getByRole('complementary', { name: '当前业务条件' })).toContainText(
     '核验失败：身份与银行记录不能确认',
   );
   await expect(page.locator('[data-choice-id="supplier_deposit"]')).toBeDisabled();

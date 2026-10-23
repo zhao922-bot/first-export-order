@@ -1,0 +1,32 @@
+[
+  {
+    "source": "cast-v1.png",
+    "webp": "cast-v1.webp",
+    "width": 1536,
+    "height": 1024,
+    "rgbaSha256": "0b111cc30e540668d856c95c7291e419fd8e2b1f2d9ce60e55da324169ec4e6a",
+    "pngBytes": 2273412,
+    "webpBytes": 1484788,
+    "webpSha256": "f13f8b0c6fb23db4203123f04bbf05bd709f1cf68b6ab0a57332c4046d033f09"
+  },
+  {
+    "source": "lin-expressions-v1.png",
+    "webp": "lin-expressions-v1.webp",
+    "width": 1536,
+    "height": 1024,
+    "rgbaSha256": "590e70adc2274129fa039f023379c7a2f3fe711e0a89e586f3fdaa1e5a3a0d0e",
+    "pngBytes": 2264473,
+    "webpBytes": 1454794,
+    "webpSha256": "0a463d54bbea40cd705619d4703bc333aac0f291f6b5cfc776a64cfd3edd10cc"
+  },
+  {
+    "source": "cast-thinking-v1.png",
+    "webp": "cast-thinking-v1.webp",
+    "width": 1536,
+    "height": 1024,
+    "rgbaSha256": "d4cf7db25989918869ba8ca22bb885867fe8caa03532534260f4833a9d1a2ca4",
+    "pngBytes": 2330568,
+    "webpBytes": 1531902,
+    "webpSha256": "e6ee4ffdc49be2aa10c5ec7e9b890c615b99a8644b1a0a2bdcefe22e6623a3fb"
+  }
+]

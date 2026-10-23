@@ -40,7 +40,10 @@ export function createLocalSink(options: {
     raw: string | null = null,
     notice = '',
     blocked = false,
-    conflict = false;
+    conflict = false,
+    dirty = false,
+    visible = false;
+  const timeDeltas = new Map<string, Record<string, number>>();
   let current: SliceSession | null = null,
     run: PlaytestRun | undefined,
     serial = 0,
@@ -57,6 +60,7 @@ export function createLocalSink(options: {
     notice = '试玩记录无法读取，已保留原数据；本页可继续试玩并导出新记录。';
   }
   function persist() {
+    if (!dirty) return;
     while (data.events.length > 2000 || size(data) > maxTelemetryBytes) {
       if (!data.events.length) {
         data.capacityReached = true;
@@ -80,6 +84,8 @@ export function createLocalSink(options: {
       const next = JSON.stringify(data);
       options.storage().setItem(telemetryKey, next);
       raw = next;
+      dirty = false;
+      timeDeltas.clear();
     } catch {
       blocked = true;
       notice = '试玩记录暂时无法保存；可导出本页记录，游戏操作不受影响。';
@@ -92,6 +98,10 @@ export function createLocalSink(options: {
     run.stageMs[stage] = (run.stageMs[stage] ?? 0) + ms;
     if (nodeShown) visibleMs += ms;
     run.lastSeen = now();
+    dirty = true;
+    const delta = timeDeltas.get(run.runId) ?? {};
+    delta[stage] = (delta[stage] ?? 0) + ms;
+    timeDeltas.set(run.runId, delta);
   }
   function flush() {
     addTime(clock.tick());
@@ -101,6 +111,7 @@ export function createLocalSink(options: {
     if (conflict || !run || !current) return;
     run.counts[eventName] = (run.counts[eventName] ?? 0) + 1;
     run.lastSeen = now();
+    dirty = true;
     data.events.push({
       eventId: options.sessionId + '.' + ++serial,
       runId: run.runId,
@@ -132,6 +143,7 @@ export function createLocalSink(options: {
     if (!run) {
       if (data.runs.length >= 40) {
         data.capacityReached = true;
+        dirty = true;
         persist();
         notice = '已达 40 局汇总上限，新局未纳入统计；请导出并清理试玩记录。';
         return;
@@ -205,6 +217,9 @@ export function createLocalSink(options: {
     current = after;
     if (changed) visibleMs = 0;
     if (run.pre.status === 'pending') skip('pre');
+    // Draft edits carry no business event. Accrued active time is batched by the
+    // existing timer/blur/export, not serialized once per key.
+    if (['draft', 'correctDocument', 'editDeclaration'].includes(type)) return;
     const stage = before.snapshot.story.stage;
     if (stage !== after.snapshot.story.stage) {
       if (!run.completed.includes(stage)) {
@@ -313,6 +328,36 @@ export function createLocalSink(options: {
     return true;
   }
   return {
+    /** Call under the same cross-tab mutex as mutations. Only unflushed time can
+     * exist between operations; merge that delta without replacing newer events. */
+    synchronize() {
+      if (blocked) return;
+      try {
+        const latest = options.storage().getItem(telemetryKey);
+        if (latest === raw) return;
+        if (latest && new TextEncoder().encode(latest).length > maxTelemetryBytes)
+          throw Error('size');
+        const next = latest ? telemetrySchema.parse(JSON.parse(latest)) : empty();
+        for (const [id, stages] of timeDeltas) {
+          const target = next.runs.find((r) => r.runId === id);
+          if (!target) continue;
+          for (const [stage, ms] of Object.entries(stages)) {
+            target.activeMs += ms;
+            target.stageMs[stage] = (target.stageMs[stage] ?? 0) + ms;
+          }
+          target.lastSeen = now();
+        }
+        data = next;
+        raw = latest;
+        run = current ? data.runs.find((r) => r.runId === current!.snapshot.runId) : undefined;
+        conflict = false;
+        dirty = timeDeltas.size > 0;
+        notice = '';
+      } catch {
+        blocked = true;
+        notice = '试玩记录无法读取，已保留原数据；本页可继续试玩并导出新记录。';
+      }
+    },
     attach,
     transition,
     answer,
@@ -337,6 +382,8 @@ export function createLocalSink(options: {
       notice = '';
       run = undefined;
       current = null;
+      dirty = false;
+      timeDeltas.clear();
     },
     restart() {
       if (!conflict && run) {
@@ -352,9 +399,13 @@ export function createLocalSink(options: {
     interact() {
       addTime(clock.interact());
     },
-    visibility(visible: boolean) {
-      addTime(clock.visibility(visible && !conflict));
-      if (!visible) record('session_suspended');
+    observeVisibility(shown: boolean) {
+      addTime(clock.visibility(shown && !conflict));
+    },
+    visibility(shown: boolean, updateClock = true) {
+      if (updateClock) addTime(clock.visibility(shown && !conflict));
+      if (visible && !shown) record('session_suspended');
+      visible = shown;
       persist();
     },
     failure(errorCode: string, revision: number) {

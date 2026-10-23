@@ -93,7 +93,7 @@ test('动效开关、系统偏好实时切换、刷新、键盘与完整文案�
 });
 
 test('离线素材故障与偏好写入失败保留可操作游戏和清晰说明', async ({ page }) => {
-  await page.route('**/assets/portraits/cast-v1.png', (route) => route.abort());
+  await page.route('**/assets/portraits/*', (route) => route.abort());
   await page.addInitScript(() => {
     const original = Storage.prototype.setItem;
     Storage.prototype.setItem = function (key, value) {

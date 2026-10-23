@@ -60,6 +60,11 @@ test('第 1→2→3→4→5→6→7：T/T 单据纠错、键盘保存、截图�
 });
 test('L/C + CIF：额外信用证收货人核对、银行结算与汇差', async ({ page }) => {
   await begin(page, { payment: 'lc', term: 'cif' });
+  if (
+    !(await page.locator('.context-archive').getAttribute('open')) &&
+    (await page.locator('.context-archive').evaluate((el) => !(el as HTMLDetailsElement).open))
+  )
+    await page.locator('.context-archive > summary').click();
   await expect(page.getByRole('region', { name: '收汇与退税账本' })).toContainText('CIF 保险金额');
   await documents(page);
   await correct(page);

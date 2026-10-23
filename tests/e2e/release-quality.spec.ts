@@ -136,6 +136,8 @@ test('同源双标签检测已知新提交，旧页只读并可导出原进度',
   await practice(page);
   const second = await context.newPage();
   await second.goto('/#/quote');
+  // Lazy navigation can finish after the document load event: establish the stale view first.
+  await expect(second.getByLabel(rebate, { exact: true })).toHaveValue('');
   await page.getByLabel(rebate, { exact: true }).fill('2.23');
   await expect(second.locator('.storage-banner')).toContainText('另一标签页');
   await expect(second.locator('.work-area')).toHaveAttribute('inert', '');

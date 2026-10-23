@@ -1,5 +1,6 @@
 import { describe, expect, it, vi, afterEach } from 'vitest';
 import { resolve } from 'node:path';
+import { readFileSync } from 'node:fs';
 import { assetPath, isAppPage } from '../../desktop/policy';
 import { exportJson } from '../../src/app/exportJson';
 
@@ -16,6 +17,17 @@ afterEach(() => {
 });
 
 describe('native wrapper boundary', () => {
+  it('packages matching app versions without changing the installed identity', () => {
+    const pkg = JSON.parse(readFileSync('package.json', 'utf8'));
+    const builder = JSON.parse(readFileSync('electron-builder.config.json', 'utf8'));
+    const gradle = readFileSync('android/app/build.gradle', 'utf8');
+    expect(builder.directories.output).toBe(`outputs/native-${pkg.version}/windows`);
+    expect(gradle).toContain(`versionName "${pkg.version}"`);
+    expect(gradle).toContain('applicationId "cn.firstexportorder.game"');
+    expect(Number(gradle.match(/versionCode (\d+)/)?.[1])).toBeGreaterThan(2);
+    expect(builder.appId).toBe('cn.firstexportorder.game');
+    expect(builder.win.executableName).toBe('FirstExportOrder');
+  });
   it('only serves bundled assets within the fixed app origin', () => {
     const root = resolve('dist');
     expect(assetPath('trade://app/#/quote', root)).toBe(resolve(root, 'index.html'));

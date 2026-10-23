@@ -4,11 +4,607 @@
   "properties": {
     "version": {
       "type": "string",
-      "const": "presentation-1"
+      "const": "presentation-5"
     },
     "atlas": {
       "type": "string",
       "pattern": "^assets\\/portraits\\/[a-z0-9-]+\\.png$"
+    },
+    "optimizedAtlases": {
+      "minItems": 3,
+      "maxItems": 3,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "source": {
+            "type": "string",
+            "pattern": "^assets\\/portraits\\/[a-z0-9-]+\\.png$"
+          },
+          "webp": {
+            "type": "string",
+            "pattern": "^assets\\/portraits\\/[a-z0-9-]+\\.webp$"
+          },
+          "delivery": {
+            "type": "string",
+            "pattern": "^assets\\/portraits\\/[a-z0-9-]+-delivery\\.webp$"
+          }
+        },
+        "required": [
+          "source",
+          "webp",
+          "delivery"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "experience": {
+      "type": "object",
+      "properties": {
+        "task": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "feedback": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "review": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "archive": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "archiveNote": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "inspection": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "inspectPoint": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "unread": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "read": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "source": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "ledger": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "cashIn": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "cashOut": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "cashUnchanged": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "loading": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "loadFailed": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "loadRecovery": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "reload": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "saving": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "oaPending": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "oaDue": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        }
+      },
+      "required": [
+        "task",
+        "feedback",
+        "review",
+        "archive",
+        "archiveNote",
+        "inspection",
+        "inspectPoint",
+        "unread",
+        "read",
+        "source",
+        "ledger",
+        "cashIn",
+        "cashOut",
+        "cashUnchanged",
+        "loading",
+        "loadFailed",
+        "loadRecovery",
+        "reload",
+        "saving",
+        "oaPending",
+        "oaDue"
+      ],
+      "additionalProperties": false
+    },
+    "customers": {
+      "type": "object",
+      "properties": {
+        "atlas": {
+          "type": "string",
+          "pattern": "^assets\\/portraits\\/[a-z0-9-]+\\.png$"
+        },
+        "label": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        }
+      },
+      "required": [
+        "atlas",
+        "label"
+      ],
+      "additionalProperties": false
+    },
+    "workspaces": {
+      "minItems": 6,
+      "maxItems": 6,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "stage": {
+            "type": "integer",
+            "minimum": 2,
+            "maximum": 7
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160
+          },
+          "receiptTitle": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160
+          },
+          "receiptNote": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160
+          },
+          "phases": {
+            "minItems": 3,
+            "maxItems": 3,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "label": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 160
+                },
+                "note": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 160
+                },
+                "cue": {
+                  "type": "string",
+                  "enum": [
+                    "home",
+                    "product",
+                    "supplier",
+                    "verify",
+                    "feedback",
+                    "review",
+                    "finish",
+                    "event",
+                    "rescue",
+                    "default",
+                    "reading",
+                    "checking",
+                    "correcting",
+                    "ready"
+                  ]
+                },
+                "customerExpression": {
+                  "type": "string",
+                  "enum": [
+                    "neutral",
+                    "considering"
+                  ]
+                },
+                "nodeIds": {
+                  "minItems": 1,
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "pattern": "^L0[2-7]\\.[a-z0-9_.-]+$"
+                  }
+                }
+              },
+              "required": [
+                "label",
+                "note",
+                "cue",
+                "customerExpression",
+                "nodeIds"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "stage",
+          "label",
+          "receiptTitle",
+          "receiptNote",
+          "phases"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "receipt": {
+      "type": "object",
+      "properties": {
+        "label": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "cash": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "profit": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "time": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "days": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "reputation": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "trust": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "state": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "zeroCash": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "eventTitle": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "eventNote": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "orderStates": {
+          "type": "object",
+          "propertyNames": {
+            "type": "string",
+            "enum": [
+              "draft",
+              "negotiating",
+              "contracted",
+              "producing",
+              "ready",
+              "delivered",
+              "shipped",
+              "collected",
+              "cancelled"
+            ]
+          },
+          "additionalProperties": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160
+          },
+          "required": [
+            "draft",
+            "negotiating",
+            "contracted",
+            "producing",
+            "ready",
+            "delivered",
+            "shipped",
+            "collected",
+            "cancelled"
+          ]
+        }
+      },
+      "required": [
+        "label",
+        "cash",
+        "profit",
+        "time",
+        "days",
+        "reputation",
+        "trust",
+        "state",
+        "zeroCash",
+        "eventTitle",
+        "eventNote",
+        "orderStates"
+      ],
+      "additionalProperties": false
+    },
+    "mentor": {
+      "type": "object",
+      "properties": {
+        "atlas": {
+          "type": "string",
+          "pattern": "^assets\\/portraits\\/[a-z0-9-]+\\.png$"
+        },
+        "expressions": {
+          "minItems": 6,
+          "maxItems": 6,
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "enum": [
+                  "welcome",
+                  "thinking",
+                  "explaining",
+                  "concerned",
+                  "encouraging",
+                  "reflecting"
+                ]
+              },
+              "label": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 160
+              },
+              "leftInset": {
+                "default": 0,
+                "type": "number",
+                "minimum": 0,
+                "maximum": 20
+              },
+              "column": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 2
+              },
+              "row": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1
+              }
+            },
+            "required": [
+              "id",
+              "label",
+              "leftInset",
+              "column",
+              "row"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "cues": {
+          "type": "object",
+          "propertyNames": {
+            "type": "string",
+            "enum": [
+              "home",
+              "product",
+              "supplier",
+              "verify",
+              "feedback",
+              "review",
+              "finish",
+              "event",
+              "rescue",
+              "default",
+              "reading",
+              "checking",
+              "correcting",
+              "ready"
+            ]
+          },
+          "additionalProperties": {
+            "type": "string",
+            "enum": [
+              "welcome",
+              "thinking",
+              "explaining",
+              "concerned",
+              "encouraging",
+              "reflecting"
+            ]
+          },
+          "required": [
+            "home",
+            "product",
+            "supplier",
+            "verify",
+            "feedback",
+            "review",
+            "finish",
+            "event",
+            "rescue",
+            "default",
+            "reading",
+            "checking",
+            "correcting",
+            "ready"
+          ]
+        },
+        "nodeCues": {
+          "type": "object",
+          "propertyNames": {
+            "type": "string",
+            "pattern": "^L0[1-7]\\.[a-z0-9_.]+$"
+          },
+          "additionalProperties": {
+            "type": "string",
+            "enum": [
+              "home",
+              "product",
+              "supplier",
+              "verify",
+              "feedback",
+              "review",
+              "finish",
+              "event",
+              "rescue",
+              "default",
+              "reading",
+              "checking",
+              "correcting",
+              "ready"
+            ]
+          }
+        }
+      },
+      "required": [
+        "atlas",
+        "expressions",
+        "cues",
+        "nodeCues"
+      ],
+      "additionalProperties": false
+    },
+    "interface": {
+      "type": "object",
+      "properties": {
+        "menu": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "closeMenu": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "journey": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "glossary": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "sceneNote": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "sampleLabel": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "sampleSteps": {
+          "minItems": 3,
+          "maxItems": 3,
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160
+          }
+        },
+        "sampleNotes": {
+          "minItems": 3,
+          "maxItems": 3,
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160
+          }
+        }
+      },
+      "required": [
+        "menu",
+        "closeMenu",
+        "journey",
+        "glossary",
+        "sceneNote",
+        "sampleLabel",
+        "sampleSteps",
+        "sampleNotes"
+      ],
+      "additionalProperties": false
     },
     "actors": {
       "minItems": 6,
@@ -71,6 +667,11 @@
             "minimum": 1,
             "maximum": 7
           },
+          "navLabel": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160
+          },
           "title": {
             "type": "string",
             "minLength": 1,
@@ -96,6 +697,7 @@
         },
         "required": [
           "stage",
+          "navLabel",
           "title",
           "subtitle",
           "scene"
@@ -115,11 +717,40 @@
           "type": "string",
           "minLength": 1,
           "maxLength": 160
+        },
+        "headline": {
+          "minItems": 2,
+          "maxItems": 2,
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160
+          }
+        },
+        "intro": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "eyebrow": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "promise": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
         }
       },
       "required": [
         "title",
-        "subtitle"
+        "subtitle",
+        "headline",
+        "intro",
+        "eyebrow",
+        "promise"
       ],
       "additionalProperties": false
     }
@@ -127,6 +758,13 @@
   "required": [
     "version",
     "atlas",
+    "optimizedAtlases",
+    "experience",
+    "customers",
+    "workspaces",
+    "receipt",
+    "mentor",
+    "interface",
     "actors",
     "stages",
     "home"

@@ -1,0 +1,32 @@
+[
+  {
+    "source": "cast-v1.png",
+    "delivery": "cast-v1-delivery.webp",
+    "quality": 90,
+    "width": 1536,
+    "height": 1024,
+    "bytes": 248782,
+    "sha256": "0b1ca0b22d0609a6b2302c9b24cf4e1ae62da1e7eb7c209f3653b86afd1f5be9",
+    "alphaSha256": "2407ccfb47f4d9b07bf0c26c934a990b8f550fb2a6e9aa61886538b59a1109a1"
+  },
+  {
+    "source": "lin-expressions-v1.png",
+    "delivery": "lin-expressions-v1-delivery.webp",
+    "quality": 90,
+    "width": 1536,
+    "height": 1024,
+    "bytes": 248192,
+    "sha256": "b7c25a58358ec7bb072995dfc57d3821a1fb4ec841bfa39fed999aa4fad1449d",
+    "alphaSha256": "0c9c97a59dd93dd81db72276fa247c37e927d4af98f5d7f0f8a8e1c2eb9d05c7"
+  },
+  {
+    "source": "cast-thinking-v1.png",
+    "delivery": "cast-thinking-v1-delivery.webp",
+    "quality": 90,
+    "width": 1536,
+    "height": 1024,
+    "bytes": 258996,
+    "sha256": "8c991d14dabc425f66b1a0cd7fc55d0630c21d6225c6213b246c9ff057518a95",
+    "alphaSha256": "7c391f22d24b530c7757ba428becf3e2c9821409e3086312421425d9a16c3937"
+  }
+]

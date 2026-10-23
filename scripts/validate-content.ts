@@ -78,8 +78,14 @@ async function main(): Promise<void> {
   if (manifest.presentation) {
     const visuals = parsePresentation(await readJson(resolve(root, manifest.presentation)), packs);
     await readFile(resolve('public', visuals.atlas));
+    await readFile(resolve('public', visuals.mentor.atlas));
+    await readFile(resolve('public', visuals.customers.atlas));
+    for (const atlas of visuals.optimizedAtlases) {
+      await readFile(resolve('public', atlas.webp));
+      await readFile(resolve('public', atlas.delivery));
+    }
     console.log(
-      `演出配置校验通过：${visuals.actors.length} 位角色、${visuals.stages.length} 个场景，图集存在`,
+      `演出配置校验通过：${visuals.actors.length} 位角色、${visuals.stages.length} 个场景、${visuals.mentor.expressions.length} 种林姐表情，图集存在`,
     );
   }
   console.log(

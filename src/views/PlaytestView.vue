@@ -24,7 +24,10 @@ async function download() {
   if (exporting.value) return;
   exporting.value = true;
   try {
-    exportNotice.value = await exportJson(game.exportPlaytest(), 'first-export-playtest.json');
+    exportNotice.value = await exportJson(
+      await game.exportPlaytest(),
+      'first-export-playtest.json',
+    );
   } catch {
     exportNotice.value = '导出未完成，请重试。原有试玩记录仍保留。';
   } finally {

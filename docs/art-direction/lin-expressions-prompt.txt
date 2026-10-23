@@ -1,0 +1,10 @@
+Asset: public/assets/portraits/lin-expressions-v1.png
+Method: built-in imagegen, identity-preserving reference; transparent_background=true.
+Reference: public/assets/portraits/cast-v1.png, top-left character only.
+Output: 1536×1024 RGBA PNG; 3 columns × 2 rows.
+SHA256: 3b3a6f6358d36c19d00b230c20d0cff86775b5728b016cc3149676139749ac54
+Cells: welcome, thinking, explaining / concerned, encouraging, reflecting.
+The character is fictional. Facial expressions are presentation only, not evidence of customer risk or transaction success.
+
+Final prompt:
+Use case: identity-preserve. Create one production game sprite atlas, 1536x1024 pixels, exactly 3 columns x 2 rows of equal 512x512 cells, transparent alpha background. Input image is reference for character identity and rendering style only. Use ONLY the woman in its TOP LEFT cell, mentor Lin, a Chinese woman about 38, black bob hair, thin gold glasses, green blazer, cream blouse, small green pendant. Same face, age, hairstyle, outfit and painterly refined illustration style in every cell. Six waist-up portraits with FULL head, generous 30px top and side padding, each wholly inside its own equal cell, waist bottom aligned; do not overlap cells. Row 1 left: welcoming warm smile, one open hand. Row 1 center: thoughtful attentive expression, one hand near chin. Row 1 right: calmly explaining with one raised index finger, soft speaking mouth. Row 2 left: mildly concerned caring expression, eyebrows slightly knit, notebook held near chest, no anger. Row 2 center: encouraging delighted smile, small thumbs-up. Row 2 right: reassuring reflective smile, notebook open, inviting gentle gesture. Expressions must be meaningfully different while recognizably the same person. High quality expressive eyes and natural hands. Keep cream/forest-green/ochre palette consistent. True transparent background in and around all cells, no backdrop, no labels, no text, no grid lines, no watermarks. This atlas is for UI CSS cropping at precise thirds and halves.

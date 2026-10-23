@@ -90,6 +90,8 @@ for (const event of eventPack.events) {
 test('生产内容固定 UUID：实际七关含随机事件通关；同种子重开得到相同事件序列', async ({
   page,
 }, info) => {
+  // This case plays all seven stages twice, including every mentor review.
+  test.setTimeout(180000);
   enableAutoEvents(page);
   // begin() installs the default quiet seed, so keep this explicit seed as the final init script.
   await installSeed(page, 'events.full.0');

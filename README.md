@@ -4,9 +4,9 @@
 
 面向外贸新手的单人叙事经营游戏。跟随林姐完成第一笔模拟出口订单，从选品、询盘、报价、谈判，到备货、出运和收汇；每次选择都有财务后果和业务复盘。
 
-当前版本 **0.2.0 角色动画试玩版**。Vue 3 + TypeScript + Pinia + Vite，剧情、新手引导、角色演出与业务参数由 JSON 驱动，支持浏览器、Windows 和 Android 离线游玩。
+当前版本 **0.3.0 视觉精修试玩版**。Vue 3 + TypeScript + Pinia + Vite，剧情、新手引导、角色演出与业务参数由 JSON 驱动，支持浏览器、Windows 和 Android 离线游玩。
 
-[直接在线试玩](https://zhao922-bot.github.io/first-export-order/) · [下载 EXE / APK](https://github.com/zhao922-bot/first-export-order/releases/tag/v0.2.0) · [安装与旧存档升级](docs/NATIVE_PLAYTEST.md) · [版本与测试记录](docs/releases/v0.2.0.md)
+[直接在线试玩](https://zhao922-bot.github.io/first-export-order/) · [下载 EXE / APK](https://github.com/zhao922-bot/first-export-order/releases/tag/v0.3.0) · [安装与旧存档升级](docs/NATIVE_PLAYTEST.md) · [版本与测试记录](docs/releases/v0.3.0.md)
 
 ![游戏首页与林姐](docs/screenshots/home-desktop.png)
 
@@ -17,23 +17,24 @@
 - 12 个随机事件，固定种子可复现，刷新不重抽；收付款记入账本，恢复不重复扣款。
 - 四类结局、五维评分、关键决策回放、24 个知识词条和复购意向。
 - 首次进入逐步引导、示范操作、卡住提示与一次救援检查点；支持跳过和重新查看。
-- 林姐和客户立绘、七关场景与轻量动画；可关闭动效，并尊重系统减少动态偏好。
+- 林姐六种表情和客户阅读/回复姿态、七关精修场景、业务回执与轻量动画；可关闭动效，并尊重系统减少动态偏好。
+- 手机任务定位、验货阅读状态、单据对照提示；首页按需加载，输入反馈与保存解耦，跨窗口写入串行保护。
 - 自动存档、三个手动槽及 JSON 导入导出；试玩指标与知识前后测保存在本地，由玩家主动导出。
 
 游戏中的金额、费率和规则场景是可配置的教学算例。专业审校和 12 人真人试玩尚待完成，不能把自动化通过视为真实业务能力认证。当前没有云存档、联网对战或排行榜。
 
 ## 直接试玩
 
-手机或电脑打开 **https://zhao922-bot.github.io/first-export-order/**，无需安装。建议使用常用浏览器打开，同一浏览器可自动保存、刷新或关页后继续。原本地地址、EXE/APK 和在线版不共用存储；迁移旧进度请先导出 JSON，再在在线版「存档与恢复」中导入。详见 [网页版使用与部署说明](docs/GITHUB_PAGES.md)。
+本次 0.3.0 仅更新 EXE/APK 和发布分支，GitHub Pages 保持原已部署版本。手机或电脑打开 **https://zhao922-bot.github.io/first-export-order/**，无需安装。建议使用常用浏览器打开，同一浏览器可自动保存、刷新或关页后继续。原本地地址、EXE/APK 和在线版不共用存储；迁移旧进度请先导出 JSON，再在在线版「存档与恢复」中导入。详见 [网页版使用与部署说明](docs/GITHUB_PAGES.md)。
 
 在 [Releases](https://github.com/zhao922-bot/first-export-order/releases) 下载适合设备的文件：
 
 | 平台              | 文件                                      | 启动方式                   |
 | ----------------- | ----------------------------------------- | -------------------------- |
-| Windows 10/11 x64 | `FirstExportOrder-0.2.0-win-x64.exe`      | 双击运行，无需安装 Node.js |
-| Android 7.0+      | `FirstExportOrder-0.2.0-android-test.apk` | 按系统提示安装或覆盖更新   |
+| Windows 10/11 x64 | `FirstExportOrder-0.3.0-win-x64.exe`      | 双击运行，无需安装 Node.js |
+| Android 7.0+      | `FirstExportOrder-0.3.0-android-test.apk` | 按系统提示安装或覆盖更新   |
 
-EXE 尚无商业代码签名，APK 使用测试签名。Release 提供 SHA-256 清单和使用说明。更新前先导出存档；Android 请直接覆盖安装，卸载或清除数据会删除进度。已验证项目原 0.1.0 到本次 0.2.0 的存档兼容。
+EXE 尚无商业代码签名，APK 使用测试签名。Release 提供 SHA-256 清单和使用说明。更新前先导出存档；Android 请直接覆盖安装，卸载或清除数据会删除进度。升级检查覆盖本项目原 0.1.0、0.2.0 到本次 0.3.0。
 
 浏览器、EXE、APK 的存档分别保存在各端；跨平台使用游戏内 JSON 导出/导入。知识测评和试玩记录需单独导出。详情见 [原生试玩说明](docs/NATIVE_PLAYTEST.md)。
 
@@ -44,6 +45,7 @@ EXE 尚无商业代码签名，APK 使用测试签名。Release 提供 SHA-256 �
 ```sh
 git clone https://github.com/zhao922-bot/first-export-order.git
 cd first-export-order
+git checkout v0.3.0
 pnpm install --frozen-lockfile
 pnpm dev
 ```
