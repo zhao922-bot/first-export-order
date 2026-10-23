@@ -25,14 +25,14 @@
 
 ## 直接试玩
 
-本次 0.3.0 仅更新 EXE/APK 和发布分支，GitHub Pages 保持原已部署版本。手机或电脑打开 **https://zhao922-bot.github.io/first-export-order/**，无需安装。建议使用常用浏览器打开，同一浏览器可自动保存、刷新或关页后继续。原本地地址、EXE/APK 和在线版不共用存储；迁移旧进度请先导出 JSON，再在在线版「存档与恢复」中导入。详见 [网页版使用与部署说明](docs/GITHUB_PAGES.md)。
+默认 `main` 分支已同步 0.3.0 视觉精修与性能优化代码；网页版由 GitHub Pages 工作流检查通过后自动部署。手机或电脑打开 **https://zhao922-bot.github.io/first-export-order/**，无需安装。建议使用常用浏览器打开，同一浏览器可自动保存、刷新或关页后继续。原本地地址、EXE/APK 和在线版不共用存储；迁移旧进度请先导出 JSON，再在在线版「存档与恢复」中导入。详见 [网页版使用与部署说明](docs/GITHUB_PAGES.md)。
 
 在 [Releases](https://github.com/zhao922-bot/first-export-order/releases) 下载适合设备的文件：
 
-| 平台              | 文件                                      | 启动方式                   |
-| ----------------- | ----------------------------------------- | -------------------------- |
-| Windows 10/11 x64 | `FirstExportOrder-0.3.0-win-x64.exe`      | 双击运行，无需安装 Node.js |
-| Android 7.0+      | `FirstExportOrder-0.3.0-android-test.apk` | 按系统提示安装或覆盖更新   |
+| 平台              | 文件                                                                                                                                         | 启动方式                   |
+| ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------- |
+| Windows 10/11 x64 | [下载 Windows EXE 0.3.0](https://github.com/zhao922-bot/first-export-order/releases/download/v0.3.0/FirstExportOrder-0.3.0-win-x64.exe)      | 双击运行，无需安装 Node.js |
+| Android 7.0+      | [下载 Android APK 0.3.0](https://github.com/zhao922-bot/first-export-order/releases/download/v0.3.0/FirstExportOrder-0.3.0-android-test.apk) | 按系统提示安装或覆盖更新   |
 
 EXE 尚无商业代码签名，APK 使用测试签名。Release 提供 SHA-256 清单和使用说明。更新前先导出存档；Android 请直接覆盖安装，卸载或清除数据会删除进度。升级检查覆盖本项目原 0.1.0、0.2.0 到本次 0.3.0。
 
@@ -45,7 +45,6 @@ EXE 尚无商业代码签名，APK 使用测试签名。Release 提供 SHA-256 �
 ```sh
 git clone https://github.com/zhao922-bot/first-export-order.git
 cd first-export-order
-git checkout v0.3.0
 pnpm install --frozen-lockfile
 pnpm dev
 ```
@@ -85,7 +84,7 @@ pnpm package:exe
 pnpm package:apk
 ```
 
-原生回归使用 `pnpm test:native` / `pnpm test:android`，需要先构建当前包，并准备原 0.1.0 升级测试输入；历史包不在 Git 中。这两项不包含在通用 Web CI 内。Android 回归仅允许专用模拟器，详见 [环境与输入要求](docs/NATIVE_PLAYTEST.md#开发者重建)。
+原生回归使用 `pnpm test:native` / `pnpm test:android`，需要先构建当前包，并准备原 0.1.0 / 0.2.0 升级测试输入；历史包不在 Git 中。这两项不包含在通用 Web CI 内。Android 回归仅允许专用模拟器，详见 [环境与输入要求](docs/NATIVE_PLAYTEST.md#开发者重建)。
 
 生成的构建、报告、日志和试玩数据位于 `dist/`、`outputs/`、`work/` 等本地目录，不提交到仓库。重新生成后查看本地报告；不要把真人指标或存档提交到 Git。
 

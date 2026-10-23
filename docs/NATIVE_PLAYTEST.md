@@ -52,4 +52,4 @@ Android 回归：启动专用的英文 AOSP API 36 模拟器（默认序列号 `
 
 公共 Git 仓库不包含生成的二进制或历史测试输入。原生升级测试需要原项目的 `outputs/native/windows/win-unpacked/FirstExportOrder.exe`（完整目录）和 `outputs/native/android/FirstExportOrder-0.1.0-android-test.apk`；从新克隆开始时应先向维护者取得相同的历史测试输入，不能以新版冒充旧版。Web 单元测试和浏览器流程测试不依赖这些文件。
 
-0.2.0 升级输入还包括 `outputs/native-0.2.0/windows/win-unpacked/` 完整目录和 `outputs/native-0.2.0/android/FirstExportOrder-0.2.0-android-test.apk`。本轮发布源码在 `release/v0.3.0` 分支及 `v0.3.0` 标签；未更新 GitHub Pages，在线版与安装包可能显示不同版本的界面。
+0.2.0 升级输入还包括 `outputs/native-0.2.0/windows/win-unpacked/` 完整目录和 `outputs/native-0.2.0/android/FirstExportOrder-0.2.0-android-test.apk`。0.3.0 安装包对应源码固定在 `v0.3.0` 标签；`main` 已同步该版本，并继续承载后续修订。网页版由 `main` 的 GitHub Pages 工作流检查通过后自动部署，版本可通过公开站点的 `deployment.json` 核对。
