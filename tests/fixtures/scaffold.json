@@ -1,0 +1,218 @@
+{
+  "schemaVersion": 1,
+  "contentVersion": "0.0.0-scaffold",
+  "mode": "scaffold",
+  "entryNodeIds": ["sample.choice"],
+  "nodes": [
+    {
+      "id": "sample.choice",
+      "stage": 1,
+      "type": "choice",
+      "title": "结构校验示例",
+      "entryWhen": {
+        "op": "all",
+        "conditions": []
+      },
+      "onEnterEffects": [],
+      "tags": ["scaffold"],
+      "teachingOnly": true,
+      "speakerId": "sample_customer",
+      "prompt": "仅用于验证结构与引用，不执行游戏。",
+      "choices": [
+        {
+          "id": "open_calc",
+          "label": "引用计算节点",
+          "when": {
+            "op": "all",
+            "conditions": []
+          },
+          "disabledReason": null,
+          "effects": [
+            {
+              "op": "adjust",
+              "target": "player.trustByCustomer.sample_customer",
+              "value": {
+                "kind": "literal",
+                "value": 1
+              },
+              "clamp": {
+                "min": 0,
+                "max": 100
+              }
+            }
+          ],
+          "feedback": "示例结构有效。",
+          "nextNodeId": "sample.calc"
+        },
+        {
+          "id": "open_review",
+          "label": "引用复盘节点",
+          "when": {
+            "op": "all",
+            "conditions": []
+          },
+          "disabledReason": null,
+          "effects": [],
+          "feedback": "示例结构有效。",
+          "nextNodeId": "sample.review"
+        }
+      ]
+    },
+    {
+      "id": "sample.calc",
+      "stage": 1,
+      "type": "calc",
+      "title": "计算节点结构示例",
+      "entryWhen": {
+        "op": "all",
+        "conditions": []
+      },
+      "onEnterEffects": [],
+      "tags": ["scaffold"],
+      "teachingOnly": true,
+      "puzzleId": "sample_quote",
+      "evaluatorId": "quote.v1",
+      "results": [
+        {
+          "when": {
+            "op": "eq",
+            "left": {
+              "kind": "ref",
+              "scope": "result",
+              "path": "quote.correct"
+            },
+            "right": {
+              "kind": "literal",
+              "value": true
+            }
+          },
+          "effects": [],
+          "feedback": "只验证结果分支结构。",
+          "nextNodeId": "sample.review"
+        },
+        {
+          "when": {
+            "op": "all",
+            "conditions": []
+          },
+          "effects": [],
+          "feedback": "只验证兜底分支结构。",
+          "nextNodeId": "sample.retry"
+        }
+      ]
+    },
+    {
+      "id": "sample.review",
+      "stage": 1,
+      "type": "review",
+      "title": "复盘结构示例",
+      "entryWhen": {
+        "op": "all",
+        "conditions": []
+      },
+      "onEnterEffects": [],
+      "tags": ["scaffold"],
+      "teachingOnly": true,
+      "speakerId": "sample_mentor",
+      "text": "这里仅验证导师复盘的字段与长度，游戏还没有开始。",
+      "nextNodeId": "sample.end"
+    },
+    {
+      "id": "sample.retry",
+      "stage": 1,
+      "type": "review",
+      "title": "重试结构示例",
+      "entryWhen": {
+        "op": "all",
+        "conditions": []
+      },
+      "onEnterEffects": [],
+      "tags": ["scaffold"],
+      "teachingOnly": true,
+      "speakerId": "sample_mentor",
+      "text": "这是一条具有出口的示例循环，不会执行计算。",
+      "nextNodeId": "sample.calc"
+    },
+    {
+      "id": "sample.end",
+      "stage": 1,
+      "type": "settlement",
+      "title": "终止结构示例",
+      "entryWhen": {
+        "op": "all",
+        "conditions": []
+      },
+      "onEnterEffects": [],
+      "tags": ["scaffold"],
+      "teachingOnly": true,
+      "resultMode": "completed"
+    }
+  ],
+  "products": [],
+  "suppliers": [],
+  "customers": [
+    {
+      "id": "sample_customer",
+      "name": "校验客户",
+      "identity": "结构校验占位",
+      "market": "示例市场",
+      "persona": "novice",
+      "tags": ["scaffold"],
+      "initialTrust": {
+        "min": 50,
+        "max": 50
+      },
+      "bargainingStyle": "不执行谈判",
+      "exclusiveEventIds": [],
+      "preferredPayments": ["TT"],
+      "allowedPorts": [],
+      "dialogueBudget": {
+        "lines": 0,
+        "chars": 0
+      }
+    }
+  ],
+  "mentor": {
+    "id": "sample_mentor",
+    "name": "校验导师",
+    "identity": "结构校验占位",
+    "age": 38,
+    "experienceYears": 10,
+    "tags": ["scaffold"],
+    "initialTrust": null,
+    "bargainingStyle": null,
+    "exclusiveEventIds": [],
+    "dialogueBudget": {
+      "lines": 2,
+      "chars": 100
+    }
+  },
+  "parameters": {
+    "sample.unitCost": {
+      "value": "1.00",
+      "unit": "CNY/件",
+      "teachingOnly": true,
+      "note": "教学算例参数，可配置",
+      "reviewStatus": "draft"
+    }
+  },
+  "events": [],
+  "glossary": [],
+  "documentTemplates": [],
+  "puzzles": [
+    {
+      "id": "sample_quote",
+      "kind": "quote",
+      "evaluatorId": "quote.v1",
+      "parameterIds": ["sample.unitCost"],
+      "inputFields": ["unitCost"]
+    }
+  ],
+  "endings": [],
+  "inquiries": [],
+  "forwarders": [],
+  "flags": [],
+  "rubrics": [],
+  "ports": [],
+  "complianceProfileIds": []
+}

@@ -1,0 +1,135 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "version": {
+      "type": "string",
+      "const": "presentation-1"
+    },
+    "atlas": {
+      "type": "string",
+      "pattern": "^assets\\/portraits\\/[a-z0-9-]+\\.png$"
+    },
+    "actors": {
+      "minItems": 6,
+      "maxItems": 6,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "enum": [
+              "mentor_lin",
+              "customer_a",
+              "customer_b",
+              "customer_c",
+              "customer_d",
+              "customer_e"
+            ]
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160
+          },
+          "role": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160
+          },
+          "column": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 2
+          },
+          "row": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "role",
+          "column",
+          "row"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "stages": {
+      "minItems": 7,
+      "maxItems": 7,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "stage": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 7
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160
+          },
+          "subtitle": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160
+          },
+          "scene": {
+            "type": "string",
+            "enum": [
+              "samples",
+              "inbox",
+              "quote",
+              "meeting",
+              "warehouse",
+              "harbor",
+              "documents"
+            ]
+          }
+        },
+        "required": [
+          "stage",
+          "title",
+          "subtitle",
+          "scene"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "home": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "subtitle": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        }
+      },
+      "required": [
+        "title",
+        "subtitle"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "version",
+    "atlas",
+    "actors",
+    "stages",
+    "home"
+  ],
+  "additionalProperties": false
+}

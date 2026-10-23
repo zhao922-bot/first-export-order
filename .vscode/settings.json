@@ -1,0 +1,13 @@
+{
+  "json.schemas": [
+    {
+      "fileMatch": ["/src/content/manifest.json"],
+      "url": "./schemas/generated/manifest.schema.json"
+    },
+    {
+      "fileMatch": ["/src/content/examples/*.json"],
+      "url": "./schemas/generated/content.schema.json"
+    }
+  ],
+  "editor.defaultFormatter": "esbenp.prettier-vscode"
+}

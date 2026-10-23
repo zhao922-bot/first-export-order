@@ -1,0 +1,8 @@
+{
+  "schemaVersion": 1,
+  "contentVersion": "0.10.0-slice",
+  "mode": "slice",
+  "packs": ["levels/L01-L07.json"],
+  "onboarding": "onboarding.json",
+  "presentation": "presentation.json"
+}

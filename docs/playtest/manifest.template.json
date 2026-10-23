@@ -1,0 +1,127 @@
+{
+  "studyId": "human-study-01",
+  "protocolVersion": "human-playtest-1",
+  "observationAt": "2026-10-24T12:00:00Z",
+  "participants": [
+    {
+      "id": "P01",
+      "status": "pending",
+      "novice": null,
+      "consent": null,
+      "humanConfirmed": null,
+      "device": "desktop",
+      "exports": [],
+      "primaryRunId": null
+    },
+    {
+      "id": "P02",
+      "status": "pending",
+      "novice": null,
+      "consent": null,
+      "humanConfirmed": null,
+      "device": "desktop",
+      "exports": [],
+      "primaryRunId": null
+    },
+    {
+      "id": "P03",
+      "status": "pending",
+      "novice": null,
+      "consent": null,
+      "humanConfirmed": null,
+      "device": "desktop",
+      "exports": [],
+      "primaryRunId": null
+    },
+    {
+      "id": "P04",
+      "status": "pending",
+      "novice": null,
+      "consent": null,
+      "humanConfirmed": null,
+      "device": "desktop",
+      "exports": [],
+      "primaryRunId": null
+    },
+    {
+      "id": "P05",
+      "status": "pending",
+      "novice": null,
+      "consent": null,
+      "humanConfirmed": null,
+      "device": "desktop",
+      "exports": [],
+      "primaryRunId": null
+    },
+    {
+      "id": "P06",
+      "status": "pending",
+      "novice": null,
+      "consent": null,
+      "humanConfirmed": null,
+      "device": "desktop",
+      "exports": [],
+      "primaryRunId": null
+    },
+    {
+      "id": "P07",
+      "status": "pending",
+      "novice": null,
+      "consent": null,
+      "humanConfirmed": null,
+      "device": "mobile",
+      "exports": [],
+      "primaryRunId": null
+    },
+    {
+      "id": "P08",
+      "status": "pending",
+      "novice": null,
+      "consent": null,
+      "humanConfirmed": null,
+      "device": "mobile",
+      "exports": [],
+      "primaryRunId": null
+    },
+    {
+      "id": "P09",
+      "status": "pending",
+      "novice": null,
+      "consent": null,
+      "humanConfirmed": null,
+      "device": "mobile",
+      "exports": [],
+      "primaryRunId": null
+    },
+    {
+      "id": "P10",
+      "status": "pending",
+      "novice": null,
+      "consent": null,
+      "humanConfirmed": null,
+      "device": "mobile",
+      "exports": [],
+      "primaryRunId": null
+    },
+    {
+      "id": "P11",
+      "status": "pending",
+      "novice": null,
+      "consent": null,
+      "humanConfirmed": null,
+      "device": "mobile",
+      "exports": [],
+      "primaryRunId": null
+    },
+    {
+      "id": "P12",
+      "status": "pending",
+      "novice": null,
+      "consent": null,
+      "humanConfirmed": null,
+      "device": "mobile",
+      "exports": [],
+      "primaryRunId": null
+    }
+  ]
+}

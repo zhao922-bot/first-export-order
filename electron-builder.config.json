@@ -1,0 +1,17 @@
+{
+  "appId": "cn.firstexportorder.game",
+  "productName": "出海第一单",
+  "electronVersion": "45.0.0",
+  "electronDist": "node_modules/electron/dist",
+  "directories": { "app": "work/native-desktop", "output": "outputs/native-0.2.0/windows" },
+  "files": ["**/*", "!node_modules/**/*"],
+  "asar": true,
+  "npmRebuild": false,
+  "win": {
+    "target": [{ "target": "portable", "arch": ["x64"] }],
+    "executableName": "FirstExportOrder",
+    "icon": "desktop/icon.ico",
+    "signExecutable": false
+  },
+  "portable": { "artifactName": "FirstExportOrder-${version}-win-x64.exe" }
+}

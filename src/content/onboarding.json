@@ -1,0 +1,324 @@
+{
+  "version": "onboarding-1",
+  "idleSeconds": 60,
+  "labels": {
+    "title": "林姐 · 新手引导",
+    "skip": "跳过引导",
+    "replay": "重新查看引导",
+    "next": "下一项说明",
+    "practice": "开始动手",
+    "locate": "定位当前操作",
+    "help": "下一步提示",
+    "dismiss": "收起提示",
+    "complete": "完成引导",
+    "unavailable": "当前操作暂不可用，请先查看页面上的核验或存档提示。",
+    "storage": "引导偏好暂未保存，刷新后可能再次出现；订单保存状态以上方提示为准。",
+    "idle": "在这里停留了一会儿，可以试试下一步："
+  },
+  "overview": [
+    {
+      "id": "overview-progress",
+      "title": "先认识工作台：当前关卡",
+      "text": "高亮处显示七关进度。每次先看当前任务，再作决定；首次示范会陪你完成第一关的操作。",
+      "target": "progress"
+    },
+    {
+      "id": "overview-resources",
+      "title": "先认识工作台：现金与时间",
+      "text": "这里显示可用现金、已确认利润、信誉和游戏日。付款会改变现金；请先看清费用与后果，再亲自确认。",
+      "target": "resources"
+    },
+    {
+      "id": "overview-glossary",
+      "title": "先认识工作台：随时求助",
+      "text": "不认识术语时可查知识图鉴。顶部“下一步提示”说明当前怎么操作；可跳过或重新查看，引导不会重置订单。",
+      "target": "glossary"
+    }
+  ],
+  "rules": [
+    {
+      "id": "start",
+      "title": "从这里开始第一单",
+      "text": "点击高亮的“开始第 1 关”。接下来你会亲手完成选品、比较供应商和查看复盘；每个决定都会进入这张订单。也可以选择下方的前测入口。",
+      "target": "start",
+      "when": {
+        "screen": "home"
+      }
+    },
+    {
+      "id": "resume",
+      "title": "接着上次的订单练习",
+      "text": "点击“继续本地进度”。引导会跟随当前任务，不需要重开；重新查看说明不会重做已经完成的付款。",
+      "target": "resume",
+      "when": {
+        "screen": "resume"
+      }
+    },
+    {
+      "id": "rescue",
+      "title": "先处理交易检查点",
+      "text": "先读资金缺口或预计损失，再查看林姐复盘。可以返回核验与补救；确认承担风险前，再核对实际银行记录和现金。",
+      "target": "rescue",
+      "when": {
+        "screen": "game",
+        "phase": "rescue"
+      }
+    },
+    {
+      "id": "feedback",
+      "title": "示范：看清这次操作的后果",
+      "text": "先读这次选择带来的变化，再点击高亮按钮。若出现“请林姐复盘”，先听原因，再决定下一步。刷新不会重新执行这笔操作。",
+      "target": "feedback",
+      "when": {
+        "screen": "game",
+        "phase": "feedback"
+      }
+    },
+    {
+      "id": "finish",
+      "title": "入门示范完成，准备看询盘",
+      "text": "你已完成一次“选择 → 后果 → 复盘”的操作。点击高亮按钮进入询盘；后续七关可随时点“下一步提示”，停留较久也会提醒。",
+      "target": "review",
+      "when": {
+        "screen": "game",
+        "phase": "review",
+        "nodeIds": ["L01.finish"]
+      }
+    },
+    {
+      "id": "review",
+      "title": "示范：听完原因再继续",
+      "text": "阅读林姐这段短复盘，弄清证据和风险，再点击高亮的继续按钮。提示只说明操作方法，后续经营选择由你决定。",
+      "target": "review",
+      "when": {
+        "screen": "game",
+        "phase": "review"
+      }
+    },
+    {
+      "id": "event",
+      "title": "先处理当前随机事件",
+      "text": "阅读事件影响和各选项代价，再选择一项处置。看完后果与林姐复盘，会回到原业务步骤。",
+      "target": "choices",
+      "when": {
+        "screen": "game",
+        "phase": "event"
+      }
+    },
+    {
+      "id": "product",
+      "title": "示范第 1 步：亲手选择产品",
+      "text": "先看三张产品卡片，点击任意一张下方的“选择”按钮。三种产品都可以练习，选择后会先展示后果。",
+      "target": "product",
+      "when": {
+        "screen": "game",
+        "nodeIds": ["L01.product"]
+      }
+    },
+    {
+      "id": "supplier",
+      "title": "示范第 2 步：比较后选择供应商",
+      "text": "逐项比较含税价、MOQ（起订量）、备货天数和凭证状态，再点击一家供应商的选择按钮。高亮表示可操作，不代表推荐答案。",
+      "target": "supplier",
+      "when": {
+        "screen": "game",
+        "nodeIds": ["L01.suppliers.cup_500", "L01.suppliers.tws", "L01.suppliers.yoga"]
+      }
+    },
+    {
+      "id": "verify",
+      "title": "示范第 3 步：决定怎样核验",
+      "text": "先看样品核验的费用与时间，再决定核验、保留风险或重新比较。付费核验会实际记账，请亲自选择；引导不会替你付款。",
+      "target": "choices",
+      "when": {
+        "screen": "game",
+        "nodeIds": ["L01.verify.cup_500", "L01.verify.tws", "L01.verify.yoga"]
+      }
+    },
+    {
+      "id": "inbox",
+      "title": "先打开一封尚未处理的来信",
+      "text": "点击任意“阅读这封来信”，看完原文再判断身份、选择回复。三封都处理后，下方选择报价对象的按钮才可用。",
+      "target": "mail",
+      "when": {
+        "screen": "game",
+        "nodeIds": ["L02.inbox"]
+      }
+    },
+    {
+      "id": "quote",
+      "title": "从一项计算开始",
+      "text": "先看上方参数，再填写“你的计算草稿”。可用计算器，注意 CNY/件、USD/件和利润率口径；填完点击校核。红色字段先修正，算错可跟随分步辅导。",
+      "target": "quote",
+      "when": {
+        "screen": "game",
+        "nodeType": "calc"
+      }
+    },
+    {
+      "id": "pi",
+      "title": "对照合同逐项确认 PI",
+      "text": "阅读每一项 PI 字段，确认与已签合同一致后勾选。全部核对完成，再使用下方的提交按钮；灰色按钮会说明还缺什么。",
+      "target": "pi",
+      "when": {
+        "screen": "game",
+        "tag": "pi_confirmation"
+      }
+    },
+    {
+      "id": "funding",
+      "title": "先读银行证据，再做资金核验",
+      "text": "阅读当前付款方式对应的原始记录，逐项勾选核验清单，再提交判断。客户截图不等于银行到账；遇到不一致应先处理。",
+      "target": "funding",
+      "when": {
+        "screen": "game",
+        "tag": "funding_check"
+      }
+    },
+    {
+      "id": "inspection",
+      "title": "先查看证据，再填写判断",
+      "text": "依次打开五项验货证据，根据文字记录选择“符合”或“异常”。完成后再用下方按钮提交；如需返工，查看更新后的证据。",
+      "target": "inspection",
+      "when": {
+        "screen": "game",
+        "tag": "inspection_check"
+      }
+    },
+    {
+      "id": "declaration",
+      "title": "先改草稿，再确认字段",
+      "text": "逐项对照合同源记录，修改不一致的申报草稿，再勾选该项确认。修改会清空该项确认；所有字段完成后才可订舱。",
+      "target": "declaration",
+      "when": {
+        "screen": "game",
+        "tag": "declaration_check"
+      }
+    },
+    {
+      "id": "transport",
+      "title": "比较方案后选择运输服务",
+      "text": "对照费用、运输时间和责任范围，再选择运输方案。不要把支付运费等同于承担全程风险；后面还需要核对保险与申报字段。",
+      "target": "transport",
+      "when": {
+        "screen": "game",
+        "tag": "forwarder_compare"
+      }
+    },
+    {
+      "id": "documents",
+      "title": "逐份对照单据与源记录",
+      "text": "使用单据页签逐份查看，对照“合同与交付源记录”，标记差异并填写修正值。完成后提交校核，继续处理提示的不符点。",
+      "target": "documents",
+      "when": {
+        "screen": "game",
+        "tag": "document_check"
+      }
+    },
+    {
+      "id": "tax",
+      "title": "根据本批资料判断退税条件",
+      "text": "逐条阅读凭证记录，再选择已核验或资料不足。全部判断后提交；确认应收退税和收到退税款是两个步骤。",
+      "target": "tax",
+      "when": {
+        "screen": "game",
+        "tag": "tax_check"
+      }
+    },
+    {
+      "id": "inquiry",
+      "title": "读原信中的事实，再回应",
+      "text": "先核对采购需求、公司身份和付款要求，再选择判断或回复。当前按钮不可用时，阅读旁边的前置条件说明。",
+      "target": "choices",
+      "when": {
+        "screen": "game",
+        "stage": 2
+      }
+    },
+    {
+      "id": "negotiation",
+      "title": "核对条件，再提交本轮选择",
+      "text": "查看当前议价轮次、价格和付款条件。勾选清单前先读合同字段；核对完成，再选择本轮回复或确认。",
+      "target": "choices",
+      "when": {
+        "screen": "game",
+        "stage": 4
+      }
+    },
+    {
+      "id": "procurement",
+      "title": "按资金与验货证据推进",
+      "text": "先看当前任务和可用现金，再选择下一步。如果按钮灰色，先完成它注明的核验项；资金不足时可按林姐提示停止采购、核对退款。",
+      "target": "choices",
+      "when": {
+        "screen": "game",
+        "stage": 5
+      }
+    },
+    {
+      "id": "logistics",
+      "title": "核对交付与费用后继续",
+      "text": "先读当前任务，再查看可选方案的费用和交期。按按钮下方的说明完成前置核对，再提交运输或保险选择。",
+      "target": "choices",
+      "when": {
+        "screen": "game",
+        "stage": 6
+      }
+    },
+    {
+      "id": "collection",
+      "title": "按真实记录处理收款",
+      "text": "先看当前银行记录、应收余额与付款方式，再选择催收、交单或收汇处理。尚未到账的款项不能当作可用现金。",
+      "target": "choices",
+      "when": {
+        "screen": "game",
+        "stage": 7
+      }
+    },
+    {
+      "id": "game",
+      "title": "查看当前任务，再操作",
+      "text": "先阅读任务说明，完成表单或核验清单，再点击可用的选择按钮。灰色按钮会说明前置条件；不熟悉的词可到知识图鉴查阅。",
+      "target": "choices",
+      "when": {
+        "screen": "game"
+      }
+    },
+    {
+      "id": "ending",
+      "title": "回看这张订单的关键选择",
+      "text": "查看结局与五维评分，展开关键转折点的林姐复盘和下次建议。知识图鉴可以补学；重开新局前可先导出本地记录。",
+      "target": "ending",
+      "when": {
+        "screen": "ending"
+      }
+    },
+    {
+      "id": "assessment",
+      "title": "按自己的理解填写测评",
+      "text": "测评用于比较学习前后的变化，不影响经营成绩。逐题作答或选择跳过；完成后使用页面入口继续当前关卡。",
+      "target": "assessment",
+      "when": {
+        "screen": "assessment"
+      }
+    },
+    {
+      "id": "recovery",
+      "title": "先保护当前进度",
+      "text": "按页面说明查看保存状态，可导出、恢复备份或导入同版本存档。若有标签页冲突，先处理冲突再继续操作。",
+      "target": "recovery",
+      "when": {
+        "screen": "recovery"
+      }
+    },
+    {
+      "id": "reference",
+      "title": "查完词条，回到当前任务",
+      "text": "选择想了解的词条阅读。查看完可通过首页“继续本地进度”回到订单，不需要重新开始。",
+      "target": "glossary",
+      "when": {
+        "screen": "reference"
+      }
+    }
+  ]
+}

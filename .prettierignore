@@ -1,0 +1,12 @@
+node_modules
+dist
+coverage
+playwright-report
+test-results
+pnpm-lock.yaml
+schemas/generated
+work
+outputs
+android
+PROJECT_PLAN.md
+DIRECTORY_SKELETON.md

@@ -1,0 +1,2602 @@
+{
+  "evidenceSource": "automated-playwright-not-human-study",
+  "format": "first-export-playtest",
+  "exportedAt": "2026-10-23T03:27:07.047Z",
+  "limitations": "仅本浏览器匿名教学记录；刷新、离线间隔和闲置不计时；练习与导入局不纳入完整试玩分母；不证明真实学习效果。",
+  "schemaVersion": 1,
+  "revision": 208,
+  "runs": [
+    {
+      "runId": "run.shipping.ui.680",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "started": true,
+      "mode": "full",
+      "startedAt": 1792726008277,
+      "lastSeen": 1792726027046,
+      "activeMs": 17455.299999952316,
+      "stageMs": {
+        "1": 1262.0999999642372,
+        "2": 2088.5,
+        "3": 820.6000000238419,
+        "4": 1893.5999999642372,
+        "5": 3895.800000011921,
+        "6": 2773.600000023842,
+        "7": 4721.099999964237
+      },
+      "entered": [1, 2, 3, 4, 5, 6, 7],
+      "completed": [1, 2, 3, 4, 5, 6, 7],
+      "ending": {
+        "kind": "excellent",
+        "completion": "completed",
+        "scores": {
+          "profit": 100,
+          "risk": 100,
+          "professionalism": 100,
+          "relationship": 74,
+          "compliance": 100
+        }
+      },
+      "restarted": null,
+      "counts": {
+        "run_started": 1,
+        "stage_entered": 7,
+        "assessment_answered": 12,
+        "session_suspended": 6,
+        "run_resumed": 3,
+        "choice_committed": 46,
+        "mentor_reviewed": 35,
+        "stage_completed": 7,
+        "quote_submitted": 1,
+        "document_submitted": 1,
+        "run_finished": 1
+      },
+      "pre": {
+        "status": "completed",
+        "answers": {
+          "pre_rebate": {
+            "optionId": "a",
+            "correct": true
+          },
+          "pre_markup": {
+            "optionId": "b",
+            "correct": true
+          },
+          "pre_cash": {
+            "optionId": "c",
+            "correct": true
+          },
+          "pre_tt": {
+            "optionId": "a",
+            "correct": true
+          },
+          "pre_lc": {
+            "optionId": "b",
+            "correct": true
+          },
+          "pre_fob": {
+            "optionId": "c",
+            "correct": true
+          }
+        }
+      },
+      "post": {
+        "status": "completed",
+        "answers": {
+          "post_rebate": {
+            "optionId": "c",
+            "correct": true
+          },
+          "post_markup": {
+            "optionId": "a",
+            "correct": true
+          },
+          "post_cash": {
+            "optionId": "b",
+            "correct": true
+          },
+          "post_tt": {
+            "optionId": "c",
+            "correct": true
+          },
+          "post_lc": {
+            "optionId": "a",
+            "correct": true
+          },
+          "post_fob": {
+            "optionId": "b",
+            "correct": true
+          }
+        }
+      }
+    }
+  ],
+  "events": [
+    {
+      "eventId": "shipping.ui.680.1",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "shipping.ui.680",
+      "eventName": "run_started",
+      "timestamp": "2026-10-23T03:26:48.277Z",
+      "activeElapsedMs": 0,
+      "stage": 1,
+      "nodeId": "L01.product",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "productMode": "full",
+        "isFirstRun": true
+      }
+    },
+    {
+      "eventId": "shipping.ui.680.2",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "shipping.ui.680",
+      "eventName": "stage_entered",
+      "timestamp": "2026-10-23T03:26:48.277Z",
+      "activeElapsedMs": 0,
+      "stage": 1,
+      "nodeId": "L01.product",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "stage": 1
+      }
+    },
+    {
+      "eventId": "shipping.ui.680.3",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "shipping.ui.680",
+      "eventName": "assessment_answered",
+      "timestamp": "2026-10-23T03:26:48.434Z",
+      "activeElapsedMs": 157.30000001192093,
+      "stage": 1,
+      "nodeId": "L01.product",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "itemId": "pre_rebate",
+        "knowledgeId": "rebate",
+        "correct": true,
+        "phase": "pre"
+      }
+    },
+    {
+      "eventId": "shipping.ui.680.4",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "shipping.ui.680",
+      "eventName": "assessment_answered",
+      "timestamp": "2026-10-23T03:26:48.514Z",
+      "activeElapsedMs": 237.80000001192093,
+      "stage": 1,
+      "nodeId": "L01.product",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "itemId": "pre_markup",
+        "knowledgeId": "markup",
+        "correct": true,
+        "phase": "pre"
+      }
+    },
+    {
+      "eventId": "shipping.ui.680.5",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "shipping.ui.680",
+      "eventName": "session_suspended",
+      "timestamp": "2026-10-23T03:26:48.553Z",
+      "activeElapsedMs": 276,
+      "stage": 1,
+      "nodeId": "L01.product",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {}
+    },
+    {
+      "eventId": "shipping.ui.680.6",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "shipping.ui.680",
+      "eventName": "session_suspended",
+      "timestamp": "2026-10-23T03:26:48.558Z",
+      "activeElapsedMs": 276,
+      "stage": 1,
+      "nodeId": "L01.product",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {}
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.1",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "run_resumed",
+      "timestamp": "2026-10-23T03:26:48.669Z",
+      "activeElapsedMs": 276,
+      "stage": 1,
+      "nodeId": "L01.product",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "saveRevision": 0,
+        "resumeStage": 1
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.2",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "assessment_answered",
+      "timestamp": "2026-10-23T03:26:48.815Z",
+      "activeElapsedMs": 276.39999997615814,
+      "stage": 1,
+      "nodeId": "L01.product",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "itemId": "pre_cash",
+        "knowledgeId": "cashflow",
+        "correct": true,
+        "phase": "pre"
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.3",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "assessment_answered",
+      "timestamp": "2026-10-23T03:26:48.895Z",
+      "activeElapsedMs": 356.5,
+      "stage": 1,
+      "nodeId": "L01.product",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "itemId": "pre_tt",
+        "knowledgeId": "tt",
+        "correct": true,
+        "phase": "pre"
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.4",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "assessment_answered",
+      "timestamp": "2026-10-23T03:26:48.944Z",
+      "activeElapsedMs": 405.39999997615814,
+      "stage": 1,
+      "nodeId": "L01.product",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "itemId": "pre_lc",
+        "knowledgeId": "lc",
+        "correct": true,
+        "phase": "pre"
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.5",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "assessment_answered",
+      "timestamp": "2026-10-23T03:26:48.995Z",
+      "activeElapsedMs": 456.19999998807907,
+      "stage": 1,
+      "nodeId": "L01.product",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "itemId": "pre_fob",
+        "knowledgeId": "incoterm",
+        "correct": true,
+        "phase": "pre"
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.6",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "choice_committed",
+      "timestamp": "2026-10-23T03:26:49.232Z",
+      "activeElapsedMs": 692.8999999761581,
+      "stage": 1,
+      "nodeId": "L01.product",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "choiceId": "select_cup_500",
+        "riskTag": false,
+        "cashCnyFen": 0,
+        "profitCnyFen": 0,
+        "reputation": 0,
+        "trust": 0,
+        "days": 0
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.7",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "choice_committed",
+      "timestamp": "2026-10-23T03:26:49.421Z",
+      "activeElapsedMs": 882.7999999523163,
+      "stage": 1,
+      "nodeId": "L01.suppliers.cup_500",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "choiceId": "select_cup_500_verified",
+        "riskTag": false,
+        "cashCnyFen": 0,
+        "profitCnyFen": 0,
+        "reputation": 0,
+        "trust": 0,
+        "days": 1
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.8",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "mentor_reviewed",
+      "timestamp": "2026-10-23T03:26:49.551Z",
+      "activeElapsedMs": 1012.3999999761581,
+      "stage": 1,
+      "nodeId": "L01.review.cup_500",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "reviewId": "L01.review.cup_500",
+        "visibleMs": 64.19999998807907
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.9",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "choice_committed",
+      "timestamp": "2026-10-23T03:26:49.639Z",
+      "activeElapsedMs": 1100.0999999642372,
+      "stage": 1,
+      "nodeId": "L01.verify.cup_500",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "choiceId": "verify_cup_500",
+        "riskTag": false,
+        "cashCnyFen": -20000,
+        "profitCnyFen": -20000,
+        "reputation": 0,
+        "trust": 0,
+        "days": 2
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.10",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "mentor_reviewed",
+      "timestamp": "2026-10-23T03:26:49.801Z",
+      "activeElapsedMs": 1262.0999999642372,
+      "stage": 1,
+      "nodeId": "L01.finish",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "reviewId": "L01.finish",
+        "visibleMs": 63.59999996423721
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.11",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "stage_completed",
+      "timestamp": "2026-10-23T03:26:49.801Z",
+      "activeElapsedMs": 1262.0999999642372,
+      "stage": 2,
+      "nodeId": "L02.inbox",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "stage": 1,
+        "durationActiveMs": 1262.0999999642372
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.12",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "stage_entered",
+      "timestamp": "2026-10-23T03:26:49.801Z",
+      "activeElapsedMs": 1262.0999999642372,
+      "stage": 2,
+      "nodeId": "L02.inbox",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "stage": 2
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.13",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "choice_committed",
+      "timestamp": "2026-10-23T03:26:49.918Z",
+      "activeElapsedMs": 1379.2999999523163,
+      "stage": 2,
+      "nodeId": "L02.inbox",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "choiceId": "open_buyer",
+        "riskTag": false,
+        "cashCnyFen": 0,
+        "profitCnyFen": 0,
+        "reputation": 0,
+        "trust": 0,
+        "days": 0
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.14",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "choice_committed",
+      "timestamp": "2026-10-23T03:26:50.056Z",
+      "activeElapsedMs": 1517.5,
+      "stage": 2,
+      "nodeId": "L02.buyer.classify",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "choiceId": "classify_buyer_buyer",
+        "riskTag": false,
+        "cashCnyFen": 0,
+        "profitCnyFen": 0,
+        "reputation": 2,
+        "trust": 0,
+        "days": 0
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.15",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "mentor_reviewed",
+      "timestamp": "2026-10-23T03:26:50.186Z",
+      "activeElapsedMs": 1647.0999999642372,
+      "stage": 2,
+      "nodeId": "L02.buyer.class.review",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "reviewId": "L02.buyer.class.review",
+        "visibleMs": 65.30000001192093
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.16",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "choice_committed",
+      "timestamp": "2026-10-23T03:26:50.251Z",
+      "activeElapsedMs": 1712.3999999761581,
+      "stage": 2,
+      "nodeId": "L02.buyer.reply",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "choiceId": "reply_buyer_safe",
+        "riskTag": false,
+        "cashCnyFen": 0,
+        "profitCnyFen": 0,
+        "reputation": 0,
+        "trust": 3,
+        "days": 0
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.17",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "mentor_reviewed",
+      "timestamp": "2026-10-23T03:26:50.371Z",
+      "activeElapsedMs": 1832.7999999523163,
+      "stage": 2,
+      "nodeId": "L02.buyer.reply.review",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "reviewId": "L02.buyer.reply.review",
+        "visibleMs": 54.299999952316284
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.18",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "choice_committed",
+      "timestamp": "2026-10-23T03:26:50.435Z",
+      "activeElapsedMs": 1896.199999988079,
+      "stage": 2,
+      "nodeId": "L02.inbox",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "choiceId": "open_competitor",
+        "riskTag": false,
+        "cashCnyFen": 0,
+        "profitCnyFen": 0,
+        "reputation": 0,
+        "trust": 0,
+        "days": 0
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.19",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "choice_committed",
+      "timestamp": "2026-10-23T03:26:50.589Z",
+      "activeElapsedMs": 2050.599999964237,
+      "stage": 2,
+      "nodeId": "L02.competitor.classify",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "choiceId": "classify_competitor_competitor",
+        "riskTag": false,
+        "cashCnyFen": 0,
+        "profitCnyFen": 0,
+        "reputation": 2,
+        "trust": 0,
+        "days": 0
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.20",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "mentor_reviewed",
+      "timestamp": "2026-10-23T03:26:50.740Z",
+      "activeElapsedMs": 2201.2999999523163,
+      "stage": 2,
+      "nodeId": "L02.competitor.class.review",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "reviewId": "L02.competitor.class.review",
+        "visibleMs": 87.19999998807907
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.21",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "choice_committed",
+      "timestamp": "2026-10-23T03:26:50.804Z",
+      "activeElapsedMs": 2265.099999964237,
+      "stage": 2,
+      "nodeId": "L02.competitor.reply",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "choiceId": "reply_competitor_safe",
+        "riskTag": false,
+        "cashCnyFen": 0,
+        "profitCnyFen": 0,
+        "reputation": 0,
+        "trust": 0,
+        "days": 0
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.22",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "mentor_reviewed",
+      "timestamp": "2026-10-23T03:26:50.938Z",
+      "activeElapsedMs": 2399,
+      "stage": 2,
+      "nodeId": "L02.competitor.reply.review",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "reviewId": "L02.competitor.reply.review",
+        "visibleMs": 65.5
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.23",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "choice_committed",
+      "timestamp": "2026-10-23T03:26:51.006Z",
+      "activeElapsedMs": 2467.5,
+      "stage": 2,
+      "nodeId": "L02.inbox",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "choiceId": "open_fraud",
+        "riskTag": false,
+        "cashCnyFen": 0,
+        "profitCnyFen": 0,
+        "reputation": 0,
+        "trust": 0,
+        "days": 0
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.24",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "choice_committed",
+      "timestamp": "2026-10-23T03:26:51.123Z",
+      "activeElapsedMs": 2584.2999999523163,
+      "stage": 2,
+      "nodeId": "L02.fraud.classify",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "choiceId": "classify_fraud_fraud",
+        "riskTag": false,
+        "cashCnyFen": 0,
+        "profitCnyFen": 0,
+        "reputation": 2,
+        "trust": 0,
+        "days": 0
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.25",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "mentor_reviewed",
+      "timestamp": "2026-10-23T03:26:51.271Z",
+      "activeElapsedMs": 2732.7999999523163,
+      "stage": 2,
+      "nodeId": "L02.fraud.class.review",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "reviewId": "L02.fraud.class.review",
+        "visibleMs": 66.39999997615814
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.26",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "choice_committed",
+      "timestamp": "2026-10-23T03:26:51.321Z",
+      "activeElapsedMs": 2782.699999988079,
+      "stage": 2,
+      "nodeId": "L02.fraud.reply",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "choiceId": "reply_fraud_safe",
+        "riskTag": false,
+        "cashCnyFen": 0,
+        "profitCnyFen": 0,
+        "reputation": 0,
+        "trust": 0,
+        "days": 0
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.27",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "mentor_reviewed",
+      "timestamp": "2026-10-23T03:26:51.457Z",
+      "activeElapsedMs": 2918.5,
+      "stage": 2,
+      "nodeId": "L02.fraud.reply.review",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "reviewId": "L02.fraud.reply.review",
+        "visibleMs": 66.80000001192093
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.28",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "choice_committed",
+      "timestamp": "2026-10-23T03:26:51.520Z",
+      "activeElapsedMs": 2981,
+      "stage": 2,
+      "nodeId": "L02.fraud.amend",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "choiceId": "fraud_stop",
+        "riskTag": false,
+        "cashCnyFen": 0,
+        "profitCnyFen": 0,
+        "reputation": 0,
+        "trust": 0,
+        "days": 0
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.29",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "choice_committed",
+      "timestamp": "2026-10-23T03:26:51.653Z",
+      "activeElapsedMs": 3114.699999988079,
+      "stage": 2,
+      "nodeId": "L02.inbox",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "choiceId": "finish_inquiries",
+        "riskTag": false,
+        "cashCnyFen": 0,
+        "profitCnyFen": 0,
+        "reputation": 0,
+        "trust": 0,
+        "days": 0
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.30",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "choice_committed",
+      "timestamp": "2026-10-23T03:26:51.770Z",
+      "activeElapsedMs": 3231.7999999523163,
+      "stage": 2,
+      "nodeId": "L02.lead",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "choiceId": "lead_customer_c",
+        "riskTag": false,
+        "cashCnyFen": 0,
+        "profitCnyFen": 0,
+        "reputation": 0,
+        "trust": 0,
+        "days": 0
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.31",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "mentor_reviewed",
+      "timestamp": "2026-10-23T03:26:51.889Z",
+      "activeElapsedMs": 3350.599999964237,
+      "stage": 2,
+      "nodeId": "L02.finish",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "reviewId": "L02.finish",
+        "visibleMs": 52.89999997615814
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.32",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "stage_completed",
+      "timestamp": "2026-10-23T03:26:51.889Z",
+      "activeElapsedMs": 3350.599999964237,
+      "stage": 3,
+      "nodeId": "L03.main",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "stage": 2,
+        "durationActiveMs": 2088.5
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.33",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "stage_entered",
+      "timestamp": "2026-10-23T03:26:51.889Z",
+      "activeElapsedMs": 3350.599999964237,
+      "stage": 3,
+      "nodeId": "L03.main",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "stage": 3
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.34",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "choice_committed",
+      "timestamp": "2026-10-23T03:26:52.365Z",
+      "activeElapsedMs": 3826.7999999523163,
+      "stage": 3,
+      "nodeId": "L03.main",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "choiceId": "quote.correct",
+        "riskTag": false,
+        "cashCnyFen": 0,
+        "profitCnyFen": 0,
+        "reputation": 0,
+        "trust": 0,
+        "days": 0
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.35",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "quote_submitted",
+      "timestamp": "2026-10-23T03:26:52.365Z",
+      "activeElapsedMs": 3826.7999999523163,
+      "stage": 3,
+      "nodeId": "L03.main",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "attempt": 1,
+        "correct": true,
+        "errorCode": ""
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.36",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "mentor_reviewed",
+      "timestamp": "2026-10-23T03:26:52.564Z",
+      "activeElapsedMs": 4025.099999964237,
+      "stage": 3,
+      "nodeId": "L03.success",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "reviewId": "L03.success",
+        "visibleMs": 72.39999997615814
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.37",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "choice_committed",
+      "timestamp": "2026-10-23T03:26:52.626Z",
+      "activeElapsedMs": 4087.599999964237,
+      "stage": 3,
+      "nodeId": "L03.handoff",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "choiceId": "continue_negotiation",
+        "riskTag": false,
+        "cashCnyFen": 0,
+        "profitCnyFen": 0,
+        "reputation": 0,
+        "trust": 0,
+        "days": 0
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.38",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "stage_completed",
+      "timestamp": "2026-10-23T03:26:52.710Z",
+      "activeElapsedMs": 4171.199999988079,
+      "stage": 4,
+      "nodeId": "L04.intro",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "stage": 3,
+        "durationActiveMs": 820.6000000238419
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.39",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "stage_entered",
+      "timestamp": "2026-10-23T03:26:52.710Z",
+      "activeElapsedMs": 4171.199999988079,
+      "stage": 4,
+      "nodeId": "L04.intro",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "stage": 4
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.40",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "mentor_reviewed",
+      "timestamp": "2026-10-23T03:26:52.834Z",
+      "activeElapsedMs": 4294.899999976158,
+      "stage": 4,
+      "nodeId": "L04.intro",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "reviewId": "L04.intro",
+        "visibleMs": 86
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.41",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "choice_committed",
+      "timestamp": "2026-10-23T03:26:52.943Z",
+      "activeElapsedMs": 4403.899999976158,
+      "stage": 4,
+      "nodeId": "L04.price",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "choiceId": "offer_hold",
+        "riskTag": false,
+        "cashCnyFen": 0,
+        "profitCnyFen": 0,
+        "reputation": 0,
+        "trust": 1,
+        "days": 0
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.42",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "mentor_reviewed",
+      "timestamp": "2026-10-23T03:26:53.093Z",
+      "activeElapsedMs": 4553.899999976158,
+      "stage": 4,
+      "nodeId": "L04.price.hold.review",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "reviewId": "L04.price.hold.review",
+        "visibleMs": 67.89999997615814
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.43",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "choice_committed",
+      "timestamp": "2026-10-23T03:26:53.175Z",
+      "activeElapsedMs": 4636.899999976158,
+      "stage": 4,
+      "nodeId": "L04.payment",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "choiceId": "payment_tt",
+        "riskTag": false,
+        "cashCnyFen": 0,
+        "profitCnyFen": 0,
+        "reputation": 0,
+        "trust": 4,
+        "days": 0
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.44",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "mentor_reviewed",
+      "timestamp": "2026-10-23T03:26:53.326Z",
+      "activeElapsedMs": 4787.599999964237,
+      "stage": 4,
+      "nodeId": "L04.payment.tt.review",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "reviewId": "L04.payment.tt.review",
+        "visibleMs": 64.19999998807907
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.45",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "choice_committed",
+      "timestamp": "2026-10-23T03:26:53.408Z",
+      "activeElapsedMs": 4869.799999952316,
+      "stage": 4,
+      "nodeId": "L04.terms",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "choiceId": "terms_fob",
+        "riskTag": false,
+        "cashCnyFen": 0,
+        "profitCnyFen": 0,
+        "reputation": 0,
+        "trust": 0,
+        "days": 0
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.46",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "mentor_reviewed",
+      "timestamp": "2026-10-23T03:26:53.562Z",
+      "activeElapsedMs": 5023.099999964237,
+      "stage": 4,
+      "nodeId": "L04.terms.review",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "reviewId": "L04.terms.review",
+        "visibleMs": 69.09999996423721
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.47",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "choice_committed",
+      "timestamp": "2026-10-23T03:26:53.647Z",
+      "activeElapsedMs": 5108.5,
+      "stage": 4,
+      "nodeId": "L04.counterparty",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "choiceId": "counterparty_continue",
+        "riskTag": false,
+        "cashCnyFen": 0,
+        "profitCnyFen": 0,
+        "reputation": 0,
+        "trust": 0,
+        "days": 0
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.48",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "choice_committed",
+      "timestamp": "2026-10-23T03:26:54.296Z",
+      "activeElapsedMs": 5757.099999964237,
+      "stage": 4,
+      "nodeId": "L04.confirm",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "choiceId": "contract_sign",
+        "riskTag": false,
+        "cashCnyFen": 0,
+        "profitCnyFen": 0,
+        "reputation": 2,
+        "trust": 0,
+        "days": 0
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.49",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "mentor_reviewed",
+      "timestamp": "2026-10-23T03:26:54.444Z",
+      "activeElapsedMs": 5905,
+      "stage": 4,
+      "nodeId": "L04.signed.review",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "reviewId": "L04.signed.review",
+        "visibleMs": 64.90000003576279
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.50",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "choice_committed",
+      "timestamp": "2026-10-23T03:26:54.508Z",
+      "activeElapsedMs": 5969.199999988079,
+      "stage": 4,
+      "nodeId": "L04.complete",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "choiceId": "continue_procurement",
+        "riskTag": false,
+        "cashCnyFen": 0,
+        "profitCnyFen": 0,
+        "reputation": 0,
+        "trust": 0,
+        "days": 0
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.51",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "stage_completed",
+      "timestamp": "2026-10-23T03:26:54.603Z",
+      "activeElapsedMs": 6064.799999952316,
+      "stage": 5,
+      "nodeId": "L05.intro",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "stage": 4,
+        "durationActiveMs": 1893.5999999642372
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.52",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "stage_entered",
+      "timestamp": "2026-10-23T03:26:54.603Z",
+      "activeElapsedMs": 6064.799999952316,
+      "stage": 5,
+      "nodeId": "L05.intro",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "stage": 5
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.53",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "mentor_reviewed",
+      "timestamp": "2026-10-23T03:26:54.751Z",
+      "activeElapsedMs": 6212.099999964237,
+      "stage": 5,
+      "nodeId": "L05.intro",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "reviewId": "L05.intro",
+        "visibleMs": 123.09999996423721
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.54",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "choice_committed",
+      "timestamp": "2026-10-23T03:26:55.414Z",
+      "activeElapsedMs": 6874.899999976158,
+      "stage": 5,
+      "nodeId": "L05.pi",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "choiceId": "pi_accept",
+        "riskTag": false,
+        "cashCnyFen": 0,
+        "profitCnyFen": 0,
+        "reputation": 2,
+        "trust": 0,
+        "days": 0
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.55",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "mentor_reviewed",
+      "timestamp": "2026-10-23T03:26:55.599Z",
+      "activeElapsedMs": 7060,
+      "stage": 5,
+      "nodeId": "L05.pi.review",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "reviewId": "L05.pi.review",
+        "visibleMs": 103.5
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.56",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "choice_committed",
+      "timestamp": "2026-10-23T03:26:55.995Z",
+      "activeElapsedMs": 7456.799999952316,
+      "stage": 5,
+      "nodeId": "L05.funding",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "choiceId": "funding_verify",
+        "riskTag": false,
+        "cashCnyFen": 1734336,
+        "profitCnyFen": -30000,
+        "reputation": 2,
+        "trust": 0,
+        "days": 0
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.57",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "mentor_reviewed",
+      "timestamp": "2026-10-23T03:26:56.144Z",
+      "activeElapsedMs": 7604.899999976158,
+      "stage": 5,
+      "nodeId": "L05.funding.review",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "reviewId": "L05.funding.review",
+        "visibleMs": 67
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.58",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "choice_committed",
+      "timestamp": "2026-10-23T03:26:56.210Z",
+      "activeElapsedMs": 7671.799999952316,
+      "stage": 5,
+      "nodeId": "L05.supplier",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "choiceId": "supplier_deposit",
+        "riskTag": false,
+        "cashCnyFen": -1680000,
+        "profitCnyFen": 0,
+        "reputation": 0,
+        "trust": 0,
+        "days": 0
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.59",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "mentor_reviewed",
+      "timestamp": "2026-10-23T03:26:56.360Z",
+      "activeElapsedMs": 7821.799999952316,
+      "stage": 5,
+      "nodeId": "L05.deposit.review",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "reviewId": "L05.deposit.review",
+        "visibleMs": 65.39999997615814
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.60",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "choice_committed",
+      "timestamp": "2026-10-23T03:26:56.429Z",
+      "activeElapsedMs": 7890.299999952316,
+      "stage": 5,
+      "nodeId": "L05.production",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "choiceId": "production_wait",
+        "riskTag": false,
+        "cashCnyFen": 0,
+        "profitCnyFen": 0,
+        "reputation": 0,
+        "trust": 0,
+        "days": 18
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.61",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "choice_committed",
+      "timestamp": "2026-10-23T03:26:57.630Z",
+      "activeElapsedMs": 9091.199999988079,
+      "stage": 5,
+      "nodeId": "L05.inspection",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "choiceId": "inspection_submit",
+        "riskTag": false,
+        "cashCnyFen": 0,
+        "profitCnyFen": 0,
+        "reputation": 2,
+        "trust": 0,
+        "days": 0
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.62",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "mentor_reviewed",
+      "timestamp": "2026-10-23T03:26:57.800Z",
+      "activeElapsedMs": 9261.899999976158,
+      "stage": 5,
+      "nodeId": "L05.inspection.review",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "reviewId": "L05.inspection.review",
+        "visibleMs": 79.5
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.63",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "choice_committed",
+      "timestamp": "2026-10-23T03:26:57.895Z",
+      "activeElapsedMs": 9356.699999988079,
+      "stage": 5,
+      "nodeId": "L05.disposition",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "choiceId": "inspection_accept",
+        "riskTag": false,
+        "cashCnyFen": 0,
+        "profitCnyFen": 0,
+        "reputation": 0,
+        "trust": 0,
+        "days": 0
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.64",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "mentor_reviewed",
+      "timestamp": "2026-10-23T03:26:58.082Z",
+      "activeElapsedMs": 9543,
+      "stage": 5,
+      "nodeId": "L05.release.review",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "reviewId": "L05.release.review",
+        "visibleMs": 98.60000002384186
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.65",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "choice_committed",
+      "timestamp": "2026-10-23T03:26:58.151Z",
+      "activeElapsedMs": 9612,
+      "stage": 5,
+      "nodeId": "L05.balance",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "choiceId": "supplier_balance",
+        "riskTag": false,
+        "cashCnyFen": -3920000,
+        "profitCnyFen": 0,
+        "reputation": 0,
+        "trust": 0,
+        "days": 0
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.66",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "mentor_reviewed",
+      "timestamp": "2026-10-23T03:26:58.309Z",
+      "activeElapsedMs": 9770.099999964237,
+      "stage": 5,
+      "nodeId": "L05.finish",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "reviewId": "L05.finish",
+        "visibleMs": 74.19999998807907
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.67",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "choice_committed",
+      "timestamp": "2026-10-23T03:26:58.412Z",
+      "activeElapsedMs": 9873.099999964237,
+      "stage": 5,
+      "nodeId": "L05.complete",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "choiceId": "continue_logistics",
+        "riskTag": false,
+        "cashCnyFen": 0,
+        "profitCnyFen": 0,
+        "reputation": 0,
+        "trust": 0,
+        "days": 0
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.68",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "stage_completed",
+      "timestamp": "2026-10-23T03:26:58.499Z",
+      "activeElapsedMs": 9960.599999964237,
+      "stage": 6,
+      "nodeId": "L06.intro",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "stage": 5,
+        "durationActiveMs": 3895.800000011921
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.69",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "stage_entered",
+      "timestamp": "2026-10-23T03:26:58.499Z",
+      "activeElapsedMs": 9960.599999964237,
+      "stage": 6,
+      "nodeId": "L06.intro",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "stage": 6
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.70",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "mentor_reviewed",
+      "timestamp": "2026-10-23T03:26:58.618Z",
+      "activeElapsedMs": 10079.199999988079,
+      "stage": 6,
+      "nodeId": "L06.intro",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "reviewId": "L06.intro",
+        "visibleMs": 91.10000002384186
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.71",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "choice_committed",
+      "timestamp": "2026-10-23T03:26:58.753Z",
+      "activeElapsedMs": 10214.5,
+      "stage": 6,
+      "nodeId": "L06.plan",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "choiceId": "plan_steady",
+        "riskTag": false,
+        "cashCnyFen": 0,
+        "profitCnyFen": 0,
+        "reputation": 0,
+        "trust": 0,
+        "days": 0
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.72",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "mentor_reviewed",
+      "timestamp": "2026-10-23T03:26:58.933Z",
+      "activeElapsedMs": 10394.699999988079,
+      "stage": 6,
+      "nodeId": "L06.plan.review",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "reviewId": "L06.plan.review",
+        "visibleMs": 99.40000003576279
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.73",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "choice_committed",
+      "timestamp": "2026-10-23T03:26:59.033Z",
+      "activeElapsedMs": 10494.199999988079,
+      "stage": 6,
+      "nodeId": "L06.insurance",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "choiceId": "insurance_buyer",
+        "riskTag": false,
+        "cashCnyFen": 0,
+        "profitCnyFen": 0,
+        "reputation": 0,
+        "trust": 0,
+        "days": 0
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.74",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "mentor_reviewed",
+      "timestamp": "2026-10-23T03:26:59.183Z",
+      "activeElapsedMs": 10644.199999988079,
+      "stage": 6,
+      "nodeId": "L06.insurance.review",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "reviewId": "L06.insurance.review",
+        "visibleMs": 66.69999998807907
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.75",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "choice_committed",
+      "timestamp": "2026-10-23T03:26:59.884Z",
+      "activeElapsedMs": 11345.699999988079,
+      "stage": 6,
+      "nodeId": "L06.declaration",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "choiceId": "declaration_submit",
+        "riskTag": false,
+        "cashCnyFen": 0,
+        "profitCnyFen": 0,
+        "reputation": 2,
+        "trust": 0,
+        "days": 0
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.76",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "mentor_reviewed",
+      "timestamp": "2026-10-23T03:27:00.069Z",
+      "activeElapsedMs": 11530.599999964237,
+      "stage": 6,
+      "nodeId": "L06.declaration.review",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "reviewId": "L06.declaration.review",
+        "visibleMs": 83.59999996423721
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.77",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "choice_committed",
+      "timestamp": "2026-10-23T03:27:00.170Z",
+      "activeElapsedMs": 11631,
+      "stage": 6,
+      "nodeId": "L06.gate",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "choiceId": "logistics_book",
+        "riskTag": false,
+        "cashCnyFen": -140000,
+        "profitCnyFen": -140000,
+        "reputation": 0,
+        "trust": 0,
+        "days": 0
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.78",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "mentor_reviewed",
+      "timestamp": "2026-10-23T03:27:00.348Z",
+      "activeElapsedMs": 11809.599999964237,
+      "stage": 6,
+      "nodeId": "L06.book.review",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "reviewId": "L06.book.review",
+        "visibleMs": 95.59999996423721
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.79",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "choice_committed",
+      "timestamp": "2026-10-23T03:27:00.424Z",
+      "activeElapsedMs": 11885.199999988079,
+      "stage": 6,
+      "nodeId": "L06.dispatch",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "choiceId": "logistics_dispatch",
+        "riskTag": false,
+        "cashCnyFen": 0,
+        "profitCnyFen": 0,
+        "reputation": 0,
+        "trust": 0,
+        "days": 2
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.80",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "mentor_reviewed",
+      "timestamp": "2026-10-23T03:27:00.605Z",
+      "activeElapsedMs": 12066.799999952316,
+      "stage": 6,
+      "nodeId": "L06.risk.review",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "reviewId": "L06.risk.review",
+        "visibleMs": 84.79999995231628
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.81",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "choice_committed",
+      "timestamp": "2026-10-23T03:27:00.719Z",
+      "activeElapsedMs": 12180.5,
+      "stage": 6,
+      "nodeId": "L06.risk",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "choiceId": "risk_clear",
+        "riskTag": false,
+        "cashCnyFen": 0,
+        "profitCnyFen": 0,
+        "reputation": 0,
+        "trust": 0,
+        "days": 0
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.82",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "choice_committed",
+      "timestamp": "2026-10-23T03:27:00.887Z",
+      "activeElapsedMs": 12348.799999952316,
+      "stage": 6,
+      "nodeId": "L06.delivery",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "choiceId": "logistics_deliver",
+        "riskTag": false,
+        "cashCnyFen": 0,
+        "profitCnyFen": 281120,
+        "reputation": 0,
+        "trust": 0,
+        "days": 5
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.83",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "mentor_reviewed",
+      "timestamp": "2026-10-23T03:27:01.059Z",
+      "activeElapsedMs": 12520,
+      "stage": 6,
+      "nodeId": "L06.finish",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "reviewId": "L06.finish",
+        "visibleMs": 75.30000001192093
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.84",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "choice_committed",
+      "timestamp": "2026-10-23T03:27:01.184Z",
+      "activeElapsedMs": 12645.399999976158,
+      "stage": 6,
+      "nodeId": "L06.complete",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "choiceId": "continue_collection",
+        "riskTag": false,
+        "cashCnyFen": 0,
+        "profitCnyFen": 0,
+        "reputation": 0,
+        "trust": 0,
+        "days": 0
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.85",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "stage_completed",
+      "timestamp": "2026-10-23T03:27:01.273Z",
+      "activeElapsedMs": 12734.199999988079,
+      "stage": 7,
+      "nodeId": "L07.intro",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "stage": 6,
+        "durationActiveMs": 2773.600000023842
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.86",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "stage_entered",
+      "timestamp": "2026-10-23T03:27:01.273Z",
+      "activeElapsedMs": 12734.199999988079,
+      "stage": 7,
+      "nodeId": "L07.intro",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "stage": 7
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.87",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "mentor_reviewed",
+      "timestamp": "2026-10-23T03:27:01.382Z",
+      "activeElapsedMs": 12843.299999952316,
+      "stage": 7,
+      "nodeId": "L07.intro",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "reviewId": "L07.intro",
+        "visibleMs": 89.09999996423721
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.88",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "choice_committed",
+      "timestamp": "2026-10-23T03:27:01.489Z",
+      "activeElapsedMs": 12950.799999952316,
+      "stage": 7,
+      "nodeId": "L07.source",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "choiceId": "documents_start",
+        "riskTag": false,
+        "cashCnyFen": 0,
+        "profitCnyFen": 0,
+        "reputation": 0,
+        "trust": 0,
+        "days": 0
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.89",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "choice_committed",
+      "timestamp": "2026-10-23T03:27:03.388Z",
+      "activeElapsedMs": 14849.5,
+      "stage": 7,
+      "nodeId": "L07.documents",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "choiceId": "documents_submit",
+        "riskTag": false,
+        "cashCnyFen": 0,
+        "profitCnyFen": 0,
+        "reputation": 2,
+        "trust": 0,
+        "days": 0
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.90",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "document_submitted",
+      "timestamp": "2026-10-23T03:27:03.388Z",
+      "activeElapsedMs": 14849.5,
+      "stage": 7,
+      "nodeId": "L07.documents",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "attempt": 1,
+        "missed": 0,
+        "falsePositive": 0,
+        "found": 4
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.91",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "mentor_reviewed",
+      "timestamp": "2026-10-23T03:27:03.565Z",
+      "activeElapsedMs": 15026.299999952316,
+      "stage": 7,
+      "nodeId": "L07.documents.review",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "reviewId": "L07.documents.review",
+        "visibleMs": 77.29999995231628
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.92",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "choice_committed",
+      "timestamp": "2026-10-23T03:27:03.675Z",
+      "activeElapsedMs": 15136,
+      "stage": 7,
+      "nodeId": "L07.documents.gate",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "choiceId": "documents_accept",
+        "riskTag": false,
+        "cashCnyFen": 0,
+        "profitCnyFen": 0,
+        "reputation": 0,
+        "trust": 0,
+        "days": 0
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.93",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "choice_committed",
+      "timestamp": "2026-10-23T03:27:03.870Z",
+      "activeElapsedMs": 15331.799999952316,
+      "stage": 7,
+      "nodeId": "L07.payment",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "choiceId": "tt_verify",
+        "riskTag": false,
+        "cashCnyFen": 0,
+        "profitCnyFen": 0,
+        "reputation": 0,
+        "trust": 0,
+        "days": 0
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.94",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "mentor_reviewed",
+      "timestamp": "2026-10-23T03:27:04.039Z",
+      "activeElapsedMs": 15500.5,
+      "stage": 7,
+      "nodeId": "L07.tt.review",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "reviewId": "L07.tt.review",
+        "visibleMs": 84.5
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.95",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "choice_committed",
+      "timestamp": "2026-10-23T03:27:04.139Z",
+      "activeElapsedMs": 15599.899999976158,
+      "stage": 7,
+      "nodeId": "L07.tt",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "choiceId": "tt_chase",
+        "riskTag": false,
+        "cashCnyFen": 4116784,
+        "profitCnyFen": 0,
+        "reputation": 2,
+        "trust": 0,
+        "days": 2
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.96",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "mentor_reviewed",
+      "timestamp": "2026-10-23T03:27:04.322Z",
+      "activeElapsedMs": 15783.199999988079,
+      "stage": 7,
+      "nodeId": "L07.cash.review",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "reviewId": "L07.cash.review",
+        "visibleMs": 80.60000002384186
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.97",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "choice_committed",
+      "timestamp": "2026-10-23T03:27:04.706Z",
+      "activeElapsedMs": 16167.799999952316,
+      "stage": 7,
+      "nodeId": "L07.tax",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "choiceId": "tax_verify",
+        "riskTag": false,
+        "cashCnyFen": 0,
+        "profitCnyFen": 446018,
+        "reputation": 2,
+        "trust": 0,
+        "days": 0
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.98",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "mentor_reviewed",
+      "timestamp": "2026-10-23T03:27:04.887Z",
+      "activeElapsedMs": 16348.599999964237,
+      "stage": 7,
+      "nodeId": "L07.tax.review",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "reviewId": "L07.tax.review",
+        "visibleMs": 98.09999996423721
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.99",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "choice_committed",
+      "timestamp": "2026-10-23T03:27:04.973Z",
+      "activeElapsedMs": 16433.899999976158,
+      "stage": 7,
+      "nodeId": "L07.tax.gate",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "choiceId": "tax_receive",
+        "riskTag": false,
+        "cashCnyFen": 446018,
+        "profitCnyFen": 0,
+        "reputation": 0,
+        "trust": 0,
+        "days": 30
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.100",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "mentor_reviewed",
+      "timestamp": "2026-10-23T03:27:05.163Z",
+      "activeElapsedMs": 16624.799999952316,
+      "stage": 7,
+      "nodeId": "L07.finish.review",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "reviewId": "L07.finish.review",
+        "visibleMs": 111
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.101",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "stage_completed",
+      "timestamp": "2026-10-23T03:27:05.163Z",
+      "activeElapsedMs": 16624.799999952316,
+      "stage": 7,
+      "nodeId": "L07.complete",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "stage": 7,
+        "durationActiveMs": 3890.599999964237
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.102",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "run_finished",
+      "timestamp": "2026-10-23T03:27:05.164Z",
+      "activeElapsedMs": 16624.799999952316,
+      "stage": 7,
+      "nodeId": "L07.complete",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "endingKind": "excellent",
+        "completion": "completed",
+        "profit": 100,
+        "risk": 100,
+        "professionalism": 100,
+        "relationship": 74,
+        "compliance": 100
+      }
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.103",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "session_suspended",
+      "timestamp": "2026-10-23T03:27:05.466Z",
+      "activeElapsedMs": 16927.5,
+      "stage": 7,
+      "nodeId": "L07.complete",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {}
+    },
+    {
+      "eventId": "aeecc210-3428-4ff8-8027-c8356979c9fc.104",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "aeecc210-3428-4ff8-8027-c8356979c9fc",
+      "eventName": "session_suspended",
+      "timestamp": "2026-10-23T03:27:05.472Z",
+      "activeElapsedMs": 16927.5,
+      "stage": 7,
+      "nodeId": "L07.complete",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {}
+    },
+    {
+      "eventId": "5517b89a-30d6-48b8-9b89-3e9180176fdd.1",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "5517b89a-30d6-48b8-9b89-3e9180176fdd",
+      "eventName": "run_resumed",
+      "timestamp": "2026-10-23T03:27:05.693Z",
+      "activeElapsedMs": 16927.5,
+      "stage": 7,
+      "nodeId": "L07.complete",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "saveRevision": 178,
+        "resumeStage": 7
+      }
+    },
+    {
+      "eventId": "5517b89a-30d6-48b8-9b89-3e9180176fdd.2",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "5517b89a-30d6-48b8-9b89-3e9180176fdd",
+      "eventName": "assessment_answered",
+      "timestamp": "2026-10-23T03:27:06.180Z",
+      "activeElapsedMs": 17024.19999998808,
+      "stage": 7,
+      "nodeId": "L07.complete",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "itemId": "post_rebate",
+        "knowledgeId": "rebate",
+        "correct": true,
+        "phase": "post"
+      }
+    },
+    {
+      "eventId": "5517b89a-30d6-48b8-9b89-3e9180176fdd.3",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "5517b89a-30d6-48b8-9b89-3e9180176fdd",
+      "eventName": "assessment_answered",
+      "timestamp": "2026-10-23T03:27:06.263Z",
+      "activeElapsedMs": 17107.799999952316,
+      "stage": 7,
+      "nodeId": "L07.complete",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "itemId": "post_markup",
+        "knowledgeId": "markup",
+        "correct": true,
+        "phase": "post"
+      }
+    },
+    {
+      "eventId": "5517b89a-30d6-48b8-9b89-3e9180176fdd.4",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "5517b89a-30d6-48b8-9b89-3e9180176fdd",
+      "eventName": "session_suspended",
+      "timestamp": "2026-10-23T03:27:06.297Z",
+      "activeElapsedMs": 17141.19999998808,
+      "stage": 7,
+      "nodeId": "L07.complete",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {}
+    },
+    {
+      "eventId": "5517b89a-30d6-48b8-9b89-3e9180176fdd.5",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "5517b89a-30d6-48b8-9b89-3e9180176fdd",
+      "eventName": "session_suspended",
+      "timestamp": "2026-10-23T03:27:06.302Z",
+      "activeElapsedMs": 17141.19999998808,
+      "stage": 7,
+      "nodeId": "L07.complete",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {}
+    },
+    {
+      "eventId": "99e7fc94-5729-4fac-b50d-9d092dcf63fd.1",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "99e7fc94-5729-4fac-b50d-9d092dcf63fd",
+      "eventName": "run_resumed",
+      "timestamp": "2026-10-23T03:27:06.535Z",
+      "activeElapsedMs": 17141.19999998808,
+      "stage": 7,
+      "nodeId": "L07.complete",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "saveRevision": 178,
+        "resumeStage": 7
+      }
+    },
+    {
+      "eventId": "99e7fc94-5729-4fac-b50d-9d092dcf63fd.2",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "99e7fc94-5729-4fac-b50d-9d092dcf63fd",
+      "eventName": "assessment_answered",
+      "timestamp": "2026-10-23T03:27:06.732Z",
+      "activeElapsedMs": 17141.599999964237,
+      "stage": 7,
+      "nodeId": "L07.complete",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "itemId": "post_cash",
+        "knowledgeId": "cashflow",
+        "correct": true,
+        "phase": "post"
+      }
+    },
+    {
+      "eventId": "99e7fc94-5729-4fac-b50d-9d092dcf63fd.3",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "99e7fc94-5729-4fac-b50d-9d092dcf63fd",
+      "eventName": "assessment_answered",
+      "timestamp": "2026-10-23T03:27:06.814Z",
+      "activeElapsedMs": 17223.299999952316,
+      "stage": 7,
+      "nodeId": "L07.complete",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "itemId": "post_tt",
+        "knowledgeId": "tt",
+        "correct": true,
+        "phase": "post"
+      }
+    },
+    {
+      "eventId": "99e7fc94-5729-4fac-b50d-9d092dcf63fd.4",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "99e7fc94-5729-4fac-b50d-9d092dcf63fd",
+      "eventName": "assessment_answered",
+      "timestamp": "2026-10-23T03:27:06.895Z",
+      "activeElapsedMs": 17304.099999964237,
+      "stage": 7,
+      "nodeId": "L07.complete",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "itemId": "post_lc",
+        "knowledgeId": "lc",
+        "correct": true,
+        "phase": "post"
+      }
+    },
+    {
+      "eventId": "99e7fc94-5729-4fac-b50d-9d092dcf63fd.5",
+      "runId": "run.shipping.ui.680",
+      "sessionId": "99e7fc94-5729-4fac-b50d-9d092dcf63fd",
+      "eventName": "assessment_answered",
+      "timestamp": "2026-10-23T03:27:06.979Z",
+      "activeElapsedMs": 17388.19999998808,
+      "stage": 7,
+      "nodeId": "L07.complete",
+      "seedHash": "4265f17e",
+      "contentVersion": "0.10.0-slice",
+      "configVersion": "playtest-1",
+      "schemaVersion": 1,
+      "data": {
+        "itemId": "post_fob",
+        "knowledgeId": "incoterm",
+        "correct": true,
+        "phase": "post"
+      }
+    }
+  ],
+  "droppedEvents": 0,
+  "capacityReached": false,
+  "metrics": {
+    "observationAt": "2026-10-23T03:27:07.047Z",
+    "startedRuns": 1,
+    "completedRuns": 1,
+    "completionRate": 1,
+    "endedRuns": 1,
+    "anyEndingRate": 1,
+    "restartedRuns": 0,
+    "restartRate": 0,
+    "restartsDuring": 0,
+    "restartsAfterEnding": 0,
+    "excludedPracticeOrImported": 0,
+    "activeMs": 17455.299999952316,
+    "stages": [
+      {
+        "stage": 1,
+        "entered": 1,
+        "completed": 1,
+        "activeMs": 1262.0999999642372,
+        "suspectedDropout": 0,
+        "observedDropout24h": 0
+      },
+      {
+        "stage": 2,
+        "entered": 1,
+        "completed": 1,
+        "activeMs": 2088.5,
+        "suspectedDropout": 0,
+        "observedDropout24h": 0
+      },
+      {
+        "stage": 3,
+        "entered": 1,
+        "completed": 1,
+        "activeMs": 820.6000000238419,
+        "suspectedDropout": 0,
+        "observedDropout24h": 0
+      },
+      {
+        "stage": 4,
+        "entered": 1,
+        "completed": 1,
+        "activeMs": 1893.5999999642372,
+        "suspectedDropout": 0,
+        "observedDropout24h": 0
+      },
+      {
+        "stage": 5,
+        "entered": 1,
+        "completed": 1,
+        "activeMs": 3895.800000011921,
+        "suspectedDropout": 0,
+        "observedDropout24h": 0
+      },
+      {
+        "stage": 6,
+        "entered": 1,
+        "completed": 1,
+        "activeMs": 2773.600000023842,
+        "suspectedDropout": 0,
+        "observedDropout24h": 0
+      },
+      {
+        "stage": 7,
+        "entered": 1,
+        "completed": 1,
+        "activeMs": 4721.099999964237,
+        "suspectedDropout": 0,
+        "observedDropout24h": 0
+      }
+    ],
+    "knowledge": {
+      "pairedN": 1,
+      "preMean": 6,
+      "postMean": 6,
+      "improvementPoints": 0,
+      "preSkipped": 0,
+      "preSkipRate": 0,
+      "postEligible": 1,
+      "postSkipped": 0,
+      "postSkipRate": 0,
+      "pendingOrUnpaired": 0
+    },
+    "droppedEvents": 0,
+    "capacityReached": false
+  }
+}

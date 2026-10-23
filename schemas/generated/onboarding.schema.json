@@ -1,0 +1,271 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "version": {
+      "type": "string",
+      "const": "onboarding-1"
+    },
+    "idleSeconds": {
+      "type": "integer",
+      "minimum": 30,
+      "maximum": 120
+    },
+    "labels": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 240
+        },
+        "skip": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 240
+        },
+        "replay": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 240
+        },
+        "next": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 240
+        },
+        "practice": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 240
+        },
+        "locate": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 240
+        },
+        "help": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 240
+        },
+        "dismiss": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 240
+        },
+        "complete": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 240
+        },
+        "unavailable": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 240
+        },
+        "storage": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 240
+        },
+        "idle": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 240
+        }
+      },
+      "required": [
+        "title",
+        "skip",
+        "replay",
+        "next",
+        "practice",
+        "locate",
+        "help",
+        "dismiss",
+        "complete",
+        "unavailable",
+        "storage",
+        "idle"
+      ],
+      "additionalProperties": false
+    },
+    "overview": {
+      "minItems": 3,
+      "maxItems": 3,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]*$"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 240
+          },
+          "text": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 240
+          },
+          "target": {
+            "type": "string",
+            "enum": [
+              "start",
+              "resume",
+              "progress",
+              "resources",
+              "glossary",
+              "product",
+              "supplier",
+              "feedback",
+              "review",
+              "choices",
+              "mail",
+              "quote",
+              "pi",
+              "funding",
+              "inspection",
+              "declaration",
+              "transport",
+              "documents",
+              "tax",
+              "rescue",
+              "ending",
+              "assessment",
+              "recovery"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "text",
+          "target"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "rules": {
+      "minItems": 10,
+      "maxItems": 50,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]*$"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 240
+          },
+          "text": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 240
+          },
+          "target": {
+            "type": "string",
+            "enum": [
+              "start",
+              "resume",
+              "progress",
+              "resources",
+              "glossary",
+              "product",
+              "supplier",
+              "feedback",
+              "review",
+              "choices",
+              "mail",
+              "quote",
+              "pi",
+              "funding",
+              "inspection",
+              "declaration",
+              "transport",
+              "documents",
+              "tax",
+              "rescue",
+              "ending",
+              "assessment",
+              "recovery"
+            ]
+          },
+          "when": {
+            "type": "object",
+            "properties": {
+              "screen": {
+                "type": "string",
+                "enum": [
+                  "home",
+                  "resume",
+                  "game",
+                  "ending",
+                  "assessment",
+                  "recovery",
+                  "reference"
+                ]
+              },
+              "phase": {
+                "type": "string",
+                "enum": [
+                  "rescue",
+                  "feedback",
+                  "review",
+                  "event",
+                  "normal"
+                ]
+              },
+              "nodeIds": {
+                "minItems": 1,
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "tag": {
+                "type": "string"
+              },
+              "nodeType": {
+                "type": "string"
+              },
+              "stage": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 7
+              }
+            },
+            "required": [
+              "screen"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "text",
+          "target",
+          "when"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "version",
+    "idleSeconds",
+    "labels",
+    "overview",
+    "rules"
+  ],
+  "additionalProperties": false
+}

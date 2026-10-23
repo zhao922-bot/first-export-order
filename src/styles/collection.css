@@ -1,0 +1,102 @@
+.document-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+}
+.document-tabs button[aria-pressed='true'] {
+  background: #153e37;
+  color: white;
+}
+.document-workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  gap: 1rem;
+  align-items: start;
+}
+.document-field,
+.tax-field {
+  padding: 1rem 0;
+  border-bottom: 1px solid #dbe3db;
+}
+.document-field:last-child,
+.tax-field:last-child {
+  border-bottom: 0;
+}
+.document-value {
+  font-family: monospace;
+  overflow-wrap: anywhere;
+  margin: 0.5rem 0;
+  font-size: 1.05rem;
+}
+.document-mark {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  cursor: pointer;
+  min-height: 44px;
+}
+.document-mark input {
+  width: 1.2rem;
+  height: 1.2rem;
+  accent-color: #285b4c;
+}
+.document-correction {
+  display: grid;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+.document-correction input,
+.tax-field select {
+  width: 100%;
+  min-height: 44px;
+  border: 1px solid #869b90;
+  border-radius: 6px;
+  padding: 0.6rem;
+  background: white;
+}
+.document-source dl {
+  display: grid;
+  grid-template-columns: 1fr 1.3fr;
+  gap: 0.7rem;
+}
+.document-source dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+  font-weight: 600;
+}
+.document-source dt {
+  color: #53675c;
+}
+.receivable-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+.receivable-grid dt {
+  font-size: 0.8rem;
+  color: #53675c;
+}
+.receivable-grid dd {
+  margin: 0.3rem 0 0;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+.collection-settlement li {
+  margin: 0.8rem 0;
+}
+.collection-settlement ol,
+.collection-settlement ul {
+  padding-left: 1.3rem;
+}
+@media (max-width: 800px) {
+  .document-workspace {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .receivable-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .document-source {
+    order: -1;
+  }
+}

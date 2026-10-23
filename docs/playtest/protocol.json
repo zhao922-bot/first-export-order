@@ -1,0 +1,12 @@
+{
+  "protocolVersion": "human-playtest-1",
+  "contentVersion": "0.10.0-slice",
+  "configVersion": "playtest-1",
+  "contentSha256": "67b398cbe076d7689d8d05a9bd625734d7f3ccf17b2c3616c66a533ebb859a18",
+  "minimumParticipants": 12,
+  "minimumPaired": 12,
+  "completionRate": 0.7,
+  "medianGainPp": 20,
+  "durationMinutes": [30, 45],
+  "maxReviewCharacters": 120
+}

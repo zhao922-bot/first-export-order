@@ -1,0 +1,72 @@
+{
+  "version": "presentation-1",
+  "atlas": "assets/portraits/cast-v1.png",
+  "actors": [
+    {
+      "id": "mentor_lin",
+      "name": "林姐",
+      "role": "外贸前辈 · 陪你复盘每个决定",
+      "column": 0,
+      "row": 0
+    },
+    { "id": "customer_a", "name": "Anna", "role": "德国连锁采购负责人", "column": 1, "row": 0 },
+    { "id": "customer_b", "name": "Khalid", "role": "中东批发商", "column": 2, "row": 0 },
+    { "id": "customer_c", "name": "Emma", "role": "澳大利亚小店店主", "column": 0, "row": 1 },
+    {
+      "id": "customer_d",
+      "name": "环球急采",
+      "role": "自称跨国采购代理（虚构）",
+      "column": 1,
+      "row": 1
+    },
+    { "id": "customer_e", "name": "Noah", "role": "美国品牌采购", "column": 2, "row": 1 }
+  ],
+  "stages": [
+    {
+      "stage": 1,
+      "title": "从样品桌出发",
+      "subtitle": "选一件你愿意认真了解的产品，寻找能兑现承诺的供应商。",
+      "scene": "samples"
+    },
+    {
+      "stage": 2,
+      "title": "收件箱里的机会",
+      "subtitle": "每封询盘都需要证据。先读需求，再决定如何回应。",
+      "scene": "inbox"
+    },
+    {
+      "stage": 3,
+      "title": "把每一笔成本算清",
+      "subtitle": "让数字有出处，也让报价留出合理空间。",
+      "scene": "quote"
+    },
+    {
+      "stage": 4,
+      "title": "坐下来，谈一份好合同",
+      "subtitle": "价格、付款与交付条件，需要放在一起考虑。",
+      "scene": "meeting"
+    },
+    {
+      "stage": 5,
+      "title": "去仓库，看真实的货",
+      "subtitle": "从 PI 到到账凭证，再到验货记录，一项一项核对。",
+      "scene": "warehouse"
+    },
+    {
+      "stage": 6,
+      "title": "让订单准备出海",
+      "subtitle": "比较船期、运费和保险；出运状态以实际记录为准。",
+      "scene": "harbor"
+    },
+    {
+      "stage": 7,
+      "title": "最后一程，核对与收汇",
+      "subtitle": "单据一致，款项核实，退税有据，才算走完这一单。",
+      "scene": "documents"
+    }
+  ],
+  "home": {
+    "title": "你的外贸故事，从这里开始",
+    "subtitle": "七个业务现场，一位陪你复盘的前辈。第一单，我们一起走。"
+  }
+}

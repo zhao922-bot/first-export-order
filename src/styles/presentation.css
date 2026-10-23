@@ -1,0 +1,537 @@
+/* Presentation only. No animation event dispatches a game command. */
+.motion-control {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 8px;
+  font-size: 0.73rem;
+}
+.motion-control label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+.motion-control select {
+  padding: 5px 7px;
+  min-height: 44px;
+  border-radius: 8px;
+  border: 1px solid #c6d2c7;
+  background: #fffdf6;
+  color: #2d5148;
+  font: inherit;
+}
+.motion-control small {
+  max-width: 180px;
+}
+.character-portrait {
+  width: 220px;
+  aspect-ratio: 1;
+  position: relative;
+  flex: 0 0 auto;
+}
+.character-crop {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  animation: character-breathe 6s ease-in-out infinite;
+  transform-origin: 50% 95%;
+}
+.character-crop img {
+  position: absolute;
+  width: 300%;
+  height: 200%;
+  max-width: none;
+  user-select: none;
+  pointer-events: none;
+}
+.character-portrait.compact {
+  width: 125px;
+}
+.character-fallback {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  border-radius: 50% 50% 14% 14%;
+  background: #dbe6d8;
+  font:
+    500 4rem Georgia,
+    serif;
+  color: #3a6454;
+}
+.story-stage {
+  isolation: isolate;
+  position: relative;
+  overflow: hidden;
+  min-height: 230px;
+  margin-bottom: 25px;
+  border: 1px solid #d3ddcd;
+  border-radius: 20px;
+  background: linear-gradient(115deg, #f8f4e7, #e9eee1);
+  box-shadow: 0 5px 18px #31543d08;
+  animation: scene-arrive 0.4s ease-out;
+}
+.scene-copy {
+  position: relative;
+  z-index: 1;
+  width: calc(100% - 405px);
+  min-width: 230px;
+  padding: 30px 0 36px 26px;
+}
+.scene-kicker {
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  color: #5e7464;
+}
+.scene-copy h2 {
+  font-size: 1.55rem;
+  font-family: Georgia, 'Microsoft YaHei', serif;
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  margin: 12px 0 10px;
+  line-height: 1.35;
+}
+.scene-copy p {
+  font-size: 0.82rem;
+  color: #5d7161;
+  margin: 0;
+  max-width: 34em;
+}
+.story-stage > .scene-artwork {
+  position: absolute;
+  width: 310px;
+  right: 135px;
+  bottom: 10px;
+}
+.scene-person {
+  position: absolute;
+  right: 5px;
+  bottom: 23px;
+  width: 212px;
+}
+.scene-person .character-portrait {
+  width: 100%;
+}
+.scene-name {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #fffaf0ed;
+  color: #355449;
+  padding: 2px 16px;
+  border: 1px solid #d2d2bb;
+  border-radius: 30px;
+  font-size: 0.72rem;
+  white-space: nowrap;
+}
+.scene-footnote {
+  position: absolute;
+  right: 14px;
+  bottom: 5px;
+  color: #5e7263;
+  font-size: 0.6rem;
+}
+.scene-artwork {
+  overflow: visible;
+}
+.scene-cloud {
+  animation: cloud-drift 16s ease-in-out infinite alternate;
+}
+.scene-vessel {
+  animation: vessel-bob 5s ease-in-out infinite;
+  transform-origin: 220px 210px;
+}
+.scene-water {
+  animation: cloud-drift 6s ease-in-out infinite alternate;
+}
+.scene-mail,
+.scene-object {
+  animation: object-float 5s ease-in-out infinite;
+}
+.scene-inspection {
+  animation: inspection-scan 9s ease-in-out infinite;
+}
+.scene-pen {
+  animation: pen-write 5s ease-in-out infinite;
+  transform-origin: 205px 192px;
+}
+.landing-intro {
+  display: grid;
+  grid-template-columns: 1.08fr 1fr;
+  gap: 24px;
+  align-items: center;
+  margin: 0 0 30px;
+}
+.landing-copy h1 {
+  font-size: clamp(2.3rem, 3.7vw, 3.8rem);
+  line-height: 1.2;
+  margin: 22px 0;
+  font-family: Georgia, 'Microsoft YaHei', serif;
+}
+.landing-copy .lead {
+  font-size: 1rem;
+  line-height: 1.9;
+}
+.landing-stage {
+  position: relative;
+  height: 355px;
+  border-radius: 150px 150px 28px 28px;
+  background: #ece8d6;
+  background-image: radial-gradient(ellipse at 70% 20%, #fbf5df, transparent 70%);
+  overflow: hidden;
+  isolation: isolate;
+}
+.landing-stage > .scene-artwork {
+  position: absolute;
+  width: 105%;
+  left: -25%;
+  top: 10px;
+  opacity: 0.85;
+}
+.landing-stage .character-portrait {
+  position: absolute;
+  width: 290px;
+  max-width: 90%;
+  right: -10px;
+  bottom: 68px;
+}
+.landing-greeting {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: #254e43;
+  color: #f8f3e1;
+  padding: 15px 24px;
+}
+.landing-greeting span {
+  font-size: 0.76rem;
+  color: #e6c787;
+}
+.landing-greeting p {
+  font-size: 0.82rem;
+  line-height: 1.6;
+  margin: 5px 0 0;
+}
+.postmark {
+  position: absolute;
+  left: 20px;
+  top: 25px;
+  border: 2px solid #65826d;
+  border-radius: 50%;
+  width: 85px;
+  height: 85px;
+  display: grid;
+  place-content: center;
+  font-size: 0.7rem;
+  line-height: 1.25;
+  text-align: center;
+  color: #547462;
+  transform: rotate(-17deg);
+  letter-spacing: 0.12em;
+  opacity: 0.7;
+}
+.mentor-review,
+.mentor-ending {
+  display: flex;
+  align-items: center;
+  gap: 26px;
+  background: linear-gradient(120deg, #f7f0dc, #fffef9 50%);
+  border-radius: 20px;
+  border-color: #d8d6ba;
+  animation: scene-arrive 0.35s ease-out;
+}
+.mentor-review > .character-portrait,
+.mentor-ending > .character-portrait {
+  width: 180px;
+  align-self: flex-end;
+  margin: -10px 0 -25px -12px;
+}
+.mentor-review > div:last-child,
+.mentor-ending > div:last-child {
+  flex: 1;
+  min-width: 0;
+}
+.mentor-copy {
+  line-height: 1.95;
+}
+.consequence {
+  border-radius: 18px;
+  border-left: 5px solid #668b78;
+  background: #fcfbf4;
+  animation: receipt-arrive 0.32s ease-out;
+  position: relative;
+}
+.consequence::after {
+  content: '决策记录';
+  position: absolute;
+  right: 20px;
+  top: 22px;
+  padding: 4px 10px;
+  border: 2px solid #839582;
+  color: #5b745f;
+  transform: rotate(9deg);
+  font-size: 0.65rem;
+  border-radius: 4px;
+  opacity: 0.65;
+  pointer-events: none;
+}
+.consequence h2 {
+  padding-right: 75px;
+}
+.event-context {
+  border-left: 5px solid #b48c54;
+}
+.product-card {
+  border-radius: 16px;
+  overflow: hidden;
+}
+.product-art {
+  gap: 0;
+  padding-bottom: 10px;
+}
+.product-illustration {
+  width: 100%;
+  max-width: 245px;
+  height: 150px;
+  transition: transform 0.25s ease;
+}
+.product-card:hover .product-illustration,
+.product-card:focus-within .product-illustration {
+  transform: translateY(-4px) rotate(-2deg);
+}
+.choice-button,
+.primary,
+.secondary,
+.supplier-card,
+.mail-card {
+  transition:
+    background-color 0.18s ease,
+    box-shadow 0.18s ease,
+    transform 0.18s ease;
+}
+.primary:active,
+.secondary:active,
+.choice-button:active:not(:disabled) {
+  transform: translateY(2px);
+}
+.ending-hero {
+  animation: scene-arrive 0.45s ease-out;
+}
+@keyframes character-breathe {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0);
+  }
+  50% {
+    transform: translateY(-3px) rotate(0.35deg);
+  }
+}
+@keyframes scene-arrive {
+  from {
+    opacity: 0.4;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes receipt-arrive {
+  from {
+    opacity: 0.5;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes cloud-drift {
+  to {
+    transform: translateX(12px);
+  }
+}
+@keyframes vessel-bob {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-0.6deg);
+  }
+  50% {
+    transform: translateY(-3px) rotate(0.6deg);
+  }
+}
+@keyframes object-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+@keyframes inspection-scan {
+  0%,
+  100% {
+    transform: translateX(-8px);
+  }
+  50% {
+    transform: translateX(20px);
+  }
+}
+@keyframes pen-write {
+  0%,
+  80%,
+  100% {
+    transform: rotate(0);
+  }
+  40% {
+    transform: rotate(-9deg);
+  }
+}
+@media (max-width: 1150px) and (min-width: 761px) {
+  .scene-copy {
+    width: 48%;
+    min-width: 0;
+  }
+  .story-stage > .scene-artwork {
+    width: 235px;
+    right: 90px;
+  }
+  .scene-person {
+    width: 170px;
+  }
+  .landing-intro {
+    grid-template-columns: 1fr;
+  }
+  .landing-stage {
+    height: 270px;
+    max-width: 550px;
+  }
+  .landing-stage .character-portrait {
+    width: 240px;
+  }
+}
+@media (max-width: 760px) {
+  .landing-intro {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .landing-copy h1 {
+    font-size: 2.45rem;
+    margin: 16px 0;
+  }
+  .landing-stage {
+    height: 250px;
+    border-radius: 90px 90px 20px 20px;
+  }
+  .landing-stage .character-portrait {
+    width: 215px;
+    bottom: 60px;
+    right: -3px;
+  }
+  .landing-stage > .scene-artwork {
+    width: 90%;
+    left: -15%;
+    top: -8px;
+  }
+  .landing-greeting {
+    padding: 12px 17px;
+  }
+  .postmark {
+    width: 64px;
+    height: 64px;
+    font-size: 0.55rem;
+    top: 25px;
+  }
+  .story-stage {
+    min-height: 215px;
+    border-radius: 16px;
+  }
+  .scene-copy {
+    min-width: 0;
+    width: 56%;
+    padding: 18px 0 45px 16px;
+  }
+  .scene-copy h2 {
+    font-size: 1.2rem;
+    margin: 9px 0;
+  }
+  .scene-copy p {
+    font-size: 0.73rem;
+  }
+  .scene-kicker {
+    font-size: 0.5rem;
+    letter-spacing: 0.06em;
+  }
+  .scene-person {
+    right: -12px;
+    width: 155px;
+    bottom: 29px;
+  }
+  .story-stage > .scene-artwork {
+    width: 180px;
+    right: 25px;
+    bottom: 7px;
+    opacity: 0.35;
+  }
+  .scene-name {
+    bottom: -6px;
+    font-size: 0.65rem;
+  }
+  .scene-footnote {
+    font-size: 0.53rem;
+  }
+  .mentor-review,
+  .mentor-ending {
+    display: block;
+    padding-top: 12px;
+  }
+  .mentor-review > .character-portrait,
+  .mentor-ending > .character-portrait {
+    width: 125px;
+    margin: 0 auto 12px;
+  }
+  .consequence::after {
+    right: 12px;
+    top: 18px;
+    font-size: 0.55rem;
+  }
+  .product-illustration {
+    height: 120px;
+  }
+  .motion-control {
+    margin-left: auto;
+  }
+}
+/* System preference is a hard ceiling, including before hydration. */
+@media (prefers-reduced-motion: reduce) {
+  .app-shell *,
+  .app-shell *::before,
+  .app-shell *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+  .product-card:hover .product-illustration,
+  .product-card:focus-within .product-illustration {
+    transform: none;
+  }
+}
+.app-shell[data-motion='off'] *,
+.app-shell[data-motion='off'] *::before,
+.app-shell[data-motion='off'] *::after {
+  animation: none !important;
+  transition: none !important;
+  scroll-behavior: auto !important;
+}
+.app-shell[data-motion='off'] .product-illustration {
+  transform: none;
+}
+.app-shell[data-paused='true'] *,
+.app-shell[data-paused='true'] *::before,
+.app-shell[data-paused='true'] *::after {
+  animation-play-state: paused !important;
+}
