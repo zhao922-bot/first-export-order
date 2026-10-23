@@ -1,0 +1,93 @@
+name: GitHub Pages 部署与线上验收
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: github-pages
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      pages: read
+    steps:
+      - uses: actions/checkout@v6
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.33.0
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: pnpm
+      - uses: actions/configure-pages@v5
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm format:check
+      - run: pnpm lint
+      - run: pnpm test:coverage
+      - run: pnpm exec playwright install --with-deps chromium webkit
+      # Builds and exercises the real /first-export-order/ production directory.
+      - run: pnpm test:pages
+      - name: Record deployed revision
+        run: |
+          node --input-type=module -e "import { writeFileSync } from 'node:fs'; writeFileSync('dist-pages/deployment.json', JSON.stringify({ commit: process.env.GITHUB_SHA, builtAt: new Date().toISOString() }) + '\n');"
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: dist-pages
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: pages-build-tests
+          path: |
+            playwright-report/pages/
+            test-results/pages/
+            test-results/pages-results.json
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    outputs:
+      page_url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4
+  verify-live:
+    needs: deploy
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.33.0
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec playwright install --with-deps chromium webkit
+      - name: Verify the public URL and saved progress
+        run: pnpm test:pages
+        env:
+          PAGES_BASE_URL: ${{ needs.deploy.outputs.page_url }}
+          EXPECTED_COMMIT: ${{ github.sha }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pages-live-tests
+          path: |
+            playwright-report/pages/
+            test-results/pages/
+            test-results/pages-results.json
+          retention-days: 14

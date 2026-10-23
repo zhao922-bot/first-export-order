@@ -26,7 +26,9 @@ export async function startInquiry(
       ? 'trade://app/'
       : currentUrl.startsWith('https://localhost')
         ? 'https://localhost/'
-        : '/',
+        : /^https?:/.test(currentUrl)
+          ? new URL('./', currentUrl).href
+          : '/',
   );
   if (await page.getByRole('button', { name: /重开选品练习/ }).count())
     page.once('dialog', (dialog) => dialog.accept());

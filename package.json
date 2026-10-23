@@ -14,6 +14,8 @@
     "content:validate": "tsx scripts/validate-content.ts",
     "content:schema": "tsx scripts/export-json-schema.ts",
     "build": "pnpm content:validate && pnpm typecheck && vite build",
+    "build:pages": "pnpm content:validate && pnpm typecheck && vite build --base=/first-export-order/ --outDir=dist-pages",
+    "test:pages": "playwright test --config=playwright.pages.config.ts",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",

@@ -6,7 +6,7 @@
 
 当前版本 **0.2.0 角色动画试玩版**。Vue 3 + TypeScript + Pinia + Vite，剧情、新手引导、角色演出与业务参数由 JSON 驱动，支持浏览器、Windows 和 Android 离线游玩。
 
-[下载 EXE / APK](https://github.com/zhao922-bot/first-export-order/releases/tag/v0.2.0) · [安装与旧存档升级](docs/NATIVE_PLAYTEST.md) · [版本与测试记录](docs/releases/v0.2.0.md)
+[直接在线试玩](https://zhao922-bot.github.io/first-export-order/) · [下载 EXE / APK](https://github.com/zhao922-bot/first-export-order/releases/tag/v0.2.0) · [安装与旧存档升级](docs/NATIVE_PLAYTEST.md) · [版本与测试记录](docs/releases/v0.2.0.md)
 
 ![游戏首页与林姐](docs/screenshots/home-desktop.png)
 
@@ -23,6 +23,8 @@
 游戏中的金额、费率和规则场景是可配置的教学算例。专业审校和 12 人真人试玩尚待完成，不能把自动化通过视为真实业务能力认证。当前没有云存档、联网对战或排行榜。
 
 ## 直接试玩
+
+手机或电脑打开 **https://zhao922-bot.github.io/first-export-order/**，无需安装。建议使用常用浏览器打开，同一浏览器可自动保存、刷新或关页后继续。原本地地址、EXE/APK 和在线版不共用存储；迁移旧进度请先导出 JSON，再在在线版「存档与恢复」中导入。详见 [网页版使用与部署说明](docs/GITHUB_PAGES.md)。
 
 在 [Releases](https://github.com/zhao922-bot/first-export-order/releases) 下载适合设备的文件：
 
@@ -53,7 +55,7 @@ pnpm build
 pnpm preview --port 4173
 ```
 
-生产输出在 `dist/`，采用相对资源路径和 hash 路由。本仓库发布源码与下载包，未配置 GitHub Pages 在线站点。
+普通生产输出在 `dist/`，采用相对资源路径和 hash 路由。`pnpm build:pages` 单独生成带 `/first-export-order/` 资源前缀的 `dist-pages/`；Pages 自动部署和线上浏览器验收见 [部署工作流](.github/workflows/pages.yml)。
 
 ## 检查与复现
 
