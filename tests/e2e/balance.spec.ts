@@ -1,3 +1,4 @@
+import { inDesk } from './desk-helpers';
 import { expect, test, type Page } from '@playwright/test';
 import {
   startInquiry,
@@ -26,17 +27,17 @@ async function wrong(page: Page) {
   for (const label of labels) {
     const input = page.getByLabel(label, { exact: true });
     if (await input.count()) {
-      if (label === '本题利润率口径') await input.selectOption('salesMargin');
-      else await input.fill('0');
+      if (label === '本题利润率口径') await (await inDesk(input)).selectOption('salesMargin');
+      else await (await inDesk(input)).fill('0');
     }
   }
-  await page.getByRole('button', { name: /提交完整报价|校核这一步/ }).click();
+  await (await inDesk(page.getByRole('button', { name: /提交完整报价|校核这一步/ }))).click();
 }
 test.setTimeout(90000);
 test('连续四次数值错误：可继续纠错，刷新不扣费、不丢单、不改变客户关系', async ({ page }) => {
   await beginQuote(page);
   const initial = await saved(page);
-  await page.getByRole('button', { name: /提交完整报价/ }).click();
+  await (await inDesk(page.getByRole('button', { name: /提交完整报价/ }))).click();
   expect((await saved(page)).snapshot.journal).toEqual(initial.snapshot.journal);
   for (let i = 0; i < 4; i++) {
     await wrong(page);
@@ -98,12 +99,12 @@ test('完整流程首次数值错误仍可分步改正，不会提前终止询�
   await continueReview(page);
   for (let step = 0; step < 5; step++) {
     const input = page.getByLabel(labels[step]!, { exact: true });
-    if (step === 2) await input.selectOption(answers[step]!);
-    else await input.fill(answers[step]!);
-    await page.getByRole('button', { name: /校核这一步/ }).click();
+    if (step === 2) await (await inDesk(input)).selectOption(answers[step]!);
+    else await (await inDesk(input)).fill(answers[step]!);
+    await (await inDesk(page.getByRole('button', { name: /校核这一步/ }))).click();
     await next(page);
   }
-  await page.getByRole('button', { name: /提交完整报价/ }).click();
+  await (await inDesk(page.getByRole('button', { name: /提交完整报价/ }))).click();
   await review(page);
   await continueReview(page);
   const corrected = await saved(page);

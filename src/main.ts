@@ -9,5 +9,6 @@ import './styles/presentation.css';
 import './styles/polish.css';
 import './styles/trade-polish.css';
 import './styles/experience.css';
+import './styles/desk.css';
 
 createApp(App).use(createPinia()).use(router).mount('#app');

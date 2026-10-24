@@ -4,9 +4,9 @@
 
 面向外贸新手的单人叙事经营游戏。跟随林姐完成第一笔模拟出口订单，从选品、询盘、报价、谈判，到备货、出运和收汇；每次选择都有财务后果和业务复盘。
 
-当前版本 **0.3.0 视觉精修试玩版**。Vue 3 + TypeScript + Pinia + Vite，剧情、新手引导、角色演出与业务参数由 JSON 驱动，支持浏览器、Windows 和 Android 离线游玩。
+当前版本 **0.4.0 固定界面试玩版**。Vue 3 + TypeScript + Pinia + Vite，剧情、新手引导、角色演出与业务参数由 JSON 驱动，支持浏览器、Windows 和 Android 离线游玩。
 
-[直接在线试玩](https://zhao922-bot.github.io/first-export-order/) · [下载 EXE / APK](https://github.com/zhao922-bot/first-export-order/releases/tag/v0.3.0) · [安装与旧存档升级](docs/NATIVE_PLAYTEST.md) · [版本与测试记录](docs/releases/v0.3.0.md)
+[直接在线试玩](https://zhao922-bot.github.io/first-export-order/) · [下载 EXE / APK](https://github.com/zhao922-bot/first-export-order/releases/tag/v0.4.0) · [安装与旧存档升级](docs/NATIVE_PLAYTEST.md) · [版本与测试记录](docs/releases/v0.4.0.md)
 
 ![游戏首页与林姐](docs/screenshots/home-desktop.png)
 
@@ -17,24 +17,25 @@
 - 12 个随机事件，固定种子可复现，刷新不重抽；收付款记入账本，恢复不重复扣款。
 - 四类结局、五维评分、关键决策回放、24 个知识词条和复购意向。
 - 首次进入逐步引导、示范操作、卡住提示与一次救援检查点；支持跳过和重新查看。
-- 林姐六种表情和客户阅读/回复姿态、七关精修场景、业务回执与轻量动画；可关闭动效，并尊重系统减少动态偏好。
-- 手机任务定位、验货阅读状态、单据对照提示；首页按需加载，输入反馈与保存解耦，跨窗口写入串行保护。
+- 林姐六种表情和客户阅读/回复姿态、七关精修场景、固定数值栏与轻量动画；可关闭动效，并尊重系统减少动态偏好。
+- 手机竖屏与 Windows 横屏固定工作台；长内容分页，数值变化即时动画，不再反复弹出后果页。
+- 任务定位、验货阅读状态、单据对照提示；首页按需加载，输入反馈与保存解耦，跨窗口写入串行保护。
 - 自动存档、三个手动槽及 JSON 导入导出；试玩指标与知识前后测保存在本地，由玩家主动导出。
 
 游戏中的金额、费率和规则场景是可配置的教学算例。专业审校和 12 人真人试玩尚待完成，不能把自动化通过视为真实业务能力认证。当前没有云存档、联网对战或排行榜。
 
 ## 直接试玩
 
-默认 `main` 分支已同步 0.3.0 视觉精修与性能优化代码；网页版由 GitHub Pages 工作流检查通过后自动部署。手机或电脑打开 **https://zhao922-bot.github.io/first-export-order/**，无需安装。建议使用常用浏览器打开，同一浏览器可自动保存、刷新或关页后继续。原本地地址、EXE/APK 和在线版不共用存储；迁移旧进度请先导出 JSON，再在在线版「存档与恢复」中导入。详见 [网页版使用与部署说明](docs/GITHUB_PAGES.md)。
+默认 `main` 分支已同步 0.4.0 固定界面代码；网页版由 GitHub Pages 工作流检查通过后自动部署。手机或电脑打开 **https://zhao922-bot.github.io/first-export-order/**，无需安装。建议使用常用浏览器打开，同一浏览器可自动保存、刷新或关页后继续。原本地地址、EXE/APK 和在线版不共用存储；迁移旧进度请先导出 JSON，再在在线版「存档与恢复」中导入。详见 [网页版使用与部署说明](docs/GITHUB_PAGES.md)。
 
 在 [Releases](https://github.com/zhao922-bot/first-export-order/releases) 下载适合设备的文件：
 
 | 平台              | 文件                                                                                                                                         | 启动方式                   |
 | ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------- |
-| Windows 10/11 x64 | [下载 Windows EXE 0.3.0](https://github.com/zhao922-bot/first-export-order/releases/download/v0.3.0/FirstExportOrder-0.3.0-win-x64.exe)      | 双击运行，无需安装 Node.js |
-| Android 7.0+      | [下载 Android APK 0.3.0](https://github.com/zhao922-bot/first-export-order/releases/download/v0.3.0/FirstExportOrder-0.3.0-android-test.apk) | 按系统提示安装或覆盖更新   |
+| Windows 10/11 x64 | [下载 Windows EXE 0.4.0](https://github.com/zhao922-bot/first-export-order/releases/download/v0.4.0/FirstExportOrder-0.4.0-win-x64.exe)      | 双击运行，无需安装 Node.js |
+| Android 7.0+      | [下载 Android APK 0.4.0](https://github.com/zhao922-bot/first-export-order/releases/download/v0.4.0/FirstExportOrder-0.4.0-android-test.apk) | 按系统提示安装或覆盖更新   |
 
-EXE 尚无商业代码签名，APK 使用测试签名。Release 提供 SHA-256 清单和使用说明。更新前先导出存档；Android 请直接覆盖安装，卸载或清除数据会删除进度。升级检查覆盖本项目原 0.1.0、0.2.0 到本次 0.3.0。
+EXE 尚无商业代码签名，APK 使用测试签名。Release 提供 SHA-256 清单和使用说明。更新前先导出存档；Android 请直接覆盖安装，卸载或清除数据会删除进度。升级检查覆盖本项目原 0.1.0、0.2.0、0.3.0 到本次 0.4.0。
 
 浏览器、EXE、APK 的存档分别保存在各端；跨平台使用游戏内 JSON 导出/导入。知识测评和试玩记录需单独导出。详情见 [原生试玩说明](docs/NATIVE_PLAYTEST.md)。
 
@@ -84,7 +85,7 @@ pnpm package:exe
 pnpm package:apk
 ```
 
-原生回归使用 `pnpm test:native` / `pnpm test:android`，需要先构建当前包，并准备原 0.1.0 / 0.2.0 升级测试输入；历史包不在 Git 中。这两项不包含在通用 Web CI 内。Android 回归仅允许专用模拟器，详见 [环境与输入要求](docs/NATIVE_PLAYTEST.md#开发者重建)。
+原生回归使用 `pnpm test:native` / `pnpm test:android`，需要先构建当前包，并准备原 0.1.0 / 0.2.0 / 0.3.0 升级测试输入；历史包不在 Git 中。这两项不包含在通用 Web CI 内。Android 回归仅允许专用模拟器，详见 [环境与输入要求](docs/NATIVE_PLAYTEST.md#开发者重建)。
 
 生成的构建、报告、日志和试玩数据位于 `dist/`、`outputs/`、`work/` 等本地目录，不提交到仓库。重新生成后查看本地报告；不要把真人指标或存档提交到 Git。
 

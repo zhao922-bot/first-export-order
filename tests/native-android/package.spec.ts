@@ -5,15 +5,28 @@ import { promisify } from 'node:util';
 import { resolve, dirname } from 'node:path';
 import { saved, decide } from '../e2e/procurement-helpers';
 import { begin, documents, correct, end } from '../e2e/collection-helpers';
+import { inDesk } from '../e2e/desk-helpers';
 import { currentApk, legacyReleases, releaseRoot, nativeVersion } from '../native-support/release';
 import {
   createLegacyProgress,
   assertLegacyProgress,
   assertVisualScene,
+  assertFixedDesk,
+  exerciseFixedDesk,
 } from '../native-support/upgrade';
 
 const pkg = 'cn.firstexportorder.game';
 const sdk = process.env.ANDROID_HOME ?? resolve(process.env.LOCALAPPDATA!, 'Android/Sdk');
+type TestDevice = Awaited<ReturnType<typeof _android.devices>>[number];
+async function stopApp(device: TestDevice) {
+  await device.shell('am force-stop ' + pkg);
+  // am force-stop can finish before Playwright removes the old WebView socket.
+  // Wait for its removal before starting, otherwise webView({ pkg }) may return
+  // a page from the dead process rather than the restarted application's page.
+  await expect
+    .poll(() => device.webViews().filter((view) => view.pkg() === pkg).length, { timeout: 15000 })
+    .toBe(0);
+}
 async function adb(serial: string, ...args: string[]) {
   if (!serial.startsWith('emulator-')) throw Error('只允许专用模拟器。');
   return promisify(execFile)(resolve(sdk, 'platform-tools/adb.exe'), ['-s', serial, ...args], {
@@ -30,7 +43,7 @@ for (const legacy of legacyReleases)
     const device = (await _android.devices()).find((d) => d.serial() === serial);
     if (!device) throw Error('请启动专用 Android 模拟器：' + serial);
     try {
-      await device.shell('am force-stop ' + pkg);
+      await stopApp(device);
       // The old package is debuggable. Downgrade is confined to the disposable emulator.
       expect((await adb(serial, 'install', '-r', '-d', legacy.apk)).stdout).toContain('Success');
       await device.shell('pm clear ' + pkg);
@@ -64,12 +77,12 @@ for (const legacy of legacyReleases)
       expect(JSON.parse(await readFile(backupPath, 'utf8')).payload.session).toEqual(
         before.session,
       );
-      await device.shell('am force-stop ' + pkg);
+      await stopApp(device);
       await device.shell('am start -n ' + pkg + '/.MainActivity');
       page = await (await device.webView({ pkg })).page();
       await page.getByRole('button', { name: /继续本地进度/ }).click();
       expect(await saved(page)).toEqual(before.session);
-      await device.shell('am force-stop ' + pkg);
+      await stopApp(device);
       // Deliberately no pm clear / uninstall between old and new installs.
       expect((await adb(serial, 'install', '-r', currentApk)).stdout).toContain('Success');
       expect((await device.shell('dumpsys package ' + pkg)).toString()).toContain(
@@ -81,12 +94,11 @@ for (const legacy of legacyReleases)
       await page.getByLabel('界面动效', { exact: true }).selectOption('off');
       await page.reload();
       expect(await saved(page)).toEqual(before.session);
-      await page.locator('.story-stage').scrollIntoViewIfNeeded();
       await writeFile(
         resolve(releaseRoot, `android-upgrade-${legacy.version}.png`),
         await device.screenshot(),
       );
-      await device.shell('am force-stop ' + pkg);
+      await stopApp(device);
       await device.shell('am start -n ' + pkg + '/.MainActivity');
       page = await (await device.webView({ pkg })).page();
       await expect(page.getByLabel('界面动效', { exact: true })).toHaveValue('off');
@@ -144,12 +156,14 @@ async function documentSaveButton(device: Awaited<ReturnType<typeof _android.dev
 test('installed APK: offline seven stages, native export/cancel and process restart', async ({
   browserName: _browserName,
 }, info) => {
+  // Real WebView + paginated field interactions are slower than a desktop browser.
+  test.setTimeout(1200000);
   const serial = process.env.ANDROID_TEST_SERIAL ?? 'emulator-5580';
   if (!serial.startsWith('emulator-')) throw Error('此回归清空应用测试数据，只允许专用模拟器。');
   const device = (await _android.devices()).find((d) => d.serial() === serial);
   if (!device) throw Error('请启动专用 Android 模拟器并安装本轮 APK：' + serial);
   try {
-    await device.shell('am force-stop ' + pkg);
+    await stopApp(device);
     expect((await adb(serial, 'install', '-r', currentApk)).stdout).toContain('Success');
     await device.shell('pm clear ' + pkg);
     await device.shell('svc wifi disable');
@@ -169,7 +183,10 @@ test('installed APK: offline seven stages, native export/cancel and process rest
     await begin(page, {
       payment: 'lc',
       term: 'cif',
-      checkpoint: (stage) => assertVisualScene(page, stage),
+      checkpoint: async (stage) => {
+        await assertVisualScene(page, stage);
+        console.log('Android native checkpoint: stage ' + stage);
+      },
     });
     await documents(page);
     await correct(page);
@@ -215,7 +232,7 @@ test('installed APK: offline seven stages, native export/cancel and process rest
     await device.shell('input keyevent 4');
     await expect(page).toHaveURL(/#\/ending$/);
     expect(await saved(page)).toEqual(before);
-    await device.shell('am force-stop ' + pkg);
+    await stopApp(device);
     await device.shell('am start -n ' + pkg + '/.MainActivity');
     page = await (await device.webView({ pkg })).page();
     await page.getByRole('button', { name: /继续本地进度/ }).click();
@@ -224,6 +241,86 @@ test('installed APK: offline seven stages, native export/cancel and process rest
     await expect(page.getByTestId('onboarding')).toHaveCount(0);
   } finally {
     // Old Android automation drivers may not acknowledge shutdown on API 36.
+    await Promise.race([device.close(), new Promise<void>((resolve) => setTimeout(resolve, 5000))]);
+  }
+});
+
+test('installed APK: portrait fixed desk, real paging and Android keyboard draft restore', async ({
+  browserName: _browserName,
+}) => {
+  const serial = process.env.ANDROID_TEST_SERIAL ?? 'emulator-5580';
+  if (!serial.startsWith('emulator-')) throw Error('Only the dedicated emulator is allowed');
+  const device = (await _android.devices()).find((d) => d.serial() === serial);
+  if (!device) throw Error('Dedicated Android emulator unavailable');
+  const keyboardSetting = (await device.shell('settings get secure show_ime_with_hard_keyboard'))
+    .toString()
+    .trim();
+  try {
+    await device.shell('settings put secure show_ime_with_hard_keyboard 1');
+    await stopApp(device);
+    expect((await adb(serial, 'install', '-r', currentApk)).stdout).toContain('Success');
+    await device.shell('pm clear ' + pkg);
+    await device.shell('am start -n ' + pkg + '/.MainActivity');
+    const page = await (await device.webView({ pkg })).page();
+    expect(await page.evaluate(() => innerHeight > innerWidth)).toBe(true);
+    await exerciseFixedDesk(page);
+    await writeFile(resolve(releaseRoot, 'android-fixed-desk.png'), await device.screenshot());
+    await page.locator('a.brand').click();
+    // Confirm through Android's actual dialog, so a native modal cannot linger
+    // above an already accepted CDP dialog and hide the keyboard screenshot.
+    page.once('dialog', () => undefined);
+    const restart = page.getByRole('button', { name: '重开独立报价练习', exact: true }).click();
+    let dialogXml = '';
+    await expect
+      .poll(
+        async () => {
+          await device.shell('uiautomator dump /sdcard/first-export-test-ui.xml');
+          dialogXml = (await device.shell('cat /sdcard/first-export-test-ui.xml')).toString();
+          return dialogXml.includes('重开将替换') && dialogXml.includes('text="OK"');
+        },
+        { timeout: 20000 },
+      )
+      .toBe(true);
+    const ok = [...dialogXml.matchAll(/<node\b[^>]*>/g)]
+      .map((match) => match[0])
+      .find((node) => node.includes('resource-id="android:id/button1"'));
+    const bounds = ok?.match(/bounds="\[(\d+),(\d+)\]\[(\d+),(\d+)\]"/);
+    if (!bounds) throw Error('Android restart confirmation is unavailable');
+    await device.shell(
+      `input tap ${(Number(bounds[1]) + Number(bounds[3])) / 2} ${(Number(bounds[2]) + Number(bounds[4])) / 2}`,
+    );
+    await restart;
+    const field = await inDesk(page.getByLabel('每件预计退税（CNY/件）', { exact: true }));
+    const screenHeight = await page.evaluate(() => visualViewport!.height);
+    const box = await field.boundingBox();
+    if (!box) throw Error('Quote field is not visible');
+    // A touch dispatch, unlike fill(), opens the actual Android soft keyboard.
+    const cdp = await page.context().newCDPSession(page);
+    await cdp.send('Input.dispatchTouchEvent', {
+      type: 'touchStart',
+      touchPoints: [{ x: box.x + box.width / 2, y: box.y + box.height / 2 }],
+    });
+    await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
+    await expect.poll(() => page.evaluate(() => visualViewport!.height)).toBeLessThan(screenHeight);
+    await (await inDesk(field)).fill('2.23');
+    await assertFixedDesk(page);
+    const before = await saved(page);
+    await device.shell('uiautomator dump /sdcard/first-export-test-ui.xml');
+    expect((await device.shell('cat /sdcard/first-export-test-ui.xml')).toString()).not.toContain(
+      '重开将替换',
+    );
+    await writeFile(resolve(releaseRoot, 'android-keyboard.png'), await device.screenshot());
+    await device.shell('input keyevent 4');
+    await page.reload();
+    expect(await saved(page)).toEqual(before);
+    await expect(field).toHaveValue('2.23');
+    await assertFixedDesk(page);
+  } finally {
+    await device.shell(
+      keyboardSetting === '0' || keyboardSetting === '1'
+        ? 'settings put secure show_ime_with_hard_keyboard ' + keyboardSetting
+        : 'settings delete secure show_ime_with_hard_keyboard',
+    );
     await Promise.race([device.close(), new Promise<void>((resolve) => setTimeout(resolve, 5000))]);
   }
 });

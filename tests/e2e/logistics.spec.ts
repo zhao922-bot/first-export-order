@@ -1,3 +1,4 @@
+import { inDesk } from './desk-helpers';
 import { test, expect } from '@playwright/test';
 import { choose, next } from './inquiry-helpers';
 import { decide, saved } from './procurement-helpers';
@@ -26,7 +27,7 @@ test('第 1→2→3→4→5→6：CIF 保险纠错、申报纠错、刷新与出
     '合同源记录：',
     '',
   );
-  await page.getByLabel('数量（件）草稿', { exact: true }).fill(source);
+  await (await inDesk(page.getByLabel('数量（件）草稿', { exact: true }))).fill(source);
   await page.reload();
   await expect(page.getByRole('checkbox', { checked: true })).toHaveCount(5);
   await page.getByRole('checkbox', { name: '已核对数量（件）', exact: true }).focus();

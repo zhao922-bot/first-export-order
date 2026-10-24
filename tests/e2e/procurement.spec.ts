@@ -1,3 +1,4 @@
+import { inDesk } from './desk-helpers';
 import { useRescue } from './rescue-helpers';
 import { businessSeed, installSeed } from './event-helpers';
 import { test, expect } from '@playwright/test';
@@ -25,7 +26,7 @@ test('第 1→2→3→4→5：PI 门槛、截图纠错、真实定金及验收�
   await expect(page.getByRole('checkbox')).toHaveCount(7);
   await expect(page.locator('[data-choice-id="pi_accept"]')).toBeDisabled();
   await checkAll(page);
-  await page.getByRole('checkbox').last().uncheck();
+  await (await inDesk(page.getByRole('checkbox').last())).uncheck();
   await page.reload();
   await expect(page.getByRole('checkbox', { checked: true })).toHaveCount(6);
   await expect(page.locator('[data-choice-id="pi_accept"]')).toBeDisabled();

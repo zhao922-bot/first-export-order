@@ -1,4 +1,5 @@
-import { afterEach, describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
+import type { ListenOptions } from 'node:net';
 import { mkdtemp, mkdir, readFile, writeFile } from 'node:fs/promises';
 import { resolve, join } from 'node:path';
 import { request, type Server } from 'node:http';
@@ -32,6 +33,13 @@ async function start(lan = false) {
     [{ name: 'Wi-Fi', address: '192.168.1.3' }],
   );
   servers.push(server);
+  // Verify the requested LAN binding while keeping routine tests on loopback.
+  // The real all-interface launcher smoke is opt-in (PLAYTEST_LAN_SMOKE=1).
+  if (lan) {
+    const originalListen = server.listen.bind(server);
+    vi.spyOn(server, 'listen').mockImplementation(((options: ListenOptions) =>
+      originalListen({ ...options, host: '127.0.0.1' })) as typeof server.listen);
+  }
   const port = await listen(server, 0, lan);
   return { server, port };
 }
@@ -111,9 +119,10 @@ describe('可分发静态服务', () => {
     expect((await get(port, '/', 'GET', 'example.com')).status).toBe(403);
     expect((await get(port, 'http://example.com/')).status).toBe(400);
   });
-  it('手机模式才监听所有 IPv4；端口冲突不抢占也不自动改端口', async () => {
+  it('手机模式请求所有 IPv4（测试在回环绑定）；端口冲突不抢占也不自动改端口', async () => {
     const { port, server } = await start(true);
-    expect(server.address()).toMatchObject({ address: '0.0.0.0' });
+    expect(server.listen).toHaveBeenCalledWith({ port: 0, host: '0.0.0.0', exclusive: true });
+    expect(server.address()).toMatchObject({ address: '127.0.0.1' });
     expect((await get(port, '/', 'GET', `192.168.1.3:${port}`)).status).toBe(200);
     const second = makeServer(new Map(), false);
     servers.push(second);
@@ -223,6 +232,8 @@ describe('启动配置与发布完整性', () => {
     expect(await readFile(join(out, 'START-LOCAL.cmd'), 'utf8')).toContain(
       '"%~dp0runtime\\node.exe"',
     );
+    expect(await readFile(join(out, 'START-PHONE.cmd'), 'utf8')).toContain('--lan --open %*');
+    expect(await readFile(join(out, 'START-LOCAL.cmd'), 'utf8')).not.toContain('--lan');
     await expect(buildPackage(options)).rejects.toThrow();
   });
 });

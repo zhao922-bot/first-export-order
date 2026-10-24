@@ -9,7 +9,7 @@ const selectors: Record<GuideTarget, string> = {
   glossary: '[data-guide="glossary"]',
   product: '[data-guide="product"]',
   supplier: '[data-guide="supplier"]',
-  feedback: '.consequence button.primary',
+  feedback: '.legacy-feedback button.primary',
   review: '.mentor-review button.primary',
   choices: '.contract-checklist input:not(:checked), .choice-list button',
   mail: '.mail-inbox button',

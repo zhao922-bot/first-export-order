@@ -54,3 +54,13 @@ pnpm test:local-package
 验证真正的 ZIP 时，先解压到一个新的中文/空格目录，再设置 `PLAYTEST_PACKAGE_DIR` 指向该目录后运行同一命令。检查文件摘要和真实运行时版本、关闭再启动、端口占用，以及手机尺寸下的下载/恢复。真实手机与 Wi-Fi 的防火墙/AP 隔离仍需发放现场确认，浏览器手机模拟器不能证明所有网络都可达。
 
 `tests/content/local-launcher.test.ts` 从临时目录执行实际 CMD，PATH 仅保留 Windows System32；它只停止自己启动的进程树。`tests/unit/local-playtest-server.test.ts` 覆盖静态服务、地址选择、包完整性和打包白名单；`unique-id.test.ts` 覆盖 HTTPS/localhost 与普通 HTTP 的 ID 分支。
+
+普通 `pnpm test` 仅绑定回环地址：CMD 启停/冲突测试使用 START-LOCAL；手机脚本参数仍校验，服务测试验证请求的通配地址后将真实 socket 限制到回环。这样不会每次在随机临时路径启动 node.exe 的局域网监听并反复触发 Windows 防火墙提示。需要验证真实手机启动脚本时显式执行以下命令（可能出现一次网络授权提示；仅在受信任测试网络执行），结束后还原当前 shell 的开关：
+
+```powershell
+$env:PLAYTEST_LAN_SMOKE = '1'
+try { pnpm exec vitest run tests/content/local-launcher.test.ts }
+finally { Remove-Item Env:PLAYTEST_LAN_SMOKE }
+```
+
+`pnpm test:local-package` 本身就是明确的局域网验收，仍保留真实网卡检查。EXE/APK 离线运行不依赖这些 Node 静态服务，也不需要为 Node 开放入站网络。

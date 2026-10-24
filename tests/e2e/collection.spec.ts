@@ -1,3 +1,4 @@
+import { inDesk } from './desk-helpers';
 import { businessSeed } from './event-helpers';
 import { test, expect } from '@playwright/test';
 import { begin, documents, correct, tax, end } from './collection-helpers';
@@ -11,7 +12,9 @@ test('第 1→2→3→4→5→6→7：T/T 单据纠错、键盘保存、截图�
   await begin(page);
   await documents(page);
   await expect(page.locator('.document-field .guidance-note')).toHaveCount(0);
-  await page.locator('[data-doc-key="invoice.product"]').getByRole('checkbox').check();
+  await (
+    await inDesk(page.locator('[data-doc-key="invoice.product"]').getByRole('checkbox'))
+  ).check();
   await decide(page, 'documents_submit');
   await expect(page.getByRole('status', { name: '单据核对结果' })).toContainText('漏报 4 · 误报 1');
   await expect(page.locator('[data-choice-id="documents_accept"]')).toBeDisabled();
@@ -24,9 +27,9 @@ test('第 1→2→3→4→5→6→7：T/T 单据纠错、键盘保存、截图�
   const quantity = page.locator('[data-doc-key="invoice.quantity"]');
   await quantity.getByRole('checkbox').focus();
   await page.keyboard.press('Space');
-  await quantity
-    .getByRole('textbox')
-    .fill(await page.locator('[data-document-source="quantity"]').innerText());
+  await (
+    await inDesk(quantity.getByRole('textbox'))
+  ).fill(await page.locator('[data-document-source="quantity"]').innerText());
   await page.reload();
   await expect(quantity.getByRole('checkbox')).toBeChecked();
   await page.screenshot({ path: info.outputPath('documents.png'), fullPage: true });
@@ -64,7 +67,8 @@ test('L/C + CIF：额外信用证收货人核对、银行结算与汇差', async
     !(await page.locator('.context-archive').getAttribute('open')) &&
     (await page.locator('.context-archive').evaluate((el) => !(el as HTMLDetailsElement).open))
   )
-    await page.locator('.context-archive > summary').click();
+    await (await inDesk(page.locator('.context-archive > summary'))).click();
+  await page.locator('.desk-tabs').getByRole('button', { name: '业务资料', exact: true }).click();
   await expect(page.getByRole('region', { name: '收汇与退税账本' })).toContainText('CIF 保险金额');
   await documents(page);
   await correct(page);

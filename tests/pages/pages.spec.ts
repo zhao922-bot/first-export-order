@@ -1,3 +1,4 @@
+import { inDesk } from '../e2e/desk-helpers';
 import { expect, test, type Page } from '@playwright/test';
 import { readFile } from 'node:fs/promises';
 import { begin, documents, correct, end } from '../e2e/collection-helpers';
@@ -38,6 +39,19 @@ async function layout(page: Page) {
         .map((item) => item.textContent?.trim()),
     );
   expect(shortButtons).toEqual([]);
+  const numbers = await page.locator('.resource-hud strong').evaluateAll((items) =>
+    items.map((item) => {
+      const range = document.createRange();
+      range.selectNodeContents(item);
+      const r = range.getBoundingClientRect();
+      return { left: r.left, right: r.right, top: r.top, bottom: r.bottom };
+    }),
+  );
+  for (const [i, a] of numbers.entries())
+    for (const b of numbers.slice(i + 1))
+      expect(a.right <= b.left || b.right <= a.left || a.bottom <= b.top || b.bottom <= a.top).toBe(
+        true,
+      );
 }
 
 test('公开目录、角色资源、窄屏和横屏正常', async ({ page, baseURL }, info) => {
@@ -70,8 +84,8 @@ test('公开目录、角色资源、窄屏和横屏正常', async ({ page, baseU
   await page.getByRole('button', { name: /跳过引导/ }).click();
   await page.getByRole('button', { name: '直接练习报价', exact: true }).click();
   await page.setViewportSize({ width: 360, height: 400 });
-  await page.getByLabel('每件预计退税（CNY/件）', { exact: true }).fill('2.23');
-  await page.getByRole('button', { name: /提交完整报价/ }).click();
+  await (await inDesk(page.getByLabel('每件预计退税（CNY/件）', { exact: true }))).fill('2.23');
+  await (await inDesk(page.getByRole('button', { name: /提交完整报价/ }))).click();
   await expect(page.locator('[aria-invalid="true"]').first()).toBeFocused();
   await layout(page);
   await page.setViewportSize({ width: 844, height: 390 });
@@ -81,6 +95,9 @@ test('公开目录、角色资源、窄屏和横屏正常', async ({ page, baseU
 });
 
 test('真实七关逐关刷新，账本、随机状态及结局保持一致', async ({ page, context, baseURL }, info) => {
+  // Seven chapters now exercise focus-based pagination for every business control.
+  // Windows WebKit takes more driver round trips; keep every assertion and give this flow room.
+  if (info.project.name === 'iphone-webkit') test.setTimeout(360_000);
   const errors: string[] = [];
   page.on('pageerror', (error) => errors.push(error.message));
   await page.goto('./');
@@ -130,8 +147,8 @@ test('报价草稿、动效偏好、关页重开及空白上下文 JSON 迁移',
   await page.getByRole('button', { name: /跳过引导/ }).click();
   await page.getByRole('button', { name: '直接练习报价', exact: true }).click();
   const rebate = page.getByLabel('每件预计退税（CNY/件）', { exact: true });
-  await rebate.fill('2.23');
-  await page.getByLabel('汇率 E', { exact: true }).fill('7.50');
+  await (await inDesk(rebate)).fill('2.23');
+  await (await inDesk(page.getByLabel('汇率 E', { exact: true }))).fill('7.50');
   await page.getByLabel('界面动效', { exact: true }).selectOption('off');
   const before = await saved(page);
   await page.reload();

@@ -1,3 +1,4 @@
+import { inDesk } from './desk-helpers';
 import { test, expect, type Page } from '@playwright/test';
 import { begin, documents, correct, end } from './collection-helpers';
 import { decide, saved } from './procurement-helpers';
@@ -32,15 +33,18 @@ test('七关真实通关 → 冻结雷达、跨关回放、复购、知识补学
   await expect(page.getByRole('heading', { name: '七关流程完成：漂亮出海' })).toBeVisible();
   await expect(page.locator('[data-score-axis]')).toHaveCount(5);
   await expect(page.getByRole('img', { name: /五维评分雷达/ })).toBeVisible();
-  await page.getByText('展开五维评分依据与每项证据', { exact: true }).click();
+  await (await inDesk(page.getByText('展开五维评分依据与每项证据', { exact: true }))).click();
   await expect(page.locator('[data-opportunity="lc_soft"]')).toHaveCount(0);
   await expect(page.locator('[data-opportunity="tax"]')).toContainText('2 / 2');
   await expect(page.locator('[data-replay-id]')).toHaveCount(3);
-  await page
-    .locator('[data-replay-id]')
-    .first()
-    .getByText('林姐复盘与下次可以怎么做', { exact: true })
-    .click();
+  await (
+    await inDesk(
+      page
+        .locator('[data-replay-id]')
+        .first()
+        .getByText('林姐复盘与下次可以怎么做', { exact: true }),
+    )
+  ).click();
   await expect(page.locator('[data-repeat="true"]')).toContainText('Emma');
   await expect(page.locator('[data-term-id]')).toHaveCount(24);
   const term = page.locator('[data-term-id="g12_lc"]');
@@ -49,9 +53,13 @@ test('七关真实通关 → 冻结雷达、跨关回放、复购、知识补学
   await page.keyboard.press('Enter');
   const card = page.getByRole('article', { name: '当前知识词条' });
   await expect(card.getByRole('heading', { name: '即期信用证', exact: true })).toBeFocused();
-  await card.getByRole('button', { name: '可以，银行必定付款', exact: true }).click();
+  await (
+    await inDesk(card.getByRole('button', { name: '可以，银行必定付款', exact: true }))
+  ).click();
   await expect(card.getByRole('status')).toContainText('再想一步');
-  await card.getByRole('button', { name: '不可以，仍需核对条款和单据', exact: true }).click();
+  await (
+    await inDesk(card.getByRole('button', { name: '不可以，仍需核对条款和单据', exact: true }))
+  ).click();
   await expect(card.getByRole('status')).toContainText('已掌握');
   await expect(term).toContainText('掌握');
   const learned = await saved(page);
@@ -61,12 +69,12 @@ test('七关真实通关 → 冻结雷达、跨关回放、复购、知识补学
   await page.reload();
   await expect(term).toContainText('掌握');
   expect((await saved(page)).ending).toEqual(settled.ending);
-  await page.getByText('24 个知识节点与学习前置关系', { exact: true }).click();
+  await (await inDesk(page.getByText('24 个知识节点与学习前置关系', { exact: true }))).click();
   await expect(page.getByRole('img', { name: /知识图谱/ })).toBeVisible();
   await page.screenshot({ path: info.outputPath('ending-review.png'), fullPage: true });
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   page.once('dialog', (dialog) => dialog.accept());
-  await page.getByRole('button', { name: '重开选品练习 →', exact: true }).click();
+  await (await inDesk(page.getByRole('button', { name: '重开选品练习 →', exact: true }))).click();
   await expect(page).toHaveURL(/#\/supplier$/);
   const fresh = await saved(page);
   expect(fresh.ending).toBeNull();
@@ -126,13 +134,13 @@ for (const eligible of [true, false])
   });
 test('进行中可查图鉴、回到原节点，无正式结局时不能提前评分', async ({ page }) => {
   await page.goto('/');
-  await page.getByRole('button', { name: '开始第 1 关 →', exact: true }).click();
+  await (await inDesk(page.getByRole('button', { name: '开始第 1 关 →', exact: true }))).click();
   const before = await saved(page);
-  await page.getByRole('link', { name: '随用随查 · 知识图鉴', exact: true }).click();
+  await (await inDesk(page.getByRole('link', { name: '知识图鉴', exact: true }))).click();
   await expect(page).toHaveURL(/#\/glossary$/);
-  await page.locator('[data-term-id="g01_moq"]').click();
+  await (await inDesk(page.locator('[data-term-id="g01_moq"]'))).click();
   await expect(page.getByRole('article', { name: '当前知识词条' })).toContainText('MOQ');
-  await page.getByRole('link', { name: '返回本单进度', exact: true }).click();
+  await (await inDesk(page.getByRole('link', { name: '返回本单进度', exact: true }))).click();
   expect((await saved(page)).snapshot.story.nodeId).toBe(before.snapshot.story.nodeId);
   expect((await saved(page)).snapshot.journal).toEqual(before.snapshot.journal);
   await page.goto('/#/ending');
@@ -143,7 +151,7 @@ test('成绩被改写的当前存档被拒绝，保留有效备份供恢复', as
   await boundary(page, endingBoundary('excellent'));
   const previous = await saved(page);
   // 再提交一次补学操作，让上一份冻结成绩成为已提交备份。
-  await page.locator('[data-term-id="g12_lc"]').click();
+  await (await inDesk(page.locator('[data-term-id="g12_lc"]'))).click();
   await page.evaluate(() => {
     const prefix = 'first-export.slice.v2:auto:';
     const head = JSON.parse(localStorage.getItem(prefix + 'head')!);
@@ -154,7 +162,7 @@ test('成绩被改写的当前存档被拒绝，保留有效备份供恢复', as
   await page.reload();
   await expect(page.getByRole('heading', { name: '本单还没有正式结局' })).toBeVisible();
   await expect(page.locator('.save-state')).toContainText('校验失败');
-  await page.getByRole('link', { name: '存档与恢复', exact: true }).click();
-  await page.getByRole('button', { name: '恢复上一有效存档' }).click();
+  await (await inDesk(page.getByRole('link', { name: '存档与恢复', exact: true }))).click();
+  await (await inDesk(page.getByRole('button', { name: '恢复上一有效存档' }))).click();
   expect(await saved(page)).toEqual(previous);
 });

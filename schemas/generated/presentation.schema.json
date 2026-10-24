@@ -6,6 +6,97 @@
       "type": "string",
       "const": "presentation-5"
     },
+    "desk": {
+      "type": "object",
+      "properties": {
+        "task": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "reference": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "history": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "pagination": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "previous": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "next": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "page": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "feedback": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "details": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "continue": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "trust": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "idleFeedback": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "feedbackMode": {
+          "type": "string",
+          "const": "inline"
+        },
+        "deltaDurationMs": {
+          "type": "integer",
+          "minimum": 1000,
+          "maximum": 5000
+        }
+      },
+      "required": [
+        "task",
+        "reference",
+        "history",
+        "pagination",
+        "previous",
+        "next",
+        "page",
+        "feedback",
+        "details",
+        "continue",
+        "trust",
+        "idleFeedback",
+        "feedbackMode",
+        "deltaDurationMs"
+      ],
+      "additionalProperties": false
+    },
     "atlas": {
       "type": "string",
       "pattern": "^assets\\/portraits\\/[a-z0-9-]+\\.png$"
@@ -757,6 +848,7 @@
   },
   "required": [
     "version",
+    "desk",
     "atlas",
     "optimizedAtlases",
     "experience",

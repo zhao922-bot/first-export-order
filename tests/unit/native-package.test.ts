@@ -24,9 +24,12 @@ describe('native wrapper boundary', () => {
     expect(builder.directories.output).toBe(`outputs/native-${pkg.version}/windows`);
     expect(gradle).toContain(`versionName "${pkg.version}"`);
     expect(gradle).toContain('applicationId "cn.firstexportorder.game"');
-    expect(Number(gradle.match(/versionCode (\d+)/)?.[1])).toBeGreaterThan(2);
+    expect(Number(gradle.match(/versionCode (\d+)/)?.[1])).toBeGreaterThan(3);
     expect(builder.appId).toBe('cn.firstexportorder.game');
     expect(builder.win.executableName).toBe('FirstExportOrder');
+    expect(readFileSync('android/app/src/main/AndroidManifest.xml', 'utf8')).toContain(
+      'android:screenOrientation="portrait"',
+    );
   });
   it('only serves bundled assets within the fixed app origin', () => {
     const root = resolve('dist');

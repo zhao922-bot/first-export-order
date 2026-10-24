@@ -1,3 +1,4 @@
+import { inDesk } from './desk-helpers';
 import { expect, type Page } from '@playwright/test';
 import { installSeed } from './event-helpers';
 import { seed, arrive, select, declaration, dispatch, deliver } from './logistics-helpers';
@@ -28,7 +29,7 @@ export async function documents(page: Page) {
 /** 只比较屏幕上的草稿与源记录；不读题库故障列表或从存档注入答案。 */
 export async function correct(page: Page) {
   for (const tab of await page.locator('[data-document-id]').all()) {
-    await tab.click();
+    await (await inDesk(tab)).click();
     await expect(tab).toHaveAttribute('aria-pressed', 'true');
     for (const row of await page.locator('[data-doc-key]').all()) {
       const key = (await row.getAttribute('data-doc-key'))!,
@@ -36,9 +37,9 @@ export async function correct(page: Page) {
         draft = await row.locator('.document-value').innerText();
       const mark = row.getByRole('checkbox');
       if (draft !== source) {
-        await mark.check();
-        await row.getByRole('textbox').fill(source);
-      } else if (await mark.isChecked()) await mark.uncheck();
+        await (await inDesk(mark)).check();
+        await (await inDesk(row.getByRole('textbox'))).fill(source);
+      } else if (await mark.isChecked()) await (await inDesk(mark)).uncheck();
     }
   }
   await decide(page, 'documents_submit');
@@ -49,7 +50,9 @@ export async function correct(page: Page) {
 export async function tax(page: Page, wrong = false) {
   for (const row of await page.locator('[data-tax-field]').all()) {
     const missing = (await row.innerText()).includes('记录缺失');
-    await row.getByRole('combobox').selectOption(wrong || !missing ? 'verified' : 'missing');
+    await (
+      await inDesk(row.getByRole('combobox'))
+    ).selectOption(wrong || !missing ? 'verified' : 'missing');
   }
   await decide(page, 'tax_verify');
 }

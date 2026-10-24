@@ -39,6 +39,22 @@ export type ExpressionId = (typeof expressionIds)[number];
 export const presentationSchema = z
   .strictObject({
     version: z.literal('presentation-5'),
+    desk: z.strictObject({
+      task: copy,
+      reference: copy,
+      history: copy,
+      pagination: copy,
+      previous: copy,
+      next: copy,
+      page: copy,
+      feedback: copy,
+      details: copy,
+      continue: copy,
+      trust: copy,
+      idleFeedback: copy,
+      feedbackMode: z.literal('inline'),
+      deltaDurationMs: z.number().int().min(1000).max(5000),
+    }),
     atlas: atlasPath,
     optimizedAtlases: z
       .array(

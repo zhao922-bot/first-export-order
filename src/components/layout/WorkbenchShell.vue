@@ -6,10 +6,24 @@ import { usePresentation } from '../../app/usePresentation';
 import { computed, ref, watch } from 'vue';
 import { presentation } from '../../content/presentation';
 import { loadedGame as game } from '../../app/gameAccess';
-import { formatMoney } from '../../app/formatMoney';
+import ResourceHud from '../presentation/ResourceHud.vue';
+import { onMounted, onBeforeUnmount } from 'vue';
 const route = useRoute();
 const motion = usePresentation();
-defineProps<{ home?: boolean }>();
+const props = defineProps<{ home?: boolean; fixed?: boolean }>();
+const viewportHeight = ref<number>();
+function fitViewport() {
+  if (props.fixed) viewportHeight.value = window.visualViewport?.height ?? window.innerHeight;
+}
+onMounted(() => {
+  fitViewport();
+  window.visualViewport?.addEventListener('resize', fitViewport);
+  window.addEventListener('resize', fitViewport);
+});
+onBeforeUnmount(() => {
+  window.visualViewport?.removeEventListener('resize', fitViewport);
+  window.removeEventListener('resize', fitViewport);
+});
 const menuOpen = ref(false);
 const menuButton = ref<HTMLButtonElement | null>(null);
 const currentStage = computed(() =>
@@ -34,6 +48,12 @@ watch(
 <template>
   <div
     class="app-shell"
+    :class="{
+      'fixed-desk': fixed,
+      'desk-short': fixed && viewportHeight !== undefined && viewportHeight <= 600,
+      'desk-keyboard': fixed && viewportHeight !== undefined && viewportHeight <= 450,
+    }"
+    :style="fixed && viewportHeight ? { height: viewportHeight + 'px' } : undefined"
     :data-motion="motion.enabled ? 'on' : 'off'"
     :data-paused="motion.hidden"
     :data-saving="(game?.saving ?? 0) > 0"
@@ -110,29 +130,7 @@ watch(
           game?.storageConflict ? '处理进度冲突' : '打开存档与恢复'
         }}</RouterLink>
       </div>
-      <div v-if="game?.session && !home" class="status-strip" data-guide="resources">
-        <span
-          >可用现金
-          <strong data-testid="cash">{{
-            formatMoney(game.session.snapshot.player.cashCnyFen)
-          }}</strong></span
-        >
-        <span
-          >已确认利润
-          <strong>{{
-            formatMoney(game.session.snapshot.player.cumulativeProfitCnyFen)
-          }}</strong></span
-        >
-        <span
-          >信誉
-          <strong data-testid="reputation"
-            >{{ game.session.snapshot.player.reputation }} / 100</strong
-          ></span
-        >
-        <span
-          >游戏日 <strong>第 {{ game.session.snapshot.gameDay }} 天</strong></span
-        >
-      </div>
+      <ResourceHud v-if="game?.session && !home" />
       <main id="main-content" tabindex="-1"><OnboardingGuide v-if="!home" /><slot /></main>
       <footer>
         教学算例参数，可配置 ·

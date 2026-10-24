@@ -1,23 +1,24 @@
+import { inDesk, acknowledge } from './desk-helpers';
 import { expect, type Page } from '@playwright/test';
 import { handleAutoEvents, installSeed, shippingSeed } from './event-helpers';
 import { waitForSave } from './save-helpers';
 
 export const next = async (page: Page) => {
-  await page.getByRole('button', { name: /查看下一步/ }).click();
+  await acknowledge(page);
   await waitForSave(page);
   await handleAutoEvents(page);
 };
 export const review = async (page: Page) => {
-  await page.getByRole('button', { name: /请林姐复盘/ }).click();
+  await acknowledge(page);
   await waitForSave(page);
 };
 export const continueReview = async (page: Page) => {
-  await page.locator('.mentor-review button.primary').click();
+  await (await inDesk(page.locator('.mentor-review button.primary'))).click();
   await waitForSave(page);
   await handleAutoEvents(page);
 };
 export const choose = async (page: Page, id: string) => {
-  await page.locator('[data-choice-id="' + id + '"]').click();
+  await (await inDesk(page.locator('[data-choice-id="' + id + '"]'))).click();
   await waitForSave(page);
 };
 
@@ -41,34 +42,39 @@ export async function startInquiry(
   if (await page.getByRole('button', { name: /重开选品练习/ }).count())
     page.once('dialog', (dialog) => dialog.accept());
   if (assessment) {
-    await page.getByRole('button', { name: '前测并开始七关试玩', exact: true }).click();
+    await (
+      await inDesk(page.getByRole('button', { name: '前测并开始七关试玩', exact: true }))
+    ).click();
     await assessment();
-    await page.getByRole('link', { name: '继续当前关卡', exact: true }).click();
-  } else await page.getByRole('button', { name: /开始第 1 关|重开选品练习/ }).click();
+    await (await inDesk(page.getByRole('link', { name: '继续当前关卡', exact: true }))).click();
+  } else
+    await (await inDesk(page.getByRole('button', { name: /开始第 1 关|重开选品练习/ }))).click();
   await expect(page.locator('.product-card')).toHaveCount(3);
   await checkpoint?.(1);
-  await page.getByRole('button', { name: /选择500ml 保温杯/ }).click();
+  await (await inDesk(page.getByRole('button', { name: /选择500ml 保温杯/ }))).click();
   await next(page);
   await expect(page.locator('.supplier-card')).toHaveCount(3);
-  await page.getByRole('button', { name: '选择' + supplier, exact: true }).click();
+  await (await inDesk(page.getByRole('button', { name: '选择' + supplier, exact: true }))).click();
   await review(page);
   await continueReview(page);
-  await page.getByRole('button', { name: /支付样品核验费并保留结果/ }).click();
+  await (await inDesk(page.getByRole('button', { name: /支付样品核验费并保留结果/ }))).click();
   await expect(page.getByTestId('cash')).toHaveText('¥99,800.00');
   await review(page);
-  await page.getByRole('button', { name: /进入第 2 关/ }).click();
+  await (await inDesk(page.getByRole('button', { name: /进入第 2 关/ }))).click();
   await expect(page).toHaveURL(/#\/mail$/);
   await checkpoint?.(2);
 }
 
 export async function readMail(page: Page, role: 'buyer' | 'competitor' | 'fraud') {
-  await page
-    .locator(
-      role === 'buyer'
-        ? '[data-testid^="mail-inquiry_buyer_"]'
-        : '[data-testid="mail-inquiry_' + role + '"]',
+  await (
+    await inDesk(
+      page.locator(
+        role === 'buyer'
+          ? '[data-testid^="mail-inquiry_buyer_"]'
+          : '[data-testid="mail-inquiry_' + role + '"]',
+      ),
     )
-    .click();
+  ).click();
   await next(page);
 }
 
@@ -93,11 +99,11 @@ export async function resolveMail(
 }
 
 export async function selectLead(page: Page, customer = 'customer_c') {
-  await page.getByRole('button', { name: /三封已处理，选择报价对象/ }).click();
+  await (await inDesk(page.getByRole('button', { name: /三封已处理，选择报价对象/ }))).click();
   await next(page);
   await choose(page, 'lead_' + customer);
   await review(page);
-  await page.getByRole('button', { name: /进入第 3 关/ }).click();
+  await (await inDesk(page.getByRole('button', { name: /进入第 3 关/ }))).click();
   await expect(page).toHaveURL(/#\/quote$/);
 }
 
@@ -136,14 +142,24 @@ export async function submitCurrentQuote(page: Page, continueNegotiation = false
     cost = p - rebate + d / q,
     fobRaw = (cost / e) * (1 + m),
     cifRaw = (fobRaw + f / q) / (1 - a * i);
-  await page.getByLabel('每件预计退税（CNY/件）', { exact: true }).fill(rebate.toFixed(2));
-  await page.getByLabel('FOB 成本基数（CNY/件）', { exact: true }).fill(cost.toFixed(2));
-  await page.getByLabel('本题利润率口径', { exact: true }).selectOption('costMarkup');
-  await page.getByLabel('FOB 对外单价（USD/件）', { exact: true }).fill(fobRaw.toFixed(2));
-  await page.getByLabel('CIF 对外单价（USD/件）', { exact: true }).fill(cifRaw.toFixed(2));
-  await page.getByRole('button', { name: /提交完整报价/ }).click();
+  await (
+    await inDesk(page.getByLabel('每件预计退税（CNY/件）', { exact: true }))
+  ).fill(rebate.toFixed(2));
+  await (
+    await inDesk(page.getByLabel('FOB 成本基数（CNY/件）', { exact: true }))
+  ).fill(cost.toFixed(2));
+  await (
+    await inDesk(page.getByLabel('本题利润率口径', { exact: true }))
+  ).selectOption('costMarkup');
+  await (
+    await inDesk(page.getByLabel('FOB 对外单价（USD/件）', { exact: true }))
+  ).fill(fobRaw.toFixed(2));
+  await (
+    await inDesk(page.getByLabel('CIF 对外单价（USD/件）', { exact: true }))
+  ).fill(cifRaw.toFixed(2));
+  await (await inDesk(page.getByRole('button', { name: /提交完整报价/ }))).click();
   await review(page);
-  await page.getByRole('button', { name: /完成报价，选择下一步/ }).click();
+  await (await inDesk(page.getByRole('button', { name: /完成报价，选择下一步/ }))).click();
   await handleAutoEvents(page);
   if (continueNegotiation) return;
   await choose(page, 'finish_quote_practice');

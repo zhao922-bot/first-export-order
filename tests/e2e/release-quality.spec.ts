@@ -1,3 +1,4 @@
+import { inDesk } from './desk-helpers';
 import { test, expect, type Page } from '@playwright/test';
 import fs from 'node:fs/promises';
 import { readBrowserSession } from './save-helpers';
@@ -8,16 +9,16 @@ const rebate = '每件预计退税（CNY/件）';
 const headKey = 'first-export.slice.v2:auto:head';
 async function practice(page: Page) {
   await page.goto('/');
-  await page.getByRole('button', { name: '直接练习报价', exact: true }).click();
+  await (await inDesk(page.getByRole('button', { name: '直接练习报价', exact: true }))).click();
   await expect(page).toHaveURL(/#\/quote$/);
 }
 async function recovery(page: Page) {
-  await page.getByRole('link', { name: '存档与恢复', exact: true }).click();
+  await (await inDesk(page.getByRole('link', { name: '存档与恢复', exact: true }))).click();
   await expect(page.getByRole('heading', { name: '存档与恢复', exact: true })).toBeVisible();
 }
 async function exported(page: Page) {
   const download = page.waitForEvent('download');
-  await page.getByRole('button', { name: '导出当前进度', exact: true }).click();
+  await (await inDesk(page.getByRole('button', { name: '导出当前进度', exact: true }))).click();
   const result = await download;
   return fs.readFile((await result.path())!, 'utf8');
 }
@@ -33,8 +34,8 @@ async function noOverflow(page: Page) {
 test('未应用参数与报价草稿刷新保留；非法参数不改变业务快照', async ({ page }) => {
   await practice(page);
   const before = await saved(page);
-  await page.getByLabel('汇率 E', { exact: true }).fill('7.50');
-  await page.getByLabel(rebate, { exact: true }).fill('2.23');
+  await (await inDesk(page.getByLabel('汇率 E', { exact: true }))).fill('7.50');
+  await (await inDesk(page.getByLabel(rebate, { exact: true }))).fill('2.23');
   await page.reload();
   await expect(page.getByLabel('汇率 E', { exact: true })).toHaveValue('7.50');
   await expect(page.getByLabel(rebate, { exact: true })).toHaveValue('2.23');
@@ -42,8 +43,10 @@ test('未应用参数与报价草稿刷新保留；非法参数不改变业务�
   const draft = await saved(page);
   expect(draft.quoteInput).toEqual(before.quoteInput);
   for (const invalid of ['0', '-1', 'abc']) {
-    await page.getByLabel('数量 Q', { exact: true }).fill(invalid);
-    await page.getByRole('button', { name: '应用参数并清空草稿', exact: true }).click();
+    await (await inDesk(page.getByLabel('数量 Q', { exact: true }))).fill(invalid);
+    await (
+      await inDesk(page.getByRole('button', { name: '应用参数并清空草稿', exact: true }))
+    ).click();
     await expect(page.getByRole('alert')).toBeVisible();
     expect((await saved(page)).snapshot).toEqual(draft.snapshot);
   }
@@ -53,8 +56,8 @@ test('未应用参数与报价草稿刷新保留；非法参数不改变业务�
 
 test('导出 → 清理本地记录 → 导入，精确恢复参数草稿、账本和随机状态', async ({ page }) => {
   await practice(page);
-  await page.getByLabel(rebate, { exact: true }).fill('2.23');
-  await page.getByLabel('汇率 E', { exact: true }).fill('7.50');
+  await (await inDesk(page.getByLabel(rebate, { exact: true }))).fill('2.23');
+  await (await inDesk(page.getByLabel('汇率 E', { exact: true }))).fill('7.50');
   const before = await saved(page);
   await recovery(page);
   const file = await exported(page);
@@ -63,7 +66,7 @@ test('导出 → 清理本地记录 → 导入，精确恢复参数草稿、账�
   await page
     .getByLabel(/选择 JSON 存档/)
     .setInputFiles({ name: 'save.json', mimeType: 'application/json', buffer: Buffer.from(file) });
-  await page.getByRole('button', { name: '确认载入此存档' }).click();
+  await (await inDesk(page.getByRole('button', { name: '确认载入此存档' }))).click();
   await expect(page).toHaveURL(/#\/quote$/);
   expect(await saved(page)).toEqual(before);
   await expect(page.getByLabel('汇率 E', { exact: true })).toHaveValue('7.50');
@@ -73,7 +76,7 @@ test('导出 → 清理本地记录 → 导入，精确恢复参数草稿、账�
 test('当前槽损坏后恢复上一有效版本，保留坏档原文且不重放费用', async ({ page }) => {
   await practice(page);
   const previous = await saved(page);
-  await page.getByLabel(rebate, { exact: true }).fill('2.23');
+  await (await inDesk(page.getByLabel(rebate, { exact: true }))).fill('2.23');
   const brokenKey = await page.evaluate((key) => {
     const head = JSON.parse(localStorage.getItem(key)!);
     const record = key.replace('head', head.side);
@@ -83,8 +86,8 @@ test('当前槽损坏后恢复上一有效版本，保留坏档原文且不重�
   await page.reload();
   await expect(page.locator('.storage-banner')).toContainText('上一有效版本');
   await recovery(page);
-  await page.getByRole('button', { name: '恢复上一有效存档' }).click();
-  await page.getByRole('link', { name: '返回本单进度', exact: true }).click();
+  await (await inDesk(page.getByRole('button', { name: '恢复上一有效存档' }))).click();
+  await (await inDesk(page.getByRole('link', { name: '返回本单进度', exact: true }))).click();
   expect(await saved(page)).toEqual(previous);
   expect(await page.evaluate((key) => localStorage.getItem(key), brokenKey)).toBe('{broken');
   await page.reload();
@@ -93,7 +96,7 @@ test('当前槽损坏后恢复上一有效版本，保留坏档原文且不重�
 
 test('切换提交标记时容量不足：内存可导出，刷新仍读上一提交', async ({ page }) => {
   await practice(page);
-  await page.getByLabel(rebate, { exact: true }).fill('2.23');
+  await (await inDesk(page.getByLabel(rebate, { exact: true }))).fill('2.23');
   const before = await saved(page);
   await page.evaluate((key) => {
     const original = Storage.prototype.setItem;
@@ -102,13 +105,13 @@ test('切换提交标记时容量不足：内存可导出，刷新仍读上一�
       original.call(this, k, value);
     };
   }, headKey);
-  await page.getByLabel(rebate, { exact: true }).fill('3.45');
+  await (await inDesk(page.getByLabel(rebate, { exact: true }))).fill('3.45');
   await expect(page.locator('.save-state')).toContainText('未保存');
   expect(await saved(page)).toEqual(before);
   await recovery(page);
   expect(JSON.parse(await exported(page)).payload.session.answers.rebateUnitCny).toBe('3.45');
   await page.reload();
-  await page.getByRole('link', { name: '返回本单进度', exact: true }).click();
+  await (await inDesk(page.getByRole('link', { name: '返回本单进度', exact: true }))).click();
   await expect(page.getByLabel(rebate, { exact: true })).toHaveValue('2.23');
 });
 
@@ -124,8 +127,8 @@ test('禁用浏览器存储仍可在内存练习并导出，不出现虚假已�
   );
   await page.goto('/');
   page.once('dialog', (d) => d.accept());
-  await page.getByRole('button', { name: '直接练习报价', exact: true }).click();
-  await page.getByLabel(rebate, { exact: true }).fill('2.23');
+  await (await inDesk(page.getByRole('button', { name: '直接练习报价', exact: true }))).click();
+  await (await inDesk(page.getByLabel(rebate, { exact: true }))).fill('2.23');
   await expect(page.locator('.save-state')).toContainText('存储不可用');
   await recovery(page);
   expect(JSON.parse(await exported(page)).payload.session.answers.rebateUnitCny).toBe('2.23');
@@ -138,16 +141,16 @@ test('同源双标签检测已知新提交，旧页只读并可导出原进度',
   await second.goto('/#/quote');
   // Lazy navigation can finish after the document load event: establish the stale view first.
   await expect(second.getByLabel(rebate, { exact: true })).toHaveValue('');
-  await page.getByLabel(rebate, { exact: true }).fill('2.23');
+  await (await inDesk(page.getByLabel(rebate, { exact: true }))).fill('2.23');
   await expect(second.locator('.storage-banner')).toContainText('另一标签页');
   await expect(second.locator('.work-area')).toHaveAttribute('inert', '');
   await recovery(second);
   expect(JSON.parse(await exported(second)).payload.session.answers.rebateUnitCny).toBeUndefined();
   second.once('dialog', (d) => d.accept());
-  await second.getByRole('button', { name: '载入浏览器最新进度' }).click();
-  await second.getByRole('link', { name: '返回本单进度', exact: true }).click();
+  await (await inDesk(second.getByRole('button', { name: '载入浏览器最新进度' }))).click();
+  await (await inDesk(second.getByRole('link', { name: '返回本单进度', exact: true }))).click();
   await expect(second.getByLabel(rebate, { exact: true })).toHaveValue('2.23');
-  await second.getByLabel(rebate, { exact: true }).fill('3.45');
+  await (await inDesk(second.getByLabel(rebate, { exact: true }))).fill('3.45');
   await expect(page.locator('.storage-banner')).toContainText('另一标签页');
   expect((await second.evaluate(readBrowserSession)).answers.rebateUnitCny).toBe('3.45');
 });
@@ -170,7 +173,7 @@ test('坏 JSON、未来版本、原型字段及超大导入均保留当前记录
       mimeType: 'application/json',
       buffer: Buffer.from(data!),
     });
-    await expect(page.getByRole('status')).toContainText(message!);
+    await expect(page.locator('main').getByRole('status')).toContainText(message!);
     await expect(page.getByRole('button', { name: '确认载入此存档' })).toHaveCount(0);
     expect(await page.evaluate((key) => localStorage.getItem(key), headKey)).toBe(head);
   }
@@ -179,29 +182,29 @@ test('坏 JSON、未来版本、原型字段及超大导入均保留当前记录
 
 test('三个手动槽可载入，重开和覆盖取消均保留原进度', async ({ page }) => {
   await practice(page);
-  await page.getByLabel(rebate, { exact: true }).fill('2.23');
+  await (await inDesk(page.getByLabel(rebate, { exact: true }))).fill('2.23');
   const before = await saved(page);
   await recovery(page);
   for (const slot of ['manual1', 'manual2', 'manual3']) {
-    await page.getByLabel('手动存档槽', { exact: true }).selectOption(slot);
-    await page.getByRole('button', { name: '保存到此槽' }).click();
-    await expect(page.getByRole('status')).toContainText('手动存档已保存');
+    await (await inDesk(page.getByLabel('手动存档槽', { exact: true }))).selectOption(slot);
+    await (await inDesk(page.getByRole('button', { name: '保存到此槽' }))).click();
+    await expect(page.locator('main').getByRole('status')).toContainText('手动存档已保存');
   }
-  await page.getByRole('link', { name: '返回本单进度', exact: true }).click();
-  await page.getByLabel(rebate, { exact: true }).fill('3.45');
+  await (await inDesk(page.getByRole('link', { name: '返回本单进度', exact: true }))).click();
+  await (await inDesk(page.getByLabel(rebate, { exact: true }))).fill('3.45');
   await recovery(page);
   page.once('dialog', (d) => d.dismiss());
-  await page.getByRole('button', { name: '保存到此槽' }).click();
+  await (await inDesk(page.getByRole('button', { name: '保存到此槽' }))).click();
   page.once('dialog', (d) => d.accept());
-  await page.getByRole('button', { name: '载入此槽' }).click();
+  await (await inDesk(page.getByRole('button', { name: '载入此槽' }))).click();
   expect(await saved(page)).toEqual(before);
   await page.goto('/');
   page.once('dialog', (d) => d.dismiss());
-  await page.getByRole('button', { name: /重开选品练习/ }).click();
+  await (await inDesk(page.getByRole('button', { name: /重开选品练习/ }))).click();
   expect(await saved(page)).toEqual(before);
 });
 
-test('键盘提交错误关联字段与焦点；反馈标题接收焦点', async ({ page }) => {
+test('键盘提交错误关联字段与焦点；继续后当前任务标题接收焦点', async ({ page }) => {
   await practice(page);
   await page.getByRole('button', { name: /提交完整报价/ }).focus();
   await page.keyboard.press('Enter');
@@ -216,19 +219,23 @@ test('键盘提交错误关联字段与焦点；反馈标题接收焦点', async
     ['FOB 对外单价（USD/件）', '4.08'],
     ['CIF 对外单价（USD/件）', '4.68'],
   ];
-  for (const [label, value] of fields) await page.getByLabel(label!, { exact: true }).fill(value!);
+  for (const [label, value] of fields)
+    await (await inDesk(page.getByLabel(label!, { exact: true }))).fill(value!);
   await page.getByRole('button', { name: /提交完整报价/ }).focus();
   await page.keyboard.press('Enter');
-  await expect(page.getByRole('heading', { name: '这次选择带来了什么' })).toBeFocused();
+  await expect(page.locator('.page-heading h1')).toBeFocused();
+  await expect(page.locator('.mentor-review')).toBeVisible();
 });
 
-test('供应商定金按钮连续点击只记一笔，后果页刷新不重复付款', async ({ page }) => {
+test('供应商定金按钮连续点击只记一笔，复盘刷新不重复付款', async ({ page }) => {
   test.setTimeout(120000);
   await start(page);
   await acceptPi(page);
   await funding(page);
   const before = await saved(page);
-  await page.locator('[data-choice-id="supplier_deposit"]').click({ clickCount: 2 });
+  await (
+    await inDesk(page.locator('[data-choice-id="supplier_deposit"]'))
+  ).click({ clickCount: 2 });
   const after = await saved(page);
   expect(after.procurement!.supplierDepositFen).toBeGreaterThan(0);
   expect(before.snapshot.player.cashCnyFen - after.snapshot.player.cashCnyFen).toBe(
@@ -236,7 +243,8 @@ test('供应商定金按钮连续点击只记一笔，后果页刷新不重复�
   );
   expect(after.snapshot.journal.length).toBe(before.snapshot.journal.length + 1);
   await page.reload();
-  await expect(page.getByRole('heading', { name: '这次选择带来了什么' })).toBeVisible();
+  await expect(page.locator('.mentor-review')).toBeVisible();
+  await expect(page.locator('.legacy-feedback')).toHaveCount(0);
   expect(await saved(page)).toEqual(after);
 });
 
@@ -247,8 +255,8 @@ test('无存档深链、浏览器前后退与 360×400 输入操作均可恢复'
   await expect(page.getByRole('link', { name: '返回入口', exact: true })).toBeVisible();
   await practice(page);
   await page.setViewportSize({ width: 360, height: 400 });
-  await page.getByLabel(rebate, { exact: true }).fill('2.23');
-  await page.getByRole('button', { name: /提交完整报价/ }).click();
+  await (await inDesk(page.getByLabel(rebate, { exact: true }))).fill('2.23');
+  await (await inDesk(page.getByRole('button', { name: /提交完整报价/ }))).click();
   await expect(page.locator('[aria-invalid="true"]').first()).toBeFocused();
   await noOverflow(page);
   const before = await saved(page);
@@ -299,8 +307,8 @@ test('七关 UI 主线逐关刷新；360/768 布局、半改单据和结局恢�
   expect(stages).toEqual([1, 2, 3, 4, 5, 6, 7]);
   await documents(page);
   const row = page.locator('[data-doc-key]').first();
-  await row.getByRole('checkbox').check();
-  await row.getByRole('textbox').fill('半改草稿');
+  await (await inDesk(row.getByRole('checkbox'))).check();
+  await (await inDesk(row.getByRole('textbox'))).fill('半改草稿');
   const partial = await saved(page);
   await page.reload();
   await expect(page.locator('[data-doc-key]').first().getByRole('textbox')).toHaveValue('半改草稿');

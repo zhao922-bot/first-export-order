@@ -2,9 +2,10 @@ import { _electron, chromium, test, expect } from '@playwright/test';
 import { spawn } from 'node:child_process';
 import { createServer } from 'node:net';
 import { resolve } from 'node:path';
-import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, writeFile, copyFile } from 'node:fs/promises';
 import { saved, decide } from '../e2e/procurement-helpers';
 import { begin, documents, correct, end } from '../e2e/collection-helpers';
+import { inDesk } from '../e2e/desk-helpers';
 import {
   portableExe,
   unpackedExe,
@@ -16,6 +17,7 @@ import {
   createLegacyProgress,
   assertLegacyProgress,
   assertVisualScene,
+  exerciseFixedDesk,
 } from '../native-support/upgrade';
 
 test('portable EXE self-extracts and opens the bundled game', async ({
@@ -148,6 +150,7 @@ for (const legacy of legacyReleases)
   }, info) => {
     const profile = info.outputPath('upgrade-profile');
     const exported = info.outputPath('legacy-export.json');
+    const preserved = info.outputPath('legacy-import-backup.json');
     let instance = await launch(profile, legacy.exe);
     try {
       expect(await instance.app.evaluate(({ app }) => app.getVersion())).toBe(legacy.version);
@@ -166,6 +169,9 @@ for (const legacy of legacyReleases)
           }
         })
         .toEqual(before.session);
+      // Playwright may clean its tracked download when the Electron context closes.
+      // Preserve the verified bytes before opening the fresh import context.
+      await copyFile(exported, preserved);
       await instance.app.close();
       instance = await launch(profile);
       expect(await instance.app.evaluate(({ app }) => app.getVersion())).toBe(nativeVersion);
@@ -185,7 +191,7 @@ for (const legacy of legacyReleases)
       await instance.app.close();
       instance = await launch(info.outputPath('legacy-import-profile'));
       await instance.page.getByRole('link', { name: '存档与恢复', exact: true }).click();
-      await instance.page.getByLabel(/选择 JSON 存档/).setInputFiles(exported);
+      await instance.page.getByLabel(/选择 JSON 存档/).setInputFiles(preserved);
       await instance.page.getByRole('button', { name: '确认载入此存档', exact: true }).click();
       expect(await saved(instance.page)).toEqual(before.session);
       await expect(instance.page.getByLabel('每件预计退税（CNY/件）', { exact: true })).toHaveValue(
@@ -224,7 +230,9 @@ test('packaged EXE: export JSON, import it in a fresh profile, preserve quote dr
       );
     }, directory);
     await instance.page.getByRole('button', { name: '直接练习报价', exact: true }).click();
-    await instance.page.getByLabel('每件预计退税（CNY/件）', { exact: true }).fill('2.23');
+    await (
+      await inDesk(instance.page.getByLabel('每件预计退税（CNY/件）', { exact: true }))
+    ).fill('2.23');
     const before = await saved(instance.page);
     await instance.page.getByRole('link', { name: '存档与恢复', exact: true }).click();
     await instance.page.getByRole('button', { name: '导出当前进度', exact: true }).click();
@@ -238,15 +246,30 @@ test('packaged EXE: export JSON, import it in a fresh profile, preserve quote dr
         }
       })
       .toBe(true);
+    const preserved = info.outputPath('import-backup.json');
+    await copyFile(path, preserved);
     await instance.app.close();
     instance = await launch(info.outputPath('other-profile'));
     await instance.page.getByRole('link', { name: '存档与恢复', exact: true }).click();
-    await instance.page.getByLabel(/选择 JSON 存档/).setInputFiles(path);
+    await instance.page.getByLabel(/选择 JSON 存档/).setInputFiles(preserved);
     await instance.page.getByRole('button', { name: '确认载入此存档', exact: true }).click();
     expect(await saved(instance.page)).toEqual(before);
     await expect(instance.page.getByLabel('每件预计退税（CNY/件）', { exact: true })).toHaveValue(
       '2.23',
     );
+  } finally {
+    await instance.app.close();
+  }
+});
+
+test('packaged EXE: fixed landscape desk, page controls, live delta and idempotent reload', async ({
+  browserName: _browserName,
+}, info) => {
+  const instance = await launch(info.outputPath('fixed-desk-profile'));
+  try {
+    expect(await instance.page.evaluate(() => innerWidth > innerHeight)).toBe(true);
+    await exerciseFixedDesk(instance.page);
+    await instance.page.screenshot({ path: resolve(releaseRoot, 'windows-fixed-desk.png') });
   } finally {
     await instance.app.close();
   }

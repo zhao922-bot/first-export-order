@@ -1,3 +1,4 @@
+import { inDesk, acknowledge } from './desk-helpers';
 import { type Page } from '@playwright/test';
 import { seedRngState, nextRandom } from '../../src/engine/story/rng';
 import { eventPack } from '../fixtures/economy';
@@ -25,9 +26,9 @@ export async function handleAutoEvents(page: Page) {
       e10: 'e10_compensate',
       e12: 'e12_coordinate',
     };
-    await page.locator('[data-choice-id="' + choices[id!] + '"]').click();
-    await page.locator('.consequence button.primary').click();
-    await page.locator('.mentor-review button.primary').click();
+    await (await inDesk(page.locator('[data-choice-id="' + choices[id!] + '"]'))).click();
+    await acknowledge(page);
+    await (await inDesk(page.locator('.mentor-review button.primary'))).click();
     await waitForSave(page);
   }
 }

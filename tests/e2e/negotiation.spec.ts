@@ -1,3 +1,4 @@
+import { inDesk } from './desk-helpers';
 import { test, expect, type Page } from '@playwright/test';
 import type { SliceSession } from '../../src/engine/slice/session';
 import { readBrowserSession } from './save-helpers';
@@ -23,7 +24,7 @@ async function enterNegotiation(page: Page) {
 }
 async function practice(page: Page) {
   await page.goto('/');
-  await page.getByRole('button', { name: '直接练习报价', exact: true }).click();
+  await (await inDesk(page.getByRole('button', { name: '直接练习报价', exact: true }))).click();
   await enterNegotiation(page);
 }
 async function decide(page: Page, id: string) {
@@ -46,12 +47,12 @@ async function confirm(page: Page) {
   await expect(page.locator('[data-choice-id="contract_sign"]')).toBeDisabled();
   const fields = page.getByRole('checkbox');
   await expect(fields).toHaveCount(6);
-  for (const field of await fields.all()) await field.check();
+  for (const field of await fields.all()) await (await inDesk(field)).check();
 }
 async function sign(page: Page) {
   await choose(page, 'contract_sign');
   await review(page);
-  await page.getByRole('button', { name: /查看签约记录/ }).click();
+  await (await inDesk(page.getByRole('button', { name: /查看签约记录/ }))).click();
   await expect(page.getByRole('heading', { name: '条款已确认，合同已记录。' })).toBeVisible();
 }
 
@@ -75,7 +76,7 @@ test('第 1→2→3→4 关：三轮议价、交换条件、六项确认和刷�
   await next(page);
   await toCounterparty(page);
   await confirm(page);
-  await page.getByRole('checkbox').last().uncheck();
+  await (await inDesk(page.getByRole('checkbox').last())).uncheck();
   await expect(page.locator('[data-choice-id="contract_sign"]')).toBeDisabled();
   await page.getByRole('checkbox').last().focus();
   await page.keyboard.press('Space');
@@ -150,7 +151,7 @@ test('OA 先看到资金缺口，可缩量重谈；签约不把未来应收当�
   await choose(page, 'counterparty_continue');
   await next(page);
   await expect(page.getByRole('checkbox', { checked: true })).toHaveCount(0);
-  for (const field of await page.getByRole('checkbox').all()) await field.check();
+  for (const field of await page.getByRole('checkbox').all()) await (await inDesk(field)).check();
   await sign(page);
   const end = await saved(page);
   expect(end.snapshot.order).toMatchObject({

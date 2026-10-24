@@ -1,3 +1,4 @@
+import { inDesk, acknowledge } from './desk-helpers';
 import { test, expect, type Page } from '@playwright/test';
 import { eventPack } from '../fixtures/economy';
 import { eventBoundary } from '../fixtures/events';
@@ -32,8 +33,8 @@ async function boundary(page: Page, id: string) {
     }
   }, source);
   await page.goto('/#' + stageRoute(source.snapshot.story.stage));
-  if (source.feedback) await page.locator('.consequence button.primary').click();
-  else await page.locator('.mentor-review button.primary').click();
+  if (source.feedback) await acknowledge(page);
+  else await (await inDesk(page.locator('.mentor-review button.primary'))).click();
 }
 test.setTimeout(120000);
 for (const event of eventPack.events) {
@@ -56,7 +57,7 @@ for (const event of eventPack.events) {
     await expect(choice).toBeEnabled();
     await choice.focus();
     await page.keyboard.press('Enter');
-    await expect(page.locator('.consequence')).toBeVisible();
+    await expect(page.locator('.desk-feedback')).toBeVisible();
     const applied = await saved(page);
     expect(applied.snapshot.story.decisionLog.length).toBe(
       pending.snapshot.story.decisionLog.length + 1,
@@ -64,7 +65,7 @@ for (const event of eventPack.events) {
     expect(applied.snapshot.player.cashCnyFen).toBeGreaterThan(0);
     await page.reload();
     expect((await saved(page)).snapshot.journal).toEqual(applied.snapshot.journal);
-    await page.locator('.consequence button.primary').click();
+    await acknowledge(page);
     await expect(page.locator('.mentor-review')).toBeVisible();
     const review = eventPack.nodes.find((node) => node.id === event.reviewNodeId)!;
     await expect(page.locator('.mentor-copy')).toContainText('text' in review ? review.text : '');
@@ -72,7 +73,7 @@ for (const event of eventPack.events) {
     expect((await saved(page)).snapshot.story.nodeId).toBe(event.reviewNodeId);
     if (['e01', 'e03', 'e11'].includes(event.id))
       await page.screenshot({ path: info.outputPath(event.id + '-review.png'), fullPage: true });
-    await page.locator('.mentor-review button.primary').click();
+    await (await inDesk(page.locator('.mentor-review button.primary'))).click();
     await expect(panel).toHaveCount(0);
     const returned = await saved(page);
     expect(returned.snapshot.story.nodeId).toBe(pending.snapshot.story.pendingEvent!.returnNodeId);

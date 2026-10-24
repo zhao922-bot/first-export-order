@@ -67,14 +67,20 @@ it.skipIf(process.platform !== 'win32')(
       const first = launch('START-LOCAL.cmd');
       await expect.poll(first.text, { timeout: 15000 }).toContain('READY');
       expect(await (await fetch(`http://127.0.0.1:${port}/`)).text()).toContain('launcher fixture');
-      const second = launch('START-PHONE.cmd');
+      // LAN smoke is explicit: a new temporary node.exe path otherwise triggers
+      // another Windows firewall consent dialog on every normal pnpm test run.
+      const restartScript =
+        process.env.PLAYTEST_LAN_SMOKE === '1' ? 'START-PHONE.cmd' : 'START-LOCAL.cmd';
+      const second = launch(restartScript);
       await expect.poll(() => second.child.exitCode, { timeout: 15000 }).toBe(1);
       expect(second.text()).toContain('已被占用');
       expect((await fetch(`http://127.0.0.1:${port}/`)).status).toBe(200);
       await stop(first.child);
-      const restarted = launch('START-PHONE.cmd');
+      const restarted = launch(restartScript);
       await expect.poll(restarted.text, { timeout: 15000 }).toContain('READY');
-      expect(restarted.text()).toContain('手机与电脑');
+      expect(restarted.text()).toContain(
+        process.env.PLAYTEST_LAN_SMOKE === '1' ? '手机与电脑' : '当前仅本机可访问',
+      );
     } finally {
       for (const child of children) await stop(child);
     }

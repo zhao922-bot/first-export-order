@@ -484,5 +484,21 @@
     "oaPending": "OA 到期日待核验实际装船日期后确定。",
     "oaDue": "OA 到期：第 {day} 天。",
     "saving": "正在保存本页修改"
+  },
+  "desk": {
+    "task": "当前任务",
+    "reference": "业务资料",
+    "history": "决策记录",
+    "pagination": "内容分页",
+    "previous": "上一页",
+    "next": "下一页",
+    "page": "页",
+    "feedback": "本次反馈",
+    "details": "查看详情",
+    "continue": "接着处理",
+    "trust": "客户信任",
+    "feedbackMode": "inline",
+    "deltaDurationMs": 2400,
+    "idleFeedback": "林姐：先看资料，再做选择。数值变化会显示在顶部，详细后果保存在决策记录。"
   }
 }

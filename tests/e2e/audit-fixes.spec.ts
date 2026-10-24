@@ -1,3 +1,4 @@
+import { inDesk } from './desk-helpers';
 import { test, expect } from '@playwright/test';
 import { collectionGame } from '../fixtures/collection';
 import { pack } from '../fixtures/economy';
@@ -10,7 +11,7 @@ const rebate = '每件预计退税（CNY/件）';
 const headKey = 'first-export.slice.v2:auto:head';
 async function practice(page: import('@playwright/test').Page) {
   await page.goto('/');
-  await page.getByRole('button', { name: '直接练习报价', exact: true }).click();
+  await (await inDesk(page.getByRole('button', { name: '直接练习报价', exact: true }))).click();
   await expect(page.getByLabel(rebate)).toBeVisible();
   await expect(page.locator('.app-shell')).toHaveAttribute('data-saving', 'false');
 }
@@ -43,10 +44,10 @@ test('并发写入在同一事务内排队，冲突页不会覆盖已提交槽',
       head.side === 'a' ? 'b' : 'a',
     );
   }, headKey);
-  await page.getByLabel(rebate).fill('1.11');
+  await (await inDesk(page.getByLabel(rebate))).fill('1.11');
   try {
     await paused;
-    await second.getByLabel(rebate).fill('2.22');
+    await (await inDesk(second.getByLabel(rebate))).fill('2.22');
     // B has accepted an input intent, but cannot enter A's active commit.
     expect(await second.evaluate(readBrowserSession)).toEqual(before);
     await cdp.send('Debugger.resume');
@@ -73,8 +74,8 @@ test('关闭第二个只读页面后，原页继续统计与提交报价', async
   await expect(second.locator('.app-shell')).toHaveAttribute('data-saving', 'false');
   await second.close();
   await page.bringToFront();
-  await page.getByLabel(rebate).fill('2.23');
-  await page.getByRole('button', { name: /提交完整报价/ }).click();
+  await (await inDesk(page.getByLabel(rebate))).fill('2.23');
+  await (await inDesk(page.getByRole('button', { name: /提交完整报价/ }))).click();
   await expect
     .poll(() =>
       page.evaluate(
@@ -151,9 +152,9 @@ test('写锁等待期间立即刷新，报价与参数输入仍可恢复且不�
       }),
   );
   try {
-    await page.getByLabel(rebate).fill('2.23');
-    await page.getByLabel('FOB 成本基数（CNY/件）').fill('26.47');
-    await page.getByLabel('汇率 E', { exact: true }).fill('7.50');
+    await (await inDesk(page.getByLabel(rebate))).fill('2.23');
+    await (await inDesk(page.getByLabel('FOB 成本基数（CNY/件）'))).fill('26.47');
+    await (await inDesk(page.getByLabel('汇率 E', { exact: true }))).fill('7.50');
     expect(await page.evaluate(readBrowserSession)).toEqual(before);
     await page.reload();
   } finally {
@@ -178,28 +179,28 @@ test('首页不加载经营引擎、不创建空统计；跳过与重看引导�
   page.on('request', (r) => urls.push(r.url()));
   await page.goto('/');
   await expect(page.getByRole('button', { name: /开始第 1 关/ })).toBeVisible();
-  await page.getByRole('button', { name: /跳过引导/ }).click();
-  await page.getByRole('button', { name: /重新查看引导/ }).click();
+  await (await inDesk(page.getByRole('button', { name: /跳过引导/ }))).click();
+  await (await inDesk(page.getByRole('button', { name: /重新查看引导/ }))).click();
   await expect(page.getByTestId('onboarding')).toBeVisible();
   expect(urls.some((url) => /\/useSliceGame-.*\.js/.test(url))).toBe(false);
   expect(await page.evaluate(() => localStorage.getItem('first-export.playtest.v1'))).toBeNull();
-  await page.getByRole('button', { name: /开始第 1 关/ }).click();
+  await (await inDesk(page.getByRole('button', { name: /开始第 1 关/ }))).click();
   await expect(page.locator('.product-card')).toHaveCount(3);
 });
 
 test('首页按需引擎加载失败可刷新重试，旧进度原样保留', async ({ page }) => {
   await practice(page);
-  await page.getByLabel(rebate).fill('2.23');
+  await (await inDesk(page.getByLabel(rebate))).fill('2.23');
   await expect(page.locator('.app-shell')).toHaveAttribute('data-saving', 'false');
   const before = await page.evaluate(readBrowserSession);
   await page.goto('/');
   await page.route('**/assets/useSliceGame-*.js', (route) => route.abort());
-  await page.getByRole('button', { name: '继续本地进度 →', exact: true }).click();
+  await (await inDesk(page.getByRole('button', { name: '继续本地进度 →', exact: true }))).click();
   await expect(page.getByRole('alert')).toContainText('页面资源暂时未加载成功');
   expect(await page.evaluate(readBrowserSession)).toEqual(before);
   await page.unroute('**/assets/useSliceGame-*.js');
-  await page.getByRole('button', { name: '重新加载页面', exact: true }).click();
-  await page.getByRole('button', { name: '继续本地进度 →', exact: true }).click();
+  await (await inDesk(page.getByRole('button', { name: '重新加载页面', exact: true }))).click();
+  await (await inDesk(page.getByRole('button', { name: '继续本地进度 →', exact: true }))).click();
   await expect(page.getByLabel(rebate)).toHaveValue('2.23');
   expect(await page.evaluate(readBrowserSession)).toEqual(before);
 });
@@ -245,7 +246,7 @@ test('勾选合同后立即刷新仍恢复确认，重复刷新不签约或重�
       }),
   );
   try {
-    await page.getByRole('checkbox').first().check();
+    await (await inDesk(page.getByRole('checkbox').first())).check();
     expect(await page.evaluate(readBrowserSession)).toEqual(before);
     await page.reload();
   } finally {

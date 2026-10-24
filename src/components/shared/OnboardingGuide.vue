@@ -11,6 +11,7 @@ const props = defineProps<{ resume?: boolean }>();
 const guide = useOnboarding(),
   route = useRoute();
 const labels = guide.content.labels;
+const collapsed = ref(false);
 const manual = ref(false),
   idle = ref(false),
   missing = ref(false);
@@ -113,22 +114,27 @@ function locate() {
   if (!target) return;
   if (!target.matches('button, input, select, a, summary, textarea'))
     target.setAttribute('tabindex', '-1');
-  target.scrollIntoView({ block: 'center', behavior: 'instant' });
+  if (target.closest('.fixed-desk')) {
+    if (target.closest('.desk-pages')) collapsed.value = true;
+    target.dispatchEvent(new Event('desk-reveal', { bubbles: true }));
+  } else target.scrollIntoView({ block: 'center', behavior: 'instant' });
   target.focus({ preventScroll: true });
 }
 function focusPanel() {
   void nextTick(() => {
-    heading.value?.scrollIntoView({ block: 'center' });
+    if (!heading.value?.closest('.fixed-desk')) heading.value?.scrollIntoView({ block: 'center' });
     heading.value?.focus({ preventScroll: true });
   });
 }
 function help() {
+  collapsed.value = false;
   manual.value = true;
   idle.value = false;
   clock.dismiss();
   focusPanel();
 }
 function replay() {
+  collapsed.value = false;
   guide.replay();
   if (context.value.screen === 'game' && context.value.stage === 1)
     guide.update({ demoStarted: true });
@@ -157,6 +163,10 @@ function tick() {
     eligible(),
     guide.content.idleSeconds * 1000,
   );
+}
+function focusBusiness(event: Event) {
+  if (event.target instanceof Element && event.target.closest('.fixed-desk .desk-pages'))
+    collapsed.value = true;
 }
 function activity(event: Event) {
   if (event.target instanceof Element && event.target.closest('[data-onboarding]')) return;
@@ -193,6 +203,7 @@ watch(
 );
 onMounted(() => {
   timer = window.setInterval(tick, 1000);
+  document.addEventListener('focusin', focusBusiness);
   document.addEventListener('input', activity);
   document.addEventListener('pointerdown', activity);
   document.addEventListener('keydown', activity);
@@ -204,6 +215,7 @@ onBeforeUnmount(() => {
   disposed = true;
   clearMarks();
   window.clearInterval(timer);
+  document.removeEventListener('focusin', focusBusiness);
   document.removeEventListener('input', activity);
   document.removeEventListener('pointerdown', activity);
   document.removeEventListener('keydown', activity);
@@ -215,14 +227,15 @@ onBeforeUnmount(() => {
 <template>
   <div data-onboarding class="onboarding">
     <div class="onboarding-toolbar">
-      <span>{{ labels.title }}</span>
+      <span>{{ collapsed && open ? card.title : labels.title }}</span>
       <div class="actions">
         <button class="secondary" @click="help">{{ labels.help }}</button>
         <button class="secondary" @click="replay">{{ labels.replay }}</button>
       </div>
     </div>
+    <p v-if="open && collapsed" id="onboarding-text" class="sr-only">{{ card.text }}</p>
     <section
-      v-if="open"
+      v-if="open && !collapsed"
       class="onboarding-card"
       aria-labelledby="onboarding-title"
       data-testid="onboarding"

@@ -1,3 +1,4 @@
+import { inDesk } from './desk-helpers';
 import { expect, type Page } from '@playwright/test';
 import { choose, next, review, continueReview } from './inquiry-helpers';
 import {
@@ -45,9 +46,9 @@ export async function select(page: Page, plan = 'steady', term = 'fob') {
 export async function declaration(page: Page, correct = true) {
   if (correct) {
     const quantity = await page.locator('[data-source-field="quantity"]').innerText();
-    await page
-      .getByLabel('数量（件）草稿', { exact: true })
-      .fill(quantity.replace('合同源记录：', ''));
+    await (
+      await inDesk(page.getByLabel('数量（件）草稿', { exact: true }))
+    ).fill(quantity.replace('合同源记录：', ''));
   }
   await checkAll(page);
   await decide(page, 'declaration_submit');

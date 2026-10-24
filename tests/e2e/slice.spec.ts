@@ -1,3 +1,4 @@
+import { inDesk, acknowledge } from './desk-helpers';
 import { test, expect, type Page } from '@playwright/test';
 import {
   startInquiry,
@@ -12,19 +13,21 @@ import {
 
 test('随机参数固定到本局；未应用的参数修改不能提交报价', async ({ page }) => {
   await page.goto('/');
-  await page.getByRole('button', { name: '新开随机报价练习', exact: true }).click();
+  await (await inDesk(page.getByRole('button', { name: '新开随机报价练习', exact: true }))).click();
   await expect(page.getByText(/随机参数组 [123] · FOB/)).toBeVisible();
   const quantity = await page.getByLabel('数量 Q', { exact: true }).inputValue();
   const fx = await page.getByLabel('汇率 E', { exact: true }).inputValue();
   await page.reload();
   await expect(page.getByLabel('数量 Q', { exact: true })).toHaveValue(quantity);
   await expect(page.getByLabel('汇率 E', { exact: true })).toHaveValue(fx);
-  await page.getByLabel('汇率 E', { exact: true }).fill('7.50');
+  await (await inDesk(page.getByLabel('汇率 E', { exact: true }))).fill('7.50');
   await expect(page.getByRole('button', { name: /提交完整报价/ })).toBeDisabled();
-  await page.getByLabel(labels.rebate, { exact: true }).fill('2.23');
+  await (await inDesk(page.getByLabel(labels.rebate, { exact: true }))).fill('2.23');
   await expect(page.getByLabel('汇率 E', { exact: true })).toHaveValue('7.50');
   await expect(page.getByRole('button', { name: /提交完整报价/ })).toBeDisabled();
-  await page.getByRole('button', { name: '应用参数并清空草稿', exact: true }).click();
+  await (
+    await inDesk(page.getByRole('button', { name: '应用参数并清空草稿', exact: true }))
+  ).click();
   await expect(page.getByRole('button', { name: /提交完整报价/ })).toBeEnabled();
   await expect(page.getByLabel(labels.rebate, { exact: true })).toHaveValue('');
 });
@@ -36,29 +39,30 @@ const labels = {
 };
 async function startQuote(page: Page) {
   await page.goto('/');
-  await page.getByRole('button', { name: '直接练习报价', exact: true }).click();
+  await (await inDesk(page.getByRole('button', { name: '直接练习报价', exact: true }))).click();
 }
 async function fillMain(page: Page, rebate = '2.23', fob = '4.08') {
-  await page.getByLabel(labels.rebate, { exact: true }).fill(rebate);
-  await page.getByLabel(labels.cost, { exact: true }).fill('26.47');
-  await page.getByLabel(labels.fob, { exact: true }).fill(fob);
-  await page.getByLabel(labels.cif, { exact: true }).fill('4.68');
+  await (await inDesk(page.getByLabel(labels.rebate, { exact: true }))).fill(rebate);
+  await (await inDesk(page.getByLabel(labels.cost, { exact: true }))).fill('26.47');
+  await (await inDesk(page.getByLabel(labels.fob, { exact: true }))).fill(fob);
+  await (await inDesk(page.getByLabel(labels.cif, { exact: true }))).fill('4.68');
 }
 async function next(page: Page) {
-  await page.getByRole('button', { name: /查看下一步/ }).click();
+  await acknowledge(page);
 }
 async function step(page: Page, label: string, value: string) {
-  await page.getByLabel(label, { exact: true }).fill(value);
-  await page.getByRole('button', { name: /校核这一步/ }).click();
+  await (await inDesk(page.getByLabel(label, { exact: true }))).fill(value);
+  await (await inDesk(page.getByRole('button', { name: /校核这一步/ }))).click();
   await next(page);
 }
 async function complete(page: Page) {
-  await page.getByRole('button', { name: /提交完整报价/ }).click();
-  await page.getByRole('button', { name: /请林姐复盘/ }).click();
-  await page.getByRole('button', { name: /完成报价，选择下一步/ }).click();
+  await (await inDesk(page.getByRole('button', { name: /提交完整报价/ }))).click();
+  await acknowledge(page);
+  await (await inDesk(page.getByRole('button', { name: /完成报价，选择下一步/ }))).click();
   await choose(page, 'finish_quote_practice');
   await next(page);
   await expect(page.getByRole('heading', { name: '选得有依据，算得清口径。' })).toBeVisible();
+  await page.locator('.desk-tabs').getByRole('button', { name: '业务资料', exact: true }).click();
   await expect(page.getByText('发票金额 US$23,400.00', { exact: true })).toBeVisible();
 }
 test('第 1→2→3 关：核验、三封询盘、林姐复盘、报价完成与刷新', async ({ page }, testInfo) => {
@@ -78,7 +82,7 @@ test('第 1→2→3 关：核验、三封询盘、林姐复盘、报价完成与
   await expect(page.locator('.mail-message')).toHaveText(originalMail, { useInnerText: true });
   await choose(page, 'classify_buyer_buyer');
   await page.reload();
-  await expect(page.getByRole('status')).toContainText('判断有依据');
+  await expect(page.locator('.decision-log')).toContainText('判断有依据');
   await review(page);
   await expect(page.getByRole('region', { name: '客户沟通档案' })).toContainText('Emma');
   await page.screenshot({ path: testInfo.outputPath('inquiry-review.png'), fullPage: true });
@@ -108,18 +112,20 @@ test('第 1→2→3 关：核验、三封询盘、林姐复盘、报价完成与
 test('漏算退税：保存后果、分步纠错直到完整报价通过', async ({ page }) => {
   await startQuote(page);
   await fillMain(page, '0', '4.42');
-  await page.getByRole('button', { name: /提交完整报价/ }).click();
-  await expect(page.getByRole('status')).toContainText('合资格退税被漏算');
+  await (await inDesk(page.getByRole('button', { name: /提交完整报价/ }))).click();
+  await expect(page.locator('.desk-feedback')).toContainText('合资格退税被漏算');
   await expect(page.getByTestId('reputation')).toHaveText('60 / 100');
   await page.reload();
-  await expect(page.getByRole('status')).toContainText('合资格退税被漏算');
-  await page.getByRole('button', { name: /请林姐复盘/ }).click();
+  await expect(page.locator('.decision-log')).toContainText('合资格退税被漏算');
+  await acknowledge(page);
   await expect(page.getByRole('heading', { name: '林姐 · 漏算退税' })).toBeVisible();
-  await page.getByRole('button', { name: /继续练习/ }).click();
+  await (await inDesk(page.getByRole('button', { name: /继续练习/ }))).click();
   await step(page, labels.rebate, '2.23');
   await step(page, labels.cost, '26.47');
-  await page.getByLabel('本题利润率口径', { exact: true }).selectOption('costMarkup');
-  await page.getByRole('button', { name: /校核这一步/ }).click();
+  await (
+    await inDesk(page.getByLabel('本题利润率口径', { exact: true }))
+  ).selectOption('costMarkup');
+  await (await inDesk(page.getByRole('button', { name: /校核这一步/ }))).click();
   await next(page);
   await step(page, labels.fob, '4.08');
   await step(page, labels.cif, '4.68');
@@ -130,14 +136,18 @@ test('漏算退税：保存后果、分步纠错直到完整报价通过', async
 test('利润率口径误用：后果、林姐、口径和报价重算', async ({ page }) => {
   await startQuote(page);
   await fillMain(page, '2.23', '4.13');
-  await page.getByLabel('本题利润率口径', { exact: true }).selectOption('salesMargin');
-  await page.getByRole('button', { name: /提交完整报价/ }).click();
-  await expect(page.getByRole('status')).toContainText('当成销售毛利率');
-  await page.getByRole('button', { name: /请林姐复盘/ }).click();
+  await (
+    await inDesk(page.getByLabel('本题利润率口径', { exact: true }))
+  ).selectOption('salesMargin');
+  await (await inDesk(page.getByRole('button', { name: /提交完整报价/ }))).click();
+  await expect(page.locator('.desk-feedback')).toContainText('当成销售毛利率');
+  await acknowledge(page);
   await expect(page.getByRole('heading', { name: '林姐 · 利润率口径误用' })).toBeVisible();
-  await page.getByRole('button', { name: /继续练习/ }).click();
-  await page.getByLabel('本题利润率口径', { exact: true }).selectOption('costMarkup');
-  await page.getByRole('button', { name: /校核这一步/ }).click();
+  await (await inDesk(page.getByRole('button', { name: /继续练习/ }))).click();
+  await (
+    await inDesk(page.getByLabel('本题利润率口径', { exact: true }))
+  ).selectOption('costMarkup');
+  await (await inDesk(page.getByRole('button', { name: /校核这一步/ }))).click();
   await next(page);
   await step(page, labels.fob, '4.08');
   await step(page, labels.cif, '4.68');
@@ -145,10 +155,10 @@ test('利润率口径误用：后果、林姐、口径和报价重算', async ({
 });
 test('空白输入不罚分，草稿刷新保留，直接访问其他关卡会回到当前进度', async ({ page }) => {
   await startQuote(page);
-  await page.getByRole('button', { name: /提交完整报价/ }).click();
+  await (await inDesk(page.getByRole('button', { name: /提交完整报价/ }))).click();
   await expect(page.locator('.field-error').first()).toBeVisible();
   await expect(page.getByTestId('reputation')).toHaveText('60 / 100');
-  await page.getByLabel(labels.rebate, { exact: true }).fill('2.23');
+  await (await inDesk(page.getByLabel(labels.rebate, { exact: true }))).fill('2.23');
   await page.reload();
   await expect(page.getByLabel(labels.rebate, { exact: true })).toHaveValue('2.23');
   await page.goto('/#/documents');

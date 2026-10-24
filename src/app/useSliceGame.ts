@@ -1,4 +1,5 @@
-import { dispatchSlice, type RescueAction } from '../engine/slice/rescue';
+import { deskAction, type DeskFeedback } from './deskFeedback';
+import { type RescueAction } from '../engine/slice/rescue';
 import { uniqueId } from './uniqueId';
 import { loadedGame } from './gameAccess';
 import { formatMoney } from './formatMoney';
@@ -76,6 +77,7 @@ const useStore = defineStore('slice', () => {
   const enqueue = serialQueue();
   const saving = shallowRef(0);
   const pendingSaves = shallowRef(0);
+  const deskFeedback = shallowRef<DeskFeedback | null>(null);
   function transaction<T>(operation: () => T, writes = true): Promise<T> {
     saving.value++;
     if (writes) pendingSaves.value++;
@@ -177,6 +179,7 @@ const useStore = defineStore('slice', () => {
     applyMemory(value);
   }
   function start(practice = false, randomize = false, pretest = false): boolean {
+    deskFeedback.value = null;
     error.value = '';
     const next = createSliceSession(
       pack,
@@ -215,11 +218,12 @@ const useStore = defineStore('slice', () => {
     try {
       if (storageConflict.value) throw new SaveError('CONFLICT', storageNotice.value);
       const source = toRaw(session.value);
-      const next = dispatchSlice(source, pack, {
-        id: source.snapshot.runId + '.command.' + uniqueId(),
-        revision: source.snapshot.revision,
+      const { decision, next } = deskAction(
+        source,
+        pack,
         action,
-      });
+        source.snapshot.runId + '.command.' + uniqueId(),
+      );
       const previousDraft = parameterDraft.value;
       if (action.type === 'configure') parameterDraft.value = null;
       try {
@@ -228,7 +232,15 @@ const useStore = defineStore('slice', () => {
         parameterDraft.value = previousDraft;
         throw cause;
       }
-      sink.transition(source, next, action.type);
+      const log = decision.snapshot.story.decisionLog.at(-1);
+      if (decision.feedback && log && log.id !== source.snapshot.story.decisionLog.at(-1)?.id)
+        deskFeedback.value = {
+          id: log.id,
+          text: decision.feedback.text,
+          deltas: { ...log.deltas },
+        };
+      sink.transition(source, decision, action.type);
+      if (next !== decision) sink.transition(decision, next, 'advance');
       refreshPlaytest();
       error.value = '';
     } catch (failure) {
@@ -236,6 +248,7 @@ const useStore = defineStore('slice', () => {
     }
   }
   function reloadSaved(attach = true): void {
+    deskFeedback.value = null;
     const loaded = repository.load();
     expectedHead = loaded.head;
     backup.value = loaded.backup;
@@ -279,6 +292,7 @@ const useStore = defineStore('slice', () => {
     parameterDraft.value = validated.parameterDraft;
     try {
       publish(validated.session);
+      deskFeedback.value = null;
       sink.attach(validated.session);
       refreshPlaytest();
       error.value = '';
@@ -542,6 +556,7 @@ const useStore = defineStore('slice', () => {
     noteInteraction: interaction,
     saving: readonly(saving),
     pendingSaves: readonly(pendingSaves),
+    deskFeedback: readonly(deskFeedback),
     playtest: readonly(playtest),
     exportPlaytest: () =>
       transaction(() => {

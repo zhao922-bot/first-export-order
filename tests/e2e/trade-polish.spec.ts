@@ -1,3 +1,4 @@
+import { inDesk } from './desk-helpers';
 import { test, expect, type Page, type TestInfo } from '@playwright/test';
 import { begin, documents, correct, end } from './collection-helpers';
 import { saved, decide } from './procurement-helpers';
@@ -17,26 +18,22 @@ async function receipt(page: Page, id: string, info: TestInfo) {
   const before = await saved(page);
   await choose(page, id);
   const after = await saved(page);
-  await expect(page.getByRole('article', { name: '本次操作回执' })).toBeVisible();
-  await expect(page.getByTestId('receipt-cash')).toHaveText(
-    money(after.snapshot.player.cashCnyFen - before.snapshot.player.cashCnyFen),
+  await expect(page.locator('.business-receipt')).toHaveCount(0);
+  await expect(page.getByTestId('cash')).toHaveText(money(after.snapshot.player.cashCnyFen));
+  await expect(page.getByTestId('profit')).toHaveText(
+    money(after.snapshot.player.cumulativeProfitCnyFen),
   );
-  await expect(page.getByTestId('receipt-profit')).toHaveText(
-    money(
-      after.snapshot.player.cumulativeProfitCnyFen - before.snapshot.player.cumulativeProfitCnyFen,
-    ),
+  expect(after.snapshot.story.decisionLog.at(-1)!.deltas.cashCnyFen).toBe(
+    after.snapshot.player.cashCnyFen - before.snapshot.player.cashCnyFen,
   );
-  await expect(page.getByTestId('receipt-days')).toHaveText(
-    `${after.snapshot.gameDay - before.snapshot.gameDay} 天`,
-  );
-  await page.getByLabel('界面动效', { exact: true }).selectOption('off');
+  await (await inDesk(page.getByLabel('界面动效', { exact: true }))).selectOption('off');
   await page.reload();
   expect(await saved(page)).toEqual(after);
-  await expect(page.locator('.business-receipt')).toHaveCSS('animation-name', 'none');
+  await expect(page.locator('.hud-delta')).toHaveCount(0);
   await noOverflow(page);
   await page
-    .locator('.business-receipt')
-    .screenshot({ path: info.outputPath(`${id}-receipt.png`), animations: 'disabled' });
+    .locator('.resource-hud')
+    .screenshot({ path: info.outputPath(`${id}-hud.png`), animations: 'disabled' });
   await review(page);
   await continueReview(page);
 }
@@ -72,7 +69,7 @@ for (const payment of ['tt', 'lc', 'oa']) {
         if (mobile) {
           const copy = await scene.locator('.scene-copy > p').boundingBox();
           const person = await scene.locator('.character-portrait').boundingBox();
-          expect(copy!.y + copy!.height).toBeLessThan(person!.y);
+          expect(copy!.x + copy!.width).toBeLessThanOrEqual(person!.x);
         }
         await scene.screenshot({
           path: info.outputPath(`chapter-${stage}.png`),
@@ -82,10 +79,10 @@ for (const payment of ['tt', 'lc', 'oa']) {
     });
     await documents(page);
     const quantity = page.locator('[data-doc-key="invoice.quantity"]');
-    await quantity.getByRole('checkbox').check();
-    await quantity
-      .getByRole('textbox')
-      .fill(await page.locator('[data-document-source="quantity"]').innerText());
+    await (await inDesk(quantity.getByRole('checkbox'))).check();
+    await (
+      await inDesk(quantity.getByRole('textbox'))
+    ).fill(await page.locator('[data-document-source="quantity"]').innerText());
     const draft = await saved(page);
     await page.reload();
     await expect(quantity.getByRole('checkbox')).toBeChecked();

@@ -1,3 +1,4 @@
+import { inDesk } from './desk-helpers';
 import { expect, type Page } from '@playwright/test';
 import type { SliceSession } from '../../src/engine/slice/session';
 import { readBrowserSession, waitForSave } from './save-helpers';
@@ -22,7 +23,7 @@ export async function decide(page: Page, id: string) {
   await continueReview(page);
 }
 export async function checkAll(page: Page) {
-  for (const field of await page.getByRole('checkbox').all()) await field.check();
+  for (const field of await page.getByRole('checkbox').all()) await (await inDesk(field)).check();
 }
 export async function start(
   page: Page,
@@ -52,9 +53,13 @@ export async function start(
   await options.checkpoint?.(3);
   if (options.bulk || options.quantity) {
     const quantity = options.quantity ?? 5000;
-    await page.getByLabel('数量 Q', { exact: true }).fill(String(quantity));
-    await page.getByLabel('国内总费用 D', { exact: true }).fill(String(quantity * 0.7));
-    await page.getByRole('button', { name: '应用参数并清空草稿', exact: true }).click();
+    await (await inDesk(page.getByLabel('数量 Q', { exact: true }))).fill(String(quantity));
+    await (
+      await inDesk(page.getByLabel('国内总费用 D', { exact: true }))
+    ).fill(String(quantity * 0.7));
+    await (
+      await inDesk(page.getByRole('button', { name: '应用参数并清空草稿', exact: true }))
+    ).click();
   }
   await submitCurrentQuote(page, true);
   await choose(page, 'continue_negotiation');
@@ -76,7 +81,7 @@ export async function start(
   await checkAll(page);
   await choose(page, 'contract_sign');
   await review(page);
-  await page.getByRole('button', { name: /查看签约记录/ }).click();
+  await (await inDesk(page.getByRole('button', { name: /查看签约记录/ }))).click();
   await choose(page, 'continue_procurement');
   await review(page);
   await continueReview(page);
@@ -100,12 +105,14 @@ export async function inspect(page: Page, allPass = false) {
   await expect(page.locator('.evidence-card')).toHaveCount(5);
   for (const row of await page.locator('.evidence-card').all()) {
     const read = row.getByRole('button', { name: '查看证据' });
-    if (await read.count()) await read.click();
+    if (await read.count()) await (await inDesk(read)).click();
     const evidence = await row.locator('.evidence-copy').innerText();
     const bad = /不一致|缺失|不同|无法对应|旧稿|不足|短缺|混用/.test(evidence);
-    await row
-      .getByRole('radio', { name: !allPass && bad ? '异常，需处理' : '符合', exact: true })
-      .check();
+    await (
+      await inDesk(
+        row.getByRole('radio', { name: !allPass && bad ? '异常，需处理' : '符合', exact: true }),
+      )
+    ).check();
   }
   await decide(page, 'inspection_submit');
 }

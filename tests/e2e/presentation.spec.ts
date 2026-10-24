@@ -1,3 +1,4 @@
+import { inDesk } from './desk-helpers';
 import { expect, test } from '@playwright/test';
 import { begin, documents, correct, end } from './collection-helpers';
 import { decide, saved } from './procurement-helpers';
@@ -24,9 +25,9 @@ test('七关场景、真实客户形象、林姐结局复盘；动效不改变�
         );
       }
       const before = await saved(page);
-      await page.getByLabel('界面动效', { exact: true }).selectOption('off');
+      await (await inDesk(page.getByLabel('界面动效', { exact: true }))).selectOption('off');
       expect(await saved(page)).toEqual(before);
-      await page.getByLabel('界面动效', { exact: true }).selectOption('system');
+      await (await inDesk(page.getByLabel('界面动效', { exact: true }))).selectOption('system');
       expect(await saved(page)).toEqual(before);
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
         true,
@@ -61,24 +62,24 @@ test('动效开关、系统偏好实时切换、刷新、键盘与完整文案�
   ).toBe('character-breathe');
   await page.locator('.landing-intro').scrollIntoViewIfNeeded();
   await page.screenshot({ path: info.outputPath('home.png') });
-  await page.getByRole('button', { name: /跳过引导/ }).click();
+  await (await inDesk(page.getByRole('button', { name: /跳过引导/ }))).click();
   await page.getByRole('button', { name: /开始第 1 关/ }).focus();
   await page.keyboard.press('Enter');
-  await page.getByRole('button', { name: /选择500ml 保温杯/ }).click();
+  await (await inDesk(page.getByRole('button', { name: /选择500ml 保温杯/ }))).click();
   await next(page);
-  await page.getByRole('button', { name: '选择恒信制造', exact: true }).click();
+  await (await inDesk(page.getByRole('button', { name: '选择恒信制造', exact: true }))).click();
   await review(page);
   await expect(page.locator('.mentor-review .mentor-copy')).not.toBeEmpty();
   await expect(page.locator('.mentor-review button')).toBeEnabled();
   const before = await saved(page);
-  await page.getByLabel('界面动效', { exact: true }).selectOption('off');
+  await (await inDesk(page.getByLabel('界面动效', { exact: true }))).selectOption('off');
   await page.reload();
   await expect(page.locator('.app-shell')).toHaveAttribute('data-motion', 'off');
   expect(
     await page.locator('.character-crop').evaluate((el) => getComputedStyle(el).animationName),
   ).toBe('none');
   expect(await saved(page)).toEqual(before);
-  await page.getByLabel('界面动效', { exact: true }).selectOption('system');
+  await (await inDesk(page.getByLabel('界面动效', { exact: true }))).selectOption('system');
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await expect(page.locator('.app-shell')).toHaveAttribute('data-motion', 'off');
   expect(
@@ -103,11 +104,11 @@ test('离线素材故障与偏好写入失败保留可操作游戏和清晰说�
   });
   await page.goto('/');
   await expect(page.locator('.character-fallback')).toHaveText('林');
-  await page.getByLabel('界面动效', { exact: true }).selectOption('off');
+  await (await inDesk(page.getByLabel('界面动效', { exact: true }))).selectOption('off');
   await expect(page.getByText('动效设置仅本次生效，未能保存。')).toBeVisible();
   await expect(page.locator('.app-shell')).toHaveAttribute('data-motion', 'off');
-  await page.getByRole('button', { name: /开始第 1 关/ }).click();
-  await page.getByRole('button', { name: /选择500ml 保温杯/ }).click();
-  await expect(page.locator('.consequence')).toBeVisible();
+  await (await inDesk(page.getByRole('button', { name: /开始第 1 关/ }))).click();
+  await (await inDesk(page.getByRole('button', { name: /选择500ml 保温杯/ }))).click();
+  await expect(page.locator('.desk-feedback')).toBeVisible();
   expect((await saved(page)).snapshot.order.productId).toBe('cup_500');
 });
