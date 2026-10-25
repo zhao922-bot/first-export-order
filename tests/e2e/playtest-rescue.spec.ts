@@ -12,6 +12,7 @@ import {
   saved,
 } from './procurement-helpers';
 import { choose } from './inquiry-helpers';
+import { holdWrites, waitForSave } from './save-helpers';
 import { type TelemetryData } from '../../src/telemetry/events';
 import { calculateMetrics } from '../../src/telemetry/metrics';
 
@@ -97,11 +98,13 @@ test('E05 真实资金缺口：后果与复盘各刷新一次，恢复原账本�
   const before = await saved(page);
   await choose(page, 'supplier_balance');
   await expect(page.getByTestId('rescue-gap')).not.toHaveText('¥0.00');
+  await waitForSave(page);
   await page.reload();
   await expect(page.getByTestId('rescue-checkpoint')).toBeVisible();
   await (
     await inDesk(page.getByRole('button', { name: '查看林姐的救援复盘', exact: true }))
   ).click();
+  await waitForSave(page);
   await page.reload();
   await expect(
     page.getByRole('heading', { name: '林姐 · 先核对再继续', exact: true }),
@@ -111,6 +114,7 @@ test('E05 真实资金缺口：后果与复盘各刷新一次，恢复原账本�
   await (
     await inDesk(page.getByRole('button', { name: '使用一次纠错，恢复检查点', exact: true }))
   ).click();
+  await waitForSave(page);
   await page.reload();
   const restored = await saved(page);
   expect(restored.snapshot.journal).toEqual(before.snapshot.journal);
@@ -135,15 +139,26 @@ test('拒绝救援的确认页刷新保持未扣款，返回复盘后仍可恢�
   await (
     await inDesk(page.getByRole('button', { name: '查看林姐的救援复盘', exact: true }))
   ).click();
-  await (
-    await inDesk(page.getByRole('button', { name: '拒绝纠错，查看风险确认', exact: true }))
-  ).click();
+  const release = await holdWrites(page);
+  try {
+    await (
+      await inDesk(page.getByRole('button', { name: '拒绝纠错，查看风险确认', exact: true }))
+    ).click();
+    await expect(page.locator('.app-shell')).toHaveAttribute('data-saving', 'true');
+    expect(await page.getByRole('heading', { name: '再次确认这次风险', exact: true }).count()).toBe(
+      0,
+    );
+  } finally {
+    await release();
+  }
+  await waitForSave(page);
   await page.reload();
   await expect(page.getByRole('heading', { name: '再次确认这次风险', exact: true })).toBeVisible();
   expect((await saved(page)).snapshot.journal).toEqual(before.snapshot.journal);
   await (
     await inDesk(page.getByRole('button', { name: '确认拒绝，返回资金安排', exact: true }))
   ).click();
+  await waitForSave(page);
   await page.reload();
   expect((await saved(page)).snapshot.journal).toEqual(before.snapshot.journal);
   expect((await records(page)).runs[0]!.counts.rescue_declined).toBe(1);

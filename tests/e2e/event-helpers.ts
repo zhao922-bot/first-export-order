@@ -8,6 +8,9 @@ const autoPages = new WeakSet<Page>();
 export const enableAutoEvents = (page: Page) => autoPages.add(page);
 export async function handleAutoEvents(page: Page) {
   if (!autoPages.has(page)) return;
+  // A mentor click can return before its async commit publishes the event.
+  // Inspect only the committed UI; a transient zero count is not "no event".
+  await waitForSave(page);
   const panel = page.getByTestId('random-event');
   for (let i = 0; i < 3; i++) {
     if (!(await panel.count())) return;

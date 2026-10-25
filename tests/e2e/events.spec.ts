@@ -8,6 +8,8 @@ import { stageRoute } from '../../src/app/stageRoute';
 import { saved, decide } from './procurement-helpers';
 import { installSeed, enableAutoEvents } from './event-helpers';
 import { begin, documents, correct, end } from './collection-helpers';
+import { holdWrites } from './save-helpers';
+import { handleAutoEvents } from './event-helpers';
 
 function sourceFor(id: string) {
   const base = eventBoundary(id).session;
@@ -88,6 +90,35 @@ for (const event of eventPack.events) {
     expect(errors).toEqual([]);
   });
 }
+test('事件窗口的提交被写锁延迟时，自动流程等待保存并处理事件后再返回', async ({ page }) => {
+  const source = sourceFor('e01');
+  await page.addInitScript((session) => {
+    localStorage.setItem('first-export.slice.v1', JSON.stringify(session));
+  }, source);
+  await page.goto('/#/quote');
+  const release = await holdWrites(page);
+  enableAutoEvents(page);
+  try {
+    await (await inDesk(page.locator('.legacy-feedback button.primary'))).click();
+    await expect(page.locator('.app-shell')).toHaveAttribute('data-saving', 'true');
+    const handling = handleAutoEvents(page);
+    // Drain the page's read requests while the commit is still blocked. A helper
+    // that only counts the current event panel would return before it exists.
+    expect(await page.getByTestId('random-event').count()).toBe(0);
+    await release();
+    await handling;
+    const after = await saved(page);
+    expect(after.snapshot.story.triggeredEventIds).toContain('e01');
+    expect(after.snapshot.story.pendingEvent).toBeNull();
+    expect(after.snapshot.story.nodeId).toBe('L03.handoff');
+    expect(after.snapshot.story.decisionLog.length).toBe(
+      source.snapshot.story.decisionLog.length + 1,
+    );
+  } finally {
+    await release();
+  }
+});
+
 test('生产内容固定 UUID：实际七关含随机事件通关；同种子重开得到相同事件序列', async ({
   page,
 }, info) => {
