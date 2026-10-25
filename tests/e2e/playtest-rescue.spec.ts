@@ -33,7 +33,20 @@ async function assessment(page: Page, phase: 'pre' | 'post') {
       'data-item-id',
       new RegExp('^' + phase + '_'),
     );
-    await (await inDesk(page.locator(`[data-answer-id="${id}"]`))).click();
+    const release = i === 1 ? await holdWrites(page) : null;
+    try {
+      await (await inDesk(page.locator(`[data-answer-id="${id}"]`))).click();
+      if (release)
+        expect(Object.keys((await records(page)).runs.at(-1)![phase].answers)).toHaveLength(i);
+    } finally {
+      await release?.();
+    }
+    // Assessments use the telemetry queue, not the business-save indicator.
+    // Wait for the persisted answer before clicking the next question or reloading.
+    await expect
+      .poll(async () => Object.keys((await records(page)).runs.at(-1)![phase].answers).length)
+      .toBe(i + 1);
+    if (i < 5) await expect(page.getByText(`第 ${i + 2} / 6 题`, { exact: true })).toBeVisible();
     if (i === 1) {
       await page.reload();
       await expect(page.getByText('第 3 / 6 题', { exact: true })).toBeVisible();
@@ -214,6 +227,7 @@ test('跳过与中途恢复不会伪造配对测评，清理统计不删除经�
   ).click();
   await (await inDesk(page.locator('[data-answer-id="a"]'))).click();
   await (await inDesk(page.getByRole('button', { name: '跳过本次测评', exact: true }))).click();
+  await expect.poll(async () => (await records(page)).runs.at(-1)!.pre.status).toBe('skipped');
   await page.reload();
   await expect(page.getByText('本次测评已跳过，不计为零分。')).toBeVisible();
   const report = await download(page);
